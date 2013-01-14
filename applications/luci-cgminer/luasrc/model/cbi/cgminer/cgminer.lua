@@ -1,6 +1,6 @@
-m = Map("network", "Network") -- We want to edit the uci config file /etc/config/network
+m = Map("network", "Cgminer") -- We want to edit the uci config file /etc/config/network
 
-s = m:section(TypedSection, "interface", "Interfaces") -- Especially the "interface"-sections
+s = m:section(TypedSection, "interface", "Configure") -- Especially the "interface"-sections
 s.addremove = true -- Allow the user to create and remove the interfaces
 function s:filter(value)
    return value ~= "loopback" and value -- Don't touch loopback
