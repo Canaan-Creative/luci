@@ -1,36 +1,19 @@
-m = Map("network", "Cgminer") -- We want to edit the uci config file /etc/config/network
+m = Map("cgminer", "Cgminer", "")
 
-s = m:section(TypedSection, "interface", "Configure") -- Especially the "interface"-sections
-s.addremove = true -- Allow the user to create and remove the interfaces
-function s:filter(value)
-   return value ~= "loopback" and value -- Don't touch loopback
-end 
-s:depends("proto", "static") -- Only show those with "static"
-s:depends("proto", "dhcp") -- or "dhcp" as protocol and leave PPPoE and PPTP alone
+conf = m:section(TypedSection, "cgminer", "")
+conf.anonymous = true
+conf.addremove = false
 
-p = s:option(ListValue, "proto", "Protocol") -- Creates an element list (select box)
-p:value("static", "static") -- Key and value pairs
-p:value("dhcp", "DHCP")
-p.default = "static"
+conf:tab("default", translate("General Settings"))
 
-s:option(Value, "ifname", "interface", "the physical interface to be used") -- This will give a simple textbox
+pool1url = conf:taboption("default", Value, "pool1url", translate("Pool 1"))
+pool1user = conf:taboption("default", Value, "pool1user", translate("Pool1 worker"))
+pool1pw = conf:taboption("default", Value, "pool1pw", translate("Pool1 password"))
+pool2url = conf:taboption("default", Value, "pool2url", translate("Pool 2"))
+pool2user = conf:taboption("default", Value, "pool2user", translate("Pool2 worker"))
+pool2pw = conf:taboption("default", Value, "pool2pw", translate("Pool2 password"))
+pool3url = conf:taboption("default", Value, "pool3url", translate("Pool 3"))
+pool3user = conf:taboption("default", Value, "pool3user", translate("Pool3 worker"))
+pool3pw = conf:taboption("default", Value, "pool3pw", translate("Pool3 password"))
 
-s:option(Value, "ipaddr", translate("ip", "IP Address")) -- Ja, das ist eine i18n-Funktion ;-)
-
-s:option(Value, "netmask", "Netmask"):depends("proto", "static") -- You may remember this "depends" function from above
-
-mtu = s:option(Value, "mtu", "MTU")
-mtu.optional = true -- This one is very optional
-
-dns = s:option(Value, "dns", "DNS-Server")
-dns:depends("proto", "static")
-dns.optional = true
-function dns:validate(value) -- Now, that's nifty, eh?
-   return value:match("[0-9]+\.[0-9]+\.[0-9]+\.[0-9]+") -- Returns nil if it doesn't match otherwise returns match
-end
-
-gw = s:option(Value, "gateway", "Gateway")
-gw:depends("proto", "static")
-gw.rmempty = true -- Remove entry if it is empty
-
-return m -- Returns the map
+return m
