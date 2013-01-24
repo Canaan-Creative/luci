@@ -1,4 +1,4 @@
-m = Map("cgminer", "Cgminer", "")
+m = Map("cgminer", "Configuration", "")
 
 conf = m:section(TypedSection, "cgminer", "")
 conf.anonymous = true
