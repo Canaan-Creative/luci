@@ -13,8 +13,8 @@ $Id: syslog.htm 3622 2008-10-23 16:05:55Z jow $
 
 -%>
 <%+header%>
-<h2><a id="content" name="content"><%:Cgminer Status%></a></h2>
-<div id="content_syslog">
-<textarea readonly="readonly" wrap="off" rows="<%=cstatus:cmatch("\n")+2%>" id="syslog"><%=cstatus:pcdata()%></textarea>
+<h2><a id="content" name="content"><%:Cgminer API Log%></a></h2>
+<div id="content_api">
+<textarea readonly="readonly" wrap="off" rows="<%=api:cmatch("\n")+2%>" id="syslog"><%=api:pcdata()%></textarea>
 </div>
 <%+footer%>
