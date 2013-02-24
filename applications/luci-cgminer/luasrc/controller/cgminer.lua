@@ -28,9 +28,9 @@ function action_cgminerapi()
     luci.template.render("cgminerapi", {api=data})
 end
 
-function status()
+function summary()
    local data = {}
-   local summary = luci.util.execi("/usr/bin/cgminer-api summary")
+   local summary = luci.util.execi("/usr/bin/cgminer-api -o summary | sed \"s/|/\\n/g\" ")
 
    if not summary then
       return
@@ -47,7 +47,7 @@ function status()
 	 elapsed = elapsed - s
 	 elapsed = elapsed / 60
 	 if elapsed == 0 then
-	    str = string.format("%ds", second)
+	    str = string.format("%ds", s)
 	 else
 	    m = elapsed % 60;
 	    elapsed = elapsed - m
@@ -87,6 +87,85 @@ function status()
 	    ['diffrejected'] = diffrejected,
 	    ['diffstale'] = diffstale,
 	    ['bestshare'] = bestshare
+	 }
+      end
+   end
+
+   return data
+end
+
+function devs()
+   local st, m5
+   local data = {}
+   local devs = luci.util.execi("/usr/bin/cgminer-api -o devs | sed \"s/|/\\n/g\";/usr/bin/cgminer-api -o stats | sed \"s/|/\\n/g\" ")
+
+   if not devs then
+      return
+   end
+
+   for line in devs do
+      local status, mhs5s = line:match("Status=(%a+).*MHS 5s=([%d%.]+)")
+      local mc, ac, f1, f2, f3, t1, t2, t3, tm = line:match("miner_count=(%d+),asic_count=(%d+),fan1=(%d+),fan2=(%d+),fan3=(%d+),temp1=([%-%d]+),temp2=([%-%d]+),temp3=([%-%d]+),temp_max=([%-%d]+)")
+      if mhs5s then
+	 st = status
+	 m5 = mhs5s
+      end
+      if mc then
+	 data['only'] = {
+	    ['status'] = st,
+	    ['mhs5s'] = m5,
+	    ['minercount'] = mc,
+	    ['asiccount'] = ac,
+	    ['fan1'] = f1,
+	    ['fan2'] = f2,
+	    ['fan3'] = f3,
+	    ['temp1'] = t1,
+	    ['temp2'] = t2,
+	    ['temp3'] = t3,
+	    ['temp_max'] = tm
+	 }
+      end
+   end
+
+   return data
+end
+
+function pools()
+   local data = {}
+   local pools = luci.util.execi("/usr/bin/cgminer-api -o pools | sed \"s/|/\\n/g\" ")
+
+   if not pools then
+      return
+   end
+
+   for line in pools do
+      local pi, url, st, pri, lp, gw, a, r, dc, sta, gf, rf, user, lst, ds, da, dr, dsta, lsd, hs, sa, su, hg = line:match(
+	 "POOL=(%d+),URL=(.*),Status=(%a+),Priority=(%d+),Long Poll=(%a+),Getworks=(%d+),Accepted=(%d+),Rejected=(%d+),Discarded=(%d+),Stale=(%d+),Get Failures=(%d+),Remote Failures=(%d+),User=(%d+),Last Share Time=(%d+),Diff1 Shares=(%d+),Proxy Type=.*,Proxy=.*,Difficulty Accepted=(%d+)[%.%d]+,Difficulty Rejected=(%d+)[%.%d]+,Difficulty Stale=(%d+)[%.%d]+,Last Share Difficulty=(%d+)[%.%d]+,Has Stratum=(%a+),Stratum Active=(%a+),Stratum URL=.*,Has GBT=(%a+)")
+      if pi then
+	 data[#data+1] = {
+	    ['pool'] = pi,
+	    ['url'] = url,
+	    ['status'] = st,
+	    ['priority'] = pri,
+	    ['longpoll'] = lp,
+	    ['getworks'] = gw,
+	    ['accepted'] = a,
+	    ['rejected'] = r,
+	    ['discarded'] = dc,
+	    ['stale'] = sta,
+	    ['getfailures'] = gf,
+	    ['remotefailures'] = rf,
+	    ['user'] = user,
+	    ['lastsharetime'] = lst,
+	    ['diff1shares'] = ds,
+	    ['diffaccepted'] = da,
+	    ['diffrejected'] = dr,
+	    ['diffstale'] = dsta,
+	    ['lastsharedifficulty'] = lsd,
+	    ['hasstratum'] = hs,
+	    ['stratumactive'] = sa,
+	    ['stratumurl'] = su,
+	    ['hasgbt'] = hg
 	 }
       end
    end
