@@ -53,7 +53,7 @@ function summary()
 	    elapsed = elapsed - m
 	    elapsed = elapsed / 60
 	    if elapsed == 0 then
-	       str = sprintf("%dm %ds", m, s);
+	       str = string.format("%dm %ds", m, s);
 	    else
 	       h = elapsed % 24;
 	       elapsed = elapsed - h
@@ -142,6 +142,11 @@ function pools()
       local pi, url, st, pri, lp, gw, a, r, dc, sta, gf, rf, user, lst, ds, da, dr, dsta, lsd, hs, sa, su, hg = line:match(
 	 "POOL=(%d+),URL=(.*),Status=(%a+),Priority=(%d+),Long Poll=(%a+),Getworks=(%d+),Accepted=(%d+),Rejected=(%d+),Discarded=(%d+),Stale=(%d+),Get Failures=(%d+),Remote Failures=(%d+),User=(%d+),Last Share Time=(%d+),Diff1 Shares=(%d+),Proxy Type=.*,Proxy=.*,Difficulty Accepted=(%d+)[%.%d]+,Difficulty Rejected=(%d+)[%.%d]+,Difficulty Stale=(%d+)[%.%d]+,Last Share Difficulty=(%d+)[%.%d]+,Has Stratum=(%a+),Stratum Active=(%a+),Stratum URL=.*,Has GBT=(%a+)")
       if pi then
+	 if lst == "0" then
+	    lst_date = "Never"
+	 else
+	    lst_date = os.date("%c", lst)
+	 end
 	 data[#data+1] = {
 	    ['pool'] = pi,
 	    ['url'] = url,
@@ -156,7 +161,7 @@ function pools()
 	    ['getfailures'] = gf,
 	    ['remotefailures'] = rf,
 	    ['user'] = user,
-	    ['lastsharetime'] = lst,
+	    ['lastsharetime'] = lst_date,
 	    ['diff1shares'] = ds,
 	    ['diffaccepted'] = da,
 	    ['diffrejected'] = dr,
