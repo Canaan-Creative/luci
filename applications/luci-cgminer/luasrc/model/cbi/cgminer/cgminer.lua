@@ -1,5 +1,5 @@
 m = Map("cgminer", translate("Configuration"),
-	translate("The cgminer pool/parameter settings for Avalon ASIC Bitcoin mining machine."))
+	translate("The cgminer parameters for Avalon."))
 
 conf = m:section(TypedSection, "cgminer", "")
 conf.anonymous = true
