@@ -27,4 +27,6 @@ mc.default = "24"
 mc:value("24", translate("3"))
 mc:value("32", translate("4"))
 
+api_allow = conf:option(Value, "api_allow", translate("API Allow"))
+
 return m
