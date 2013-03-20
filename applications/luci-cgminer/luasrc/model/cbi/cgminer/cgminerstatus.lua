@@ -51,7 +51,6 @@ t1:option(DummyValue, "fan3", translate("Fan3"))
 t1:option(DummyValue, "temp1", translate("Temp1"))
 t1:option(DummyValue, "temp2", translate("Temp2"))
 t1:option(DummyValue, "temp3", translate("Temp3"))
-t1:option(DummyValue, "temp_max", translate("TempMax"))
 
 t2 = f:section(Table, luci.controller.cgminer.pools(), translate("Pools"))
 t2:option(DummyValue, "pool", translate("Pool"))

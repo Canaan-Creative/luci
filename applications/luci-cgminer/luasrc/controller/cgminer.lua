@@ -105,7 +105,7 @@ function devs()
 
    for line in devs do
       local status, mhs5s = line:match("Status=(%a+).*MHS 5s=([%d%.]+)")
-      local mc, ac, f, f1, f2, f3, t1, t2, t3, tm = line:match("miner_count=(%d+),asic_count=(%d+),.*,frequency=(%d+),fan1=(%d+),fan2=(%d+),fan3=(%d+),temp1=([%-%d]+),temp2=([%-%d]+),temp3=([%-%d]+),temp_max=([%-%d]+)")
+      local mc, ac, f, f1, f2, f3, t1, t2, t3 = line:match("miner_count=(%d+),asic_count=(%d+),.*,frequency=(%d+),fan1=(%d+),fan2=(%d+),fan3=(%d+),temp1=([%-%d]+),temp2=([%-%d]+),temp3=([%-%d]+)")
       if mhs5s then
 	 st = status
 	 m5 = mhs5s
@@ -123,7 +123,6 @@ function devs()
 	    ['temp1'] = t1,
 	    ['temp2'] = t2,
 	    ['temp3'] = t3,
-	    ['temp_max'] = tm
 	 }
       end
    end
