@@ -15,11 +15,11 @@ pool3url = conf:option(Value, "pool3url", translate("Pool 3"))
 pool3user = conf:option(Value, "pool3user", translate("Pool3 worker"))
 pool3pw = conf:option(Value, "pool3pw", translate("Pool3 password"))
 
-pb = conf:option(ListValue, "pool_balance", translate("Pool Balance(Default: Failover)"))
-pb.default = "  "
-pb:value("  ", translate("Failover"))
+pb = conf:option(ListValue, "pool_balance", translate("Pool Balance(Default: Balance)"))
+pb.default = "--balance"
 pb:value("--balance", translate("Balance"))
 pb:value("--load-balance", translate("Load Balance"))
+pb:value("  ", translate("Failover"))
 
 cf = conf:option(ListValue, "chip_frequency", translate("Chip Frequency(Default: Advance)"))
 cf.default = "282"
