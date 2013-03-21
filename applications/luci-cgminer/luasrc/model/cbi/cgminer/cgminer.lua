@@ -33,6 +33,6 @@ mc.default = "24"
 mc:value("24", translate("3"))
 mc:value("32", translate("4"))
 
-api_allow = conf:option(Value, "api_allow", translate("API Allow"))
+api_allow = conf:option(Value, "api_allow", translate("API Allow(Default: W:127.0.0.1)"))
 
 return m
