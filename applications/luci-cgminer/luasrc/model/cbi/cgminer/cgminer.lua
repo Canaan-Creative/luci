@@ -1,5 +1,4 @@
-m = Map("cgminer", translate("Configuration"),
-	translate("The cgminer parameters for Avalon."))
+m = Map("cgminer", translate("Configuration"), translate(""))
 
 conf = m:section(TypedSection, "cgminer", "")
 conf.anonymous = true

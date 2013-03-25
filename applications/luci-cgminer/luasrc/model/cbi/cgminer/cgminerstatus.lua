@@ -13,7 +13,7 @@ You may obtain a copy of the License at
 
 $Id$
 ]]--
-f = SimpleForm("cgminerstatus", translate("Cgminer Status"), translate("This list gives an overview over currently running cgminer."))
+f = SimpleForm("cgminerstatus", translate("Cgminer Status"))
 f.reset = false
 f.submit = false
 
