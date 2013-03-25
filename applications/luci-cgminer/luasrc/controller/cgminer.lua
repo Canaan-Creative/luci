@@ -95,8 +95,9 @@ function summary()
 end
 
 function devs()
-   local st, m5
+   local st, m5, fv
    local data = {}
+   local fver = luci.util.exec("head -n1 /etc/avalon_version")
    local devs = luci.util.execi("/usr/bin/cgminer-api -o devs | sed \"s/|/\\n/g\";/usr/bin/cgminer-api -o stats | sed \"s/|/\\n/g\" ")
 
    if not devs then
@@ -104,6 +105,7 @@ function devs()
    end
 
    for line in devs do
+      local fv = fver:match("(.*)")
       local status, mhs5s = line:match("Status=(%a+).*MHS 5s=([%d%.]+)")
       local mc, ac, f, f1, f2, f3, t1, t2, t3, nmw = line:match("miner_count=(%d+),asic_count=(%d+),.*,frequency=(%d+),fan1=(%d+),fan2=(%d+),fan3=(%d+),temp1=([%-%d]+),temp2=([%-%d]+),temp3=([%-%d]+),.*,no_matching_work=(%d+),")
       if mhs5s then
@@ -124,6 +126,7 @@ function devs()
 	    ['temp2'] = t2,
 	    ['temp3'] = t3,
 	    ['nmw'] = nmw,
+	    ['fv'] = fv
 	 }
       end
    end
