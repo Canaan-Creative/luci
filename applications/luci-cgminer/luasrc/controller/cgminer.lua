@@ -21,7 +21,7 @@ function index()
 end
 
 function action_cgminerapi()
-    local pp   = io.popen("/usr/bin/cgminer-api summary; /usr/bin/cgminer-api devs; /usr/bin/cgminer-api pools; /usr/bin/cgminer-api stats")
+   local pp   = io.popen("/usr/bin/cgminer-api stats; echo -n \"[Firmware Version] => \"; cat /etc/avalon_version; echo -n \"[USB-Serial] => \"; ls /dev/ttyUSB*")
     local data = pp:read("*a")
     pp:close()
 
