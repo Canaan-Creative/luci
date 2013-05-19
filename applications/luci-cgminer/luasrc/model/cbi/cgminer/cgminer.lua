@@ -27,12 +27,8 @@ cf:value("270", translate("270M(Moderate)"))
 cf:value("282", translate("282M(Advance)"))
 cf:value("300", translate("300M(Extreme)"))
 
-mc = conf:option(ListValue, "miner_count", translate("Modular Count(Default: 3)"))
-mc.default = "24"
-mc:value("24", translate("3"))
-mc:value("32", translate("4"))
-
+mc = conf:option(Value, "miner_count", translate("Miner Count(Default: 24)"))
 api_allow = conf:option(Value, "api_allow", translate("API Allow(Default: W:127.0.0.1)"))
-api_allow = conf:option(Value, "more_options", translate("More Options(Default: --quiet)"))
+more_options = conf:option(Value, "more_options", translate("More Options(Default: --quiet)"))
 
 return m
