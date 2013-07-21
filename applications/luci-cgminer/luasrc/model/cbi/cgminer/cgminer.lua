@@ -26,9 +26,9 @@ cf:value("256", translate("256M(Normal)"))
 cf:value("270", translate("270M(Moderate)"))
 cf:value("282", translate("282M(Advance)"))
 cf:value("300", translate("300M(Extreme)"))
-cf:value("325", translate("*325M()"))
-cf:value("350", translate("*350M()"))
-cf:value("375", translate("*375M()"))
+cf:value("325", translate("*325M(Obscene)"))
+cf:value("350", translate("*350M(Insane)"))
+cf:value("375", translate("*375M(Absurd)"))
 
 
 mc = conf:option(Value, "miner_count", translate("Miner Count(Default: 24)"))
