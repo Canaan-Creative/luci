@@ -30,9 +30,12 @@ cf:value("325", translate("*325M(Obscene)"))
 cf:value("350", translate("*350M(Insane)"))
 cf:value("375", translate("*375M(Absurd)"))
 
-
 mc = conf:option(Value, "miner_count", translate("Miner Count(Default: 24)"))
 api_allow = conf:option(Value, "api_allow", translate("API Allow(Default: W:127.0.0.1)"))
+
+target=conf:option(Value, "target", translate("Target Temperature"))
+overheat=conf:option(Value, "overheat", translate("Overheat Cut Off Temperature"))
+
 more_options = conf:option(Value, "more_options", translate("More Options(Default: --quiet)"))
 
 return m
