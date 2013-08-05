@@ -28,6 +28,10 @@ function action_cgminerapi()
     luci.template.render("cgminerapi", {api=data})
 end
 
+function num_commas(n)
+   return tostring(math.floor(n)):reverse():gsub("(%d%d%d)","%1,"):gsub(",(%-?)$","%1"):reverse()
+end
+
 function summary()
    local data = {}
    local summary = luci.util.execi("/usr/bin/cgminer-api -o summary | sed \"s/|/\\n/g\" ")
@@ -68,25 +72,25 @@ function summary()
 
 	 data[#data+1] = {
 	    ['elapsed'] = str,
-	    ['mhsav'] = mhsav,
+	    ['mhsav'] = num_commas(mhsav),
 	    ['foundblocks'] = foundblocks,
-	    ['getworks'] = getworks,
-	    ['accepted'] = accepted,
-	    ['rejected'] = rejected,
-	    ['hw'] = hw,
-	    ['utility'] = utility,
-	    ['discarded'] = discarded,
+	    ['getworks'] = num_commas(getworks),
+	    ['accepted'] = num_commas(accepted),
+	    ['rejected'] = num_commas(rejected),
+	    ['hw'] = num_commas(hw),
+	    ['utility'] = num_commas(utility),
+	    ['discarded'] = num_commas(discarded),
 	    ['stale'] = stale,
 	    ['getfailures'] = getfailures,
-	    ['localwork'] = localwork,
+	    ['localwork'] = num_commas(localwork),
 	    ['remotefailures'] = remotefailures,
 	    ['networkblocks'] = networkblocks,
 	    ['totalmh'] = string.format("%e",totalmh),
-	    ['wu'] = wu,
-	    ['diffaccepted'] = diffaccepted,
-	    ['diffrejected'] = diffrejected,
+	    ['wu'] = num_commas(wu),
+	    ['diffaccepted'] = num_commas(diffaccepted),
+	    ['diffrejected'] = num_commas(diffrejected),
 	    ['diffstale'] = diffstale,
-	    ['bestshare'] = bestshare
+	    ['bestshare'] = num_commas(bestshare)
 	 }
       end
    end
