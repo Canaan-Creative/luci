@@ -13,7 +13,10 @@ You may obtain a copy of the License at
 
 $Id$
 ]]--
-f = SimpleForm("cgminerstatus", translate("Cgminer Status"))
+f = SimpleForm("cgminerstatus", translate("Cgminer Status"),
+	        translate("Please visit <a href='http://en.bitcoin.it/wiki/Avalon'> http://en.bitcoin.it/wiki/Avalon</a> for documentation and "..
+	        "join IRC channel: <a href='http://goo.gl/2ll1C0'> #avalon @freenode.net</a> for share and help."))
+
 f.reset = false
 f.submit = false
 
