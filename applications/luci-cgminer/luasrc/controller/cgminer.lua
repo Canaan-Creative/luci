@@ -147,8 +147,8 @@ function pools()
    end
 
    for line in pools do
-      local pi, url, st, pri, lp, gw, a, r, dc, sta, gf, rf, user, lst, ds, da, dr, dsta, lsd, hs, sa, su, hg = line:match(
-	 "POOL=(%d+),URL=(.*),Status=(%a+),Priority=(%d+),Long Poll=(%a+),Getworks=(%d+),Accepted=(%d+),Rejected=(%d+),Discarded=(%d+),Stale=(%d+),Get Failures=(%d+),Remote Failures=(%d+),User=(.*),Last Share Time=(%d+),Diff1 Shares=(%d+),Proxy Type=.*,Proxy=.*,Difficulty Accepted=(%d+)[%.%d]+,Difficulty Rejected=(%d+)[%.%d]+,Difficulty Stale=(%d+)[%.%d]+,Last Share Difficulty=(%d+)[%.%d]+,Has Stratum=(%a+),Stratum Active=(%a+),Stratum URL=.*,Has GBT=(%a+)")
+      local pi, url, st, pri, quo, lp, gw, a, r, dc, sta, gf, rf, user, lst, ds, da, dr, dsta, lsd, hs, sa, su, hg = line:match(
+	 "POOL=(%d+),URL=(.*),Status=(%a+),Priority=(%d+),Quota=(%d+),Long Poll=(%a+),Getworks=(%d+),Accepted=(%d+),Rejected=(%d+),Discarded=(%d+),Stale=(%d+),Get Failures=(%d+),Remote Failures=(%d+),User=(.*),Last Share Time=(%d+),Diff1 Shares=(%d+),Proxy Type=.*,Proxy=.*,Difficulty Accepted=(%d+)[%.%d]+,Difficulty Rejected=(%d+)[%.%d]+,Difficulty Stale=(%d+)[%.%d]+,Last Share Difficulty=(%d+)[%.%d]+,Has Stratum=(%a+),Stratum Active=(%a+),Stratum URL=.*,Has GBT=(%a+)")
       if pi then
 	 if lst == "0" then
 	    lst_date = "Never"
@@ -160,6 +160,7 @@ function pools()
 	    ['url'] = url,
 	    ['status'] = st,
 	    ['priority'] = pri,
+	    ['quota'] = quo,
 	    ['longpoll'] = lp,
 	    ['getworks'] = gw,
 	    ['accepted'] = a,
