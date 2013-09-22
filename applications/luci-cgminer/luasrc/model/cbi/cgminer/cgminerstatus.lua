@@ -80,6 +80,7 @@ t1:option(DummyValue, "fan3", translate("Fan3"))
 t1:option(DummyValue, "temp1", translate("Temp1"))
 t1:option(DummyValue, "temp2", translate("Temp2"))
 t1:option(DummyValue, "temp3", translate("Temp3"))
+t1:option(DummyValue, "dw", translate("DW(%)"))
 t1:option(DummyValue, "nmw", translate("NMW"))
 t1:option(DummyValue, "fv", translate("Firmware"))
 
