@@ -83,5 +83,6 @@ t1:option(DummyValue, "temp3", translate("Temp3"))
 t1:option(DummyValue, "dh", translate("DH(%)"))
 t1:option(DummyValue, "nmw", translate("NMW"))
 t1:option(DummyValue, "fv", translate("Firmware"))
+t1:option(DummyValue, "cv", translate("Controller"))
 
 return f
