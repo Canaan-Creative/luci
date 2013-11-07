@@ -22,6 +22,11 @@ pb:value("--balance", translate("Balance"))
 pb:value("--load-balance", translate("Load Balance"))
 pb:value("  ", translate("Failover"))
 
+asic = conf:option(ListValue, "asic", translate("Avalon Chip(Default: 110nm)"))
+asic.default = "110"
+asic:value("110", translate("110nm"))
+asic:value("55", translate("55nm"))
+
 cf = conf:option(Value, "chip_frequency", translate("Chip Frequency(Default: 300)"))
 
 mc = conf:option(Value, "miner_count", translate("Miner Count(Default: 24)"))
