@@ -42,7 +42,7 @@ function summary()
 
    for line in summary do
       local elapsed, mhsav, foundblocks, getworks, accepted, rejected, hw, utility, discarded, stale, getfailures,
-            localwork, remotefailures, networkblocks, totalmh, wu, diffaccepted, diffrejected, diffstale, bestshare =
+	    localwork, remotefailures, networkblocks, totalmh, wu, diffaccepted, diffrejected, diffstale, bestshare =
 	       line:match(".*Elapsed=(%d+),MHS av=([%d%.]+),.*Found Blocks=(%d+),Getworks=(%d+),Accepted=(%d+),Rejected=(%d+),Hardware Errors=(%d+),Utility=([%d%.]+),Discarded=(%d+),Stale=(%d+),Get Failures=(%d+),Local Work=(%d+),Remote Failures=(%d+),Network Blocks=(%d+),Total MH=([%d%.]+),Work Utility=([%d%.]+),Difficulty Accepted=([%d]+)%.%d+,Difficulty Rejected=([%d]+)%.%d+,Difficulty Stale=([%d]+)%.%d+,Best Share=(%d+)")
       if elapsed then
 	 local str
@@ -103,8 +103,9 @@ end
 function devs()
    local st, m5, fv
    local data = {}
+
    local fver = luci.util.exec("head -n1 /etc/avalon_version")
-   local devs = luci.util.execi("/usr/bin/cgminer-api -o devs | sed \"s/|/\\n/g\";/usr/bin/cgminer-api -o stats | sed \"s/|/\\n/g\" ")
+   local devs = luci.util.execi("/usr/bin/cgminer-api -o stats | sed \"s/|/\\n/g\" ")
 
    if not devs then
       return
@@ -112,32 +113,82 @@ function devs()
 
    for line in devs do
       local fv = fver:match("(.*)")
-      local status, mhs5s = line:match("Status=(%a+).*MHS 5s=([%d%.]+)")
-      local mc, ac, f, f1, f2, f3, t1, t2, t3, dh, nmw, cv =
-	 line:match("miner_count=(%d+),asic_count=(%d+),.*frequency=(%d+),fan1=(%d+),fan2=(%d+),fan3=(%d+),temp1=([%-%d]+),temp2=([%-%d]+),temp3=([%-%d]+),.*Device Hardware%%=([%d%.]+),no_matching_work=(%d+),.*Controller Version=(%d+)")
-      if mhs5s then
-	 st = status
-	 m5 = mhs5s
-      end
-      if mc then
-	 data['only'] = {
-	    ['status'] = st,
-	    ['mhs5s'] = m5,
-	    ['frequency'] = f,
-	    ['minercount'] = mc,
-	    ['asiccount'] = ac,
-	    ['fan1'] = f1,
-	    ['fan2'] = f2,
-	    ['fan3'] = f3,
-	    ['temp1'] = t1,
-	    ['temp2'] = t2,
-	    ['temp3'] = t3,
-	    ['dh'] = dh,
-	    ['nmw'] = nmw,
-	    ['fv'] = fv,
-	    ['cv'] = cv
-	 }
-      end
+
+      local id,
+      	    id1, id2, id3,
+      	    lw1, lw2, lw3,
+      	    dh1, dh2, dh3,
+      	    t11, t12, t21, t22, t31, t32,
+      	    f11, f12, f21, f22, f31, f32,
+      	    v1, v2, v3,
+      	    f1, f2, f3 =
+	 line:match(".*," ..
+	 	    "ID=AV2([%d]+)," ..
+	 	    ".*," ..
+	 	    "ID1 MM Version=([%+%-%d%a]+)," ..
+	 	    "ID2 MM Version=([%+%-%d%a]+)," ..
+	 	    "ID3 MM Version=([%+%-%d%a]+)," ..
+	 	    ".*," ..
+	 	    "Local works1=(%d+)," ..
+	 	    "Local works2=(%d+)," ..
+	 	    "Local works3=(%d+)," ..
+	 	    ".*," ..
+	 	    "Device hardware error1%%=([%.%d]+)," ..
+	 	    "Device hardware error2%%=([%.%d]+)," ..
+	 	    "Device hardware error3%%=([%.%d]+)," ..
+	 	    "Temperature1=(%d+)," ..
+	 	    "Temperature2=(%d+)," ..
+	 	    "Temperature3=(%d+)," ..
+	 	    "Temperature4=(%d+)," ..
+	 	    "Temperature5=(%d+)," ..
+	 	    "Temperature6=(%d+)," ..
+	 	    "Fan1=(%d+)," ..
+	 	    "Fan2=(%d+)," ..
+	 	    "Fan3=(%d+)," ..
+	 	    "Fan4=(%d+)," ..
+	 	    "Fan5=(%d+)," ..
+	 	    "Fan6=(%d+)," ..
+	 	    "Voltage1=([%.%d]+)," ..
+	 	    "Voltage2=([%.%d]+)," ..
+	 	    "Voltage3=([%.%d]+)," ..
+	 	    "Frequency1=(%d+)," ..
+	 	    "Frequency2=(%d+)," ..
+	 	    "Frequency3=(%d+)")
+	 if id then
+	    data[#data+1] = {
+	       ['id'] = 'AV2' .. id,
+	       ['mm'] = id1,
+	       ['lw'] = lw1,
+	       ['dh'] = dh1,
+	       ['temp'] = t11 .. '|' .. t12,
+	       ['fan'] = f11 .. '|' .. f12,
+	       ['voltage'] = v1,
+	       ['freq'] = f1
+	    }
+
+	    data[#data+2] = {
+	       ['id'] = 'AV2' .. id,
+	       ['mm'] = id2,
+	       ['lw'] = lw2,
+	       ['dh'] = dh2,
+	       ['temp'] = t21 .. '|' .. t22,
+	       ['fan'] = f21 .. '|' .. f22,
+	       ['voltage'] = v2,
+	       ['freq'] = f2
+	    }
+
+	    data[#data+3] = {
+	       ['id'] = 'AV2' .. id,
+	       ['mm'] = id3,
+	       ['lw'] = lw3,
+	       ['dh'] = dh3,
+	       ['temp'] = t31 .. '|' .. t32,
+	       ['fan'] = f31 .. '|' .. f32,
+	       ['voltage'] = v3,
+	       ['freq'] = f3
+	    }
+
+	 end
    end
 
    return data
