@@ -16,25 +16,17 @@ pool3url = conf:option(Value, "pool3url", translate("Pool 3"))
 pool3user = conf:option(Value, "pool3user", translate("Pool3 worker"))
 pool3pw = conf:option(Value, "pool3pw", translate("Pool3 password"))
 
-pb = conf:option(ListValue, "pool_balance", translate("Pool Balance(Default: Balance)"))
+pb = conf:option(ListValue, "pool_balance", translate("Pool Balance(Default: Failover)"))
 pb.default = "--balance"
 pb:value("--balance", translate("Balance"))
 pb:value("--load-balance", translate("Load Balance"))
 pb:value("  ", translate("Failover"))
 
-asic = conf:option(ListValue, "asic", translate("Avalon Chip(Default: 110nm)"))
-asic.default = "110"
-asic:value("110", translate("110nm"))
-asic:value("55", translate("55nm"))
+cf = conf:option(Value, "chip_frequency", translate("Chip Frequency(MHs)(Default: 1500)"))
+cv = conf:option(Value, "chip_voltage", translate("Chip Voltage(Default: 10000 means 1.0v)"))
+fan = conf:option(Value, "fan", translate("Fan%(Default: 90%)"))
 
-cf = conf:option(Value, "chip_frequency", translate("Chip Frequency(Default: 300)"))
-
-mc = conf:option(Value, "miner_count", translate("Miner Count(Default: 24)"))
 api_allow = conf:option(Value, "api_allow", translate("API Allow(Default: W:127.0.0.1)"))
-
-target=conf:option(Value, "target", translate("Target Temperature"))
-overheat=conf:option(Value, "overheat", translate("Overheat Cut Off Temperature"))
-
 more_options = conf:option(Value, "more_options", translate("More Options(Default: --quiet)"))
 
 return m
