@@ -5,6 +5,7 @@
 . $dir/functions.sh
 
 net="$1"
+vap="$(uci -q get meshwizard.netconfig.${net}_vap)"
 
 handle_dnsmasq() {
 	config_get interface "$1" interface
@@ -19,12 +20,23 @@ config_foreach handle_dnsmasq dhcp
 
 [ "$net" == "lan" ] && uci -q delete dhcp.lan
 
-uci batch << EOF
-	set dhcp.${netrenamed}dhcp="dhcp"
-	set dhcp.${netrenamed}dhcp.interface="${netrenamed}dhcp"
-EOF
+if [ "$supports_vap" = 1 -a "$vap" = 1 ]; then
+	uci batch <<- EOF
+		set dhcp.${netrenamed}dhcp="dhcp"
+		set dhcp.${netrenamed}dhcp.interface="${netrenamed}dhcp"
+	EOF
+	set_defaults "dhcp_" dhcp.${netrenamed}dhcp
+fi
 
-set_defaults "dhcp_" dhcp.${netrenamed}dhcp
+ahdhcp_when_vap="$(uci get profile_$community.profile.adhoc_dhcp_when_vap)"
+if [ "$supports_vap" = 0 ] || [ "$supports_vap" = 1 -a "$vap" = 1 -a "$ahdhcp_when_vap" = 1 ]; then
+	uci batch <<- EOF
+		set dhcp.${netrenamed}ahdhcp="dhcp"
+		set dhcp.${netrenamed}ahdhcp.interface="${netrenamed}ahdhcp"
+	EOF
+fi
+set_defaults "dhcp_" dhcp.${netrenamed}ahdhcp
 
 uci_commitverbose "Setup DHCP for $netrenamed" dhcp
+
 

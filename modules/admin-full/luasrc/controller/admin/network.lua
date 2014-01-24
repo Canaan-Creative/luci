@@ -138,13 +138,6 @@ function index()
 			page.order  = 40
 		end
 
-		if nixio.fs.access("/etc/config/6relayd") then
-			page = node("admin", "network", "ipv6")
-			page.target = cbi("admin_network/ipv6")
-			page.title  = _("IPv6 RA and DHCPv6")
-			page.order  = 45
-		end
-
 		page  = node("admin", "network", "routes")
 		page.target = cbi("admin_network/routes")
 		page.title  = _("Static Routes")
@@ -231,7 +224,6 @@ function wifi_delete(network)
 		local dev = wnet:get_device()
 		local nets = wnet:get_networks()
 		if dev then
-			luci.sys.call("env -i /sbin/wifi down %q >/dev/null" % dev:name())
 			ntm:del_wifinet(network)
 			ntm:commit("wireless")
 			local _, net
@@ -241,7 +233,7 @@ function wifi_delete(network)
 					ntm:commit("network")
 				end
 			end
-			luci.sys.call("env -i /sbin/wifi up %q >/dev/null" % dev:name())
+			luci.sys.call("env -i /bin/ubus call network reload >/dev/null 2>/dev/null")
 		end
 	end
 
@@ -391,13 +383,11 @@ local function wifi_reconnect_shutdown(shutdown, wnet)
 	local net = netmd:get_wifinet(wnet)
 	local dev = net:get_device()
 	if dev and net then
-		luci.sys.call("env -i /sbin/wifi down >/dev/null 2>/dev/null")
-
 		dev:set("disabled", nil)
 		net:set("disabled", shutdown and 1 or nil)
 		netmd:commit("wireless")
 
-		luci.sys.call("env -i /sbin/wifi up >/dev/null 2>/dev/null")
+		luci.sys.call("env -i /bin/ubus call network reload >/dev/null 2>/dev/null")
 		luci.http.status(200, shutdown and "Shutdown" or "Reconnected")
 
 		return

@@ -3,17 +3,28 @@
 # Licensed under the GNU General Public License (GPL) v3
 # This script monitors the local internet gateway
 
+. /lib/functions.sh
 . /lib/functions/network.sh
 
-# exit if dyngw_plain is not installed or enabled
-dgwlib=`uci show olsrd |grep dyn_gw_plain |awk {' FS="."; print $1"."$2 '}`
-if [ -n "$dgwlib" ]; then
-	if [ "$(uci -q get $dgwlib.ignore)" == 1 ]; then
-		exit 1
+# exit if dyngw_plain is not enabled or RtTable is not (254 or unset)
+config_load olsrd
+
+check_dyngw_plain()
+{
+        local cfg="$1"
+	config_get library "$cfg" library
+	if [ "${library#olsrd_dyn_gw_plain}" != "$library" ]; then
+		config_get ignore "$cfg" ignore
+		config_get RtTable "$cfg" RtTable
+		if [ "$ignore" != "1" ] && [ -z "$RtTable" -o "$RtTable" = "254" ]; then
+			exit=0
+		fi
 	fi
-else
-	exit 1
-fi
+}
+
+exit=1
+config_foreach check_dyngw_plain LoadPlugin
+[ "$exit" = "1" ] && exit 1
 
 #Exit if this script is already running
 pid="$(pidof ff_olsr_test_gw.sh)"
@@ -23,8 +34,8 @@ if [ ${#pid} -gt 5 ]; then
 fi
 
 # exit if there is no defaultroute with metric=0 in main or gw-check table.
-defroutemain="$(ip r s |grep default |grep -v metric)"
-defroutegwcheck="$(ip r s t gw-check |grep default |grep -v metric)"
+defroutemain="$(ip route show |grep default |grep -v metric)"
+defroutegwcheck="$(ip route show table gw-check |grep default |grep -v metric)"
 if [ -z "$defroutegwcheck" -a -z "$defroutemain" ]; then
 	exit 1
 fi
@@ -84,37 +95,37 @@ iw=$(check_internet)
 if [ "$iw" == 0 ]; then
 	# Internet available again, restore default route and remove ip rules
 	if [ -n "$defroutegwcheck" ]; then
-		ip r a $defroutegwcheck
-		ip r d $defroutegwcheck t gw-check
+		ip route add $defroutegwcheck
+		ip route del $defroutegwcheck table gw-check
 		for host in $testserver; do
 			ips="$(resolve $host)"
 			for ip in $ips; do
-				[ -n "$(ip ru s | grep "to $ip lookup gw-check")" ] && ip rule del to $ip table gw-check
+				[ -n "$(ip rule show | grep "to $ip lookup gw-check")" ] && ip rule del to $ip table gw-check
 			done
 		done
 		get_dnsservers
 		for d in $dns; do
-			[ -n "$(ip ru s | grep "to $d lookup gw-check")" ] && ip rule del to $d table gw-check
+			[ -n "$(ip rule show | grep "to $d lookup gw-check")" ] && ip rule del to $d table gw-check
 		done
 		logger -p err -t gw-check "Internet is available again, default route restored ( $defroutegwcheck)"
 	fi
 
 else
 	# Check failed. Move default route to table gw-check and setup ip rules.
-	if [ -z "$(ip ru s | grep gw-check)" -a -n "$defroutemain" ]; then
-		ip r a $defroutemain table gw-check
-		ip r d $defroutemain
+	if [ -z "$(ip rule show | grep gw-check)" -a -n "$defroutemain" ]; then
+		ip route add $defroutemain table gw-check
+		ip route del $defroutemain
 		logger -p err -t gw-check "Internet is not available, default route deactivated ( $defroutemain)"
 	fi
 	for host in $testserver; do
 		ips="$(resolve $host)"
 		for ip in $ips; do
-			[ -z "$(ip ru s | grep "to $ip lookup gw-check")" ] && ip rule add to $ip table gw-check
+			[ -z "$(ip rule show | grep "to $ip lookup gw-check")" ] && ip rule add to $ip table gw-check
 		done
 	done
 	get_dnsservers
 	for d in $dns; do
-		[ -z "$(ip ru s | grep "to $d lookup gw-check")" ] && ip rule add to $d table gw-check
+		[ -z "$(ip rule show | grep "to $d lookup gw-check")" ] && ip rule add to $d table gw-check
 	done
 	logger -p err -t gw-check "Check your internet connection!"
 fi

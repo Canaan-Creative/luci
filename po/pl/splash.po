@@ -28,11 +28,22 @@ msgstr ""
 "jest rozdzielanych między wszystkich użytkowników. Oznacza to, że transfer "
 "jest ograniczony. Z tego powodu prosimy, abyś nie:"
 
+msgid ""
+"Access to the network is not guaranteed. It can be interrupted at any time "
+"without notice for any reason, for certain devices, and/or may be blocked "
+"for certain users."
+msgstr ""
+
 msgid "Active Clients"
 msgstr "Aktywni klienci"
 
 msgid "Allowed hosts/subnets"
 msgstr "Dozwolone hosty/podsieci"
+
+msgid ""
+"As an alternative to editing the complete splash text you can also just "
+"include some custom text in the default splash page by entering it here."
+msgstr ""
 
 msgid ""
 "Bandwidth limit for clients is only activated when both up- and download "
@@ -54,8 +65,10 @@ msgstr "Czarna lista"
 msgid "Blocked"
 msgstr "Zablokowane"
 
-msgid "By accepting these rules you can use this network for"
-msgstr "Akceptując te reguły możesz używać sieci do:"
+msgid ""
+"By accepting these rules you can use this network for %s hour(s). After this "
+"time you need to accept these rules again."
+msgstr ""
 
 # z niemieckiego tłumaczenia
 #, fuzzy
@@ -72,6 +85,11 @@ msgid ""
 msgstr ""
 "Klient Splash - sposób uwierzytelniania użytkowników dla sieci WiFi oparty o "
 "wyświetlanie komunikatów."
+
+msgid ""
+"Clients are redirected to this page after they have accepted the splash. If "
+"this is left empty they are redirected to the page they had requested."
+msgstr ""
 
 msgid "Clients download speed is limited to this value (kbyte/s)"
 msgstr "Prędkość pobierania dla klienta jest ograniczona do wartości (kb/s)"
@@ -90,20 +108,31 @@ msgstr "Kontakt"
 msgid "Decline"
 msgstr "Odrzuć"
 
+msgid ""
+"Destination hosts and networks that are excluded from splashing, i.e. they "
+"are always allowed."
+msgstr ""
+
 msgid "Donate some money to help us keep this project alive."
 msgstr "Możesz zasposorować ten projekt aby utrzymać go przy życiu"
 
 msgid "Download limit"
 msgstr "Limit ściągania"
 
-msgid "Edit Splash text"
-msgstr "Edytuj tekst Komunikatu (Splash)"
+msgid "Edit the complete splash text"
+msgstr ""
+
+msgid "Fair Use Policy"
+msgstr ""
 
 msgid "Firewall zone"
 msgstr "Strefa firewall"
 
 msgid "General"
 msgstr "Ogólne"
+
+msgid "Get in %s with the operator of this access point."
+msgstr ""
 
 msgid "Hostname"
 msgstr "Nazwa hosta"
@@ -126,6 +155,9 @@ msgstr ""
 msgid "If you use this network on a regular basis we ask for your support:"
 msgstr "Jeśli korzystasz z tej sieci regularnie prosimy cię o wsparcie."
 
+msgid "Include your own text in the default splash"
+msgstr ""
+
 msgid "Intercept client traffic on this Interface"
 msgstr ""
 
@@ -141,6 +173,12 @@ msgid ""
 msgstr ""
 "KB/s (Download/Upload). Będziesz w stanie usunąć ten limit jeśli aktywnie "
 "przyłączysz się do tego projektu."
+
+msgid "Legally Prohibited Activities"
+msgstr ""
+
+msgid "Legally Prohibited content"
+msgstr ""
 
 msgid "MAC Address"
 msgstr "Adres MAC"
@@ -174,6 +212,12 @@ msgstr ""
 msgid "Policy"
 msgstr "Zasady"
 
+msgid "Redirect target"
+msgstr ""
+
+msgid "Safety"
+msgstr ""
+
 msgid "Save"
 msgstr "Zachowaj"
 
@@ -183,6 +227,43 @@ msgstr ""
 
 msgid "Splashtext"
 msgstr "Tekst komunikatu (Splash)"
+
+msgid ""
+"The network, like the Internet, is unencrypted and open. Each participant is "
+"responsible for the safety of their own connections and devices."
+msgstr ""
+
+msgid ""
+"The open and free wireless network of volunteers (\"Operators\") provides "
+"the necessary equipment and Internet connections (\"Infrastructure\") at "
+"their own expense."
+msgstr ""
+
+msgid ""
+"The operator claims no liability for loss of data, unauthorized access/"
+"damage to devices, or financial losses that participants may suffer from the "
+"use of the network."
+msgstr ""
+
+msgid ""
+"The participant agrees to not perform any action and refrain from acts which "
+"may violate the law or infringe upon the rights of third parties."
+msgstr ""
+
+msgid ""
+"The participant agrees to not transfer content over the network which "
+"violates the law."
+msgstr ""
+
+msgid ""
+"The participant agrees to not use the network in any way which will harm the "
+"infrastructure, the network itself, its operators or other participants."
+msgstr ""
+
+msgid ""
+"These Terms of Use govern the use of the network by its participants' "
+"computer, PDA, or similar device (\"Devices\") within the network."
+msgstr ""
 
 msgid "Time remaining"
 msgstr "Pozostały czas"
@@ -200,6 +281,9 @@ msgstr "Ruch do/od"
 
 msgid "Upload limit"
 msgstr "Limit wysyłania"
+
+msgid "Usage Agreement"
+msgstr ""
 
 msgid "Welcome"
 msgstr "Witamy"
@@ -236,9 +320,6 @@ msgstr "czarna lista"
 msgid "expired"
 msgstr "wygasło"
 
-msgid "hour(s). After this time you need to accept these rules again."
-msgstr "Czas po jakim musisz zaakceptować te reguły (w godzinach)"
-
 msgid "optional when using host addresses"
 msgstr "opcjonalne w przypadku używania adresów hostów"
 
@@ -250,9 +331,6 @@ msgstr ""
 
 msgid "temporarily blocked"
 msgstr "tymczasowo zablokowane"
-
-msgid "the owner of this access point."
-msgstr "Właściciel tego Access Point'a"
 
 msgid "unknown"
 msgstr "nieznane"
@@ -267,3 +345,15 @@ msgstr "marnował transfer na niepotrzebne pobieranie plików i strumieni"
 
 msgid "whitelisted"
 msgstr "biała lista"
+
+#~ msgid "By accepting these rules you can use this network for"
+#~ msgstr "Akceptując te reguły możesz używać sieci do:"
+
+#~ msgid "Edit Splash text"
+#~ msgstr "Edytuj tekst Komunikatu (Splash)"
+
+#~ msgid "hour(s). After this time you need to accept these rules again."
+#~ msgstr "Czas po jakim musisz zaakceptować te reguły (w godzinach)"
+
+#~ msgid "the owner of this access point."
+#~ msgstr "Właściciel tego Access Point'a"
