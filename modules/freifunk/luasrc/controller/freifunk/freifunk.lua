@@ -55,7 +55,6 @@ function index()
 
 	entry({"freifunk", "status.json"}, call("jsonstatus"))
 	entry({"freifunk", "status", "zeroes"}, call("zeroes"), "Testdownload")
-	entry({"freifunk", "status", "public_status_json"}, call("public_status_json")).leaf = true
 
 	if nixio.fs.access("/usr/sbin/luci-splash") then
 		assign({"freifunk", "status", "splash"}, {"splash", "publicstatus"}, _("Splash"), 40)
@@ -104,55 +103,6 @@ function index()
 	entry({"freifunk", "map"}, template("freifunk-map/frame"), _("Map"), 50)
 	entry({"freifunk", "map", "content"}, template("freifunk-map/map"), nil, 51)
 	entry({"admin", "freifunk", "profile_error"}, template("freifunk/profile_error"))
-end
-
-local function fetch_olsrd()
-	local sys = require "luci.sys"
-	local util = require "luci.util"
-	local table = require "table"
-	local rawdata = sys.httpget("http://127.0.0.1:2006/")
-
-	if #rawdata == 0 then
-		if nixio.fs.access("/proc/net/ipv6_route", "r") then
-			rawdata = sys.httpget("http://[::1]:2006/")
-			if #rawdata == 0 then
-				return nil
-			end
-		else
-			return nil
-		end
-	end
-
-	local data = {}
-
-	local tables = util.split(util.trim(rawdata), "\r?\n\r?\n", nil, true)
-
-
-	for i, tbl in ipairs(tables) do
-		local lines = util.split(tbl, "\r?\n", nil, true)
-		local name  = table.remove(lines, 1):sub(8)
-		local keys  = util.split(table.remove(lines, 1), "\t")
-		local split = #keys - 1
-
-		data[name] = {}
-
-		for j, line in ipairs(lines) do
-			local fields = util.split(line, "\t", split)
-			data[name][j] = {}
-			for k, key in pairs(keys) do
-				data[name][j][key] = fields[k]
-			end
-
-			if data[name][j].Linkcost then
-				data[name][j].LinkQuality,
-				data[name][j].NLQ,
-				data[name][j].ETX =
-				data[name][j].Linkcost:match("([%w.]+)/([%w.]+)[%s]+([%w.]+)")
-			end
-		end
-	end
-
-	return data
 end
 
 function zeroes()
@@ -245,89 +195,6 @@ function jsonstatus()
 		end)
 	end
 
-	root.olsrd = fetch_olsrd()
-
 	http.prepare_content("application/json")
 	ltn12.pump.all(json.Encoder(root):source(), http.write)
-end
-
-function public_status_json(devs)
-	local twa	= require "luci.tools.webadmin"
-	local sys	= require "luci.sys"
-	local i18n	= require "luci.i18n"
-	local rv 	= { }
-
-	local dev
-	for dev in devs:gmatch("[%w%.%-]+") do
-		local j = { id = dev }
-		local iw = luci.sys.wifi.getiwinfo(dev)
-		if iw then
-			local f
-			for _, f in ipairs({
-				"channel", "txpower", "bitrate", "signal", "noise",
-				"quality", "quality_max", "mode", "ssid", "bssid", "encryption", "ifname"
-			}) do
-				j[f] = iw[f]
-			end
-		end
-		rv[#rv+1] = j
-	end
-
-	local load1, load5, load15 = sys.loadavg()
-
-	local  _, _, memtotal, memcached, membuffers, memfree = sys.sysinfo()
-	local mem = string.format("%.2f MB (%.2f %s, %.2f %s, %.2f %s, %.2f %s)",
-	tonumber(memtotal) / 1024,
-	tonumber(memtotal - memfree) / 1024,
-	tostring(i18n.translate("used")),
-	memfree / 1024,
-	tostring(i18n.translate("free")),
-	memcached / 1024,
-	tostring(i18n.translate("cached")),
-	membuffers / 1024,
-	tostring(i18n.translate("buffered"))
-	)
-
-	local dr4 = sys.net.defaultroute()
-	local dr6 = sys.net.defaultroute6()
-	
-	if dr6 then
-		def6 = { 
-		gateway = dr6.nexthop:string(),
-		dest = dr6.dest:string(),
-		dev = dr6.device,
-		metr = dr6.metric }
-	end   
-
-	if dr4 then
-		def4 = { 
-		gateway = dr4.gateway:string(),
-		dest = dr4.dest:string(),
-		dev = dr4.device,
-		metr = dr4.metric }
-	else
-		local dr = sys.exec("ip r s t olsr-default")
-		if dr then
-			local dest, gateway, dev, metr = dr:match("^(%w+) via (%d+.%d+.%d+.%d+) dev (%w+) +metric (%d+)")
-			def4 = {
-				dest = dest,
-				gateway = gateway,
-				dev = dev,
-				metr = metr
-			}
-		end
-        end
-	
-	rv[#rv+1] = {
-		time = os.date("%a, %d %b %Y, %H:%M:%S"),
-		uptime = twa.date_format(tonumber(sys.uptime())),
-		load = string.format("%.2f, %.2f, %.2f", load1, load5, load15),
-		mem = mem,
-		defroutev4 = def4,
-		defroutev6 = def6
-	}
-
-	luci.http.prepare_content("application/json")
-	luci.http.write_json(rv)
-	return
 end

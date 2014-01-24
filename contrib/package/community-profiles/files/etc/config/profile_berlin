@@ -7,11 +7,15 @@ config 'community' 'profile'
 	option 'splash_prefix' '27'
 	option 'latitude' '52.52075'
 	option 'longitude' '13.40948'
-	list 'mapserver' 'http://openwifimap.net/openwifimap/'
-	list 'mapserver' 'http://map.pberg.freifunk.net/openwifimap/'
+        list 'owm_api' 'http://api.openwifimap.net'
+        list 'owm_api' 'http://owmapi.pberg.freifunk.net'
+        option 'mapserver' 'http://map.pberg.freifunk.net/'
 
 config 'defaults' 'wifi_device'
 	option 'channel' '10'
+
+config 'defaults' 'bssidscheme'
+	option '10'	'02:CA:FF:EE:BA:BE'
 
 config 'defaults' 'interface'
 	option 'netmask' '255.0.0.0'

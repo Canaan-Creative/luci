@@ -45,6 +45,11 @@ o = section:taboption("advanced", Flag, "peerdns",
 o.default = o.enabled
 
 
+o = section:taboption("advanced", Value, "ip6prefix",
+	translate("Custom delegated IPv6-prefix"))
+o.dataype = "ip6addr"
+
+
 o = section:taboption("advanced", DynamicList, "dns",
 	translate("Use custom DNS servers"))
 o:depends("peerdns", "")
@@ -59,4 +64,4 @@ luci.tools.proto.opt_macaddr(section, ifc, translate("Override MAC address"))
 
 o = section:taboption("advanced", Value, "mtu", translate("Override MTU"))
 o.placeholder = "1500"
-o.datatype    = "max(1500)"
+o.datatype    = "max(9200)"

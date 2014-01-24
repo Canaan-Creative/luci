@@ -68,6 +68,7 @@ uci batch << EOF
 	set olsrd.olsrd_nameservice.latlon_file="/var/run/latlon.js"
 	set olsrd.olsrd_nameservice.hosts_file="/var/etc/hosts.olsr"
 	set olsrd.olsrd_nameservice.sighup_pid_file="/var/run/dnsmasq.pid"
+	set olsrd.olsrd_nameservice.services_file="/var/run/services_olsr"
 	set olsrd.olsrd_nameservice.suffix="$suffix"
 EOF
 
@@ -93,3 +94,10 @@ uci batch << EOF
 	set olsrd.olsrd_watchdog.interval=30
 EOF
 uci_commitverbose "Setup olsr watchdog plugin" olsrd
+
+# Setup jsoninfo
+uci batch << EOF
+	set olsrd.olsrd_jsoninfo=LoadPlugin
+	set olsrd.olsrd_jsoninfo.library="olsrd_jsoninfo.so.0.0"
+EOF
+uci_commitverbose "Setup olsr jsoninfo plugin" olsrd
