@@ -41,9 +41,32 @@ function summary()
    end
 
    for line in summary do
-      local elapsed, mhsav, foundblocks, getworks, accepted, rejected, hw, utility, discarded, stale, getfailures,
-	    localwork, remotefailures, networkblocks, totalmh, wu, diffaccepted, diffrejected, diffstale, bestshare =
-	       line:match(".*Elapsed=(%d+),MHS av=([%d%.]+),.*Found Blocks=(%d+),Getworks=(%d+),Accepted=(%d+),Rejected=(%d+),Hardware Errors=(%d+),Utility=([%d%.]+),Discarded=(%d+),Stale=(%d+),Get Failures=(%d+),Local Work=(%d+),Remote Failures=(%d+),Network Blocks=(%d+),Total MH=([%d%.]+),Work Utility=([%d%.]+),Difficulty Accepted=([%d]+)%.%d+,Difficulty Rejected=([%d]+)%.%d+,Difficulty Stale=([%d]+)%.%d+,Best Share=(%d+)")
+      local elapsed, mhsav, foundblocks, getworks, accepted,
+      	    rejected, hw, utility, discarded, stale, getfailures,
+	    localwork, remotefailures, networkblocks, totalmh, wu,
+	    diffaccepted, diffrejected, diffstale, bestshare =
+	       line:match(".*," ..
+	       		  "Elapsed=(%d+)," .. 
+	       		  "MHS av=([%d%.]+)," ..
+	       		  ".*," ..
+	       		  "Found Blocks=(%d+)," ..
+	       		  "Getworks=(%d+)," ..
+	       		  "Accepted=(%d+)," ..
+	       		  "Rejected=(%d+)," ..
+	       		  "Hardware Errors=(%d+)," ..
+	       		  "Utility=([%d%.]+)," ..
+	       		  "Discarded=(%d+)," ..
+	       		  "Stale=(%d+)," ..
+	       		  "Get Failures=(%d+)," ..
+	       		  "Local Work=(%d+)," ..
+	       		  "Remote Failures=(%d+)," ..
+	       		  "Network Blocks=(%d+)," ..
+	       		  "Total MH=([%d%.]+)," ..
+	       		  "Work Utility=([%d%.]+)," ..
+	       		  "Difficulty Accepted=([%d]+)%.%d+," ..
+	       		  "Difficulty Rejected=([%d]+)%.%d+," ..
+	       		  "Difficulty Stale=([%d]+)%.%d+," ..
+	       		  "Best Share=(%d+)")
       if elapsed then
 	 local str
 	 local days
@@ -104,16 +127,13 @@ function devs()
    local st, m5, fv
    local data = {}
 
-   local fver = luci.util.exec("head -n1 /etc/avalon_version")
-   local devs = luci.util.execi("/usr/bin/cgminer-api -o stats | sed \"s/|/\\n/g\" ")
+   local devs = luci.util.execi("/usr/bin/cgminer-api -o stats | sed \"s/|/\\n/g\" | grep AV2 ")
 
    if not devs then
       return
    end
 
    for line in devs do
-      local fv = fver:match("(.*)")
-
       local id,
       	    id1, id2, id3,
       	    lw1, lw2, lw3,
@@ -156,7 +176,7 @@ function devs()
 	 	    "Frequency3=(%d+)")
 	 if id then
 	    data[#data+1] = {
-	       ['id'] = 'AV2' .. id,
+	       ['id'] = 'AV2-' .. id,
 	       ['mm'] = id1,
 	       ['lw'] = lw1,
 	       ['dh'] = dh1,
@@ -166,8 +186,8 @@ function devs()
 	       ['freq'] = f1
 	    }
 
-	    data[#data+2] = {
-	       ['id'] = 'AV2' .. id,
+	    data[#data+1] = {
+	       ['id'] = 'AV2-' .. id,
 	       ['mm'] = id2,
 	       ['lw'] = lw2,
 	       ['dh'] = dh2,
@@ -177,8 +197,8 @@ function devs()
 	       ['freq'] = f2
 	    }
 
-	    data[#data+3] = {
-	       ['id'] = 'AV2' .. id,
+	    data[#data+1] = {
+	       ['id'] = 'AV2-' .. id,
 	       ['mm'] = id3,
 	       ['lw'] = lw3,
 	       ['dh'] = dh3,
@@ -203,8 +223,34 @@ function pools()
    end
 
    for line in pools do
-      local pi, url, st, pri, quo, lp, gw, a, r, dc, sta, gf, rf, user, lst, ds, da, dr, dsta, lsd, hs, sa, su, hg =
-	 line:match("POOL=(%d+),URL=(.*),Status=(%a+),Priority=(%d+),Quota=(%d+),Long Poll=(%a+),Getworks=(%d+),Accepted=(%d+),Rejected=(%d+),.*Discarded=(%d+),Stale=(%d+),Get Failures=(%d+),Remote Failures=(%d+),User=(.*),Last Share Time=(%d+),Diff1 Shares=(%d+),.*Difficulty Accepted=(%d+)[%.%d]+,Difficulty Rejected=(%d+)[%.%d]+,Difficulty Stale=(%d+)[%.%d]+,Last Share Difficulty=(%d+)[%.%d]+,Has Stratum=(%a+),Stratum Active=(%a+),Stratum URL=.*,Has GBT=(%a+)")
+      local pi, url, st, pri, quo, lp, gw, a, r, dc, sta, gf, 
+      	    rf, user, lst, ds, da, dr, dsta, lsd, hs, sa, su, hg =
+	 line:match("POOL=(%d+)," ..
+	 	    "URL=(.*)," ..
+	 	    "Status=(%a+)," ..
+	 	    "Priority=(%d+)," ..
+	 	    "Quota=(%d+)," ..
+	 	    "Long Poll=(%a+)," ..
+	 	    "Getworks=(%d+)," ..
+	 	    "Accepted=(%d+)," ..
+	 	    "Rejected=(%d+)," ..
+	 	    ".*," ..
+	 	    "Discarded=(%d+)," ..
+	 	    "Stale=(%d+)," ..
+	 	    "Get Failures=(%d+)," ..
+	 	    "Remote Failures=(%d+)," ..
+	 	    "User=(.*)," ..
+	 	    "Last Share Time=(%d+)," ..
+	 	    "Diff1 Shares=(%d+)," ..
+	 	    ".*," ..
+	 	    "Difficulty Accepted=(%d+)[%.%d]+," ..
+	 	    "Difficulty Rejected=(%d+)[%.%d]+," ..
+	 	    "Difficulty Stale=(%d+)[%.%d]+," ..
+	 	    "Last Share Difficulty=(%d+)[%.%d]+," ..
+	 	    "Has Stratum=(%a+)," ..
+	 	    "Stratum Active=(%a+)," ..
+	 	    "Stratum URL=.*," ..
+	 	    "Has GBT=(%a+)")
       if pi then
 	 if lst == "0" then
 	    lst_date = "Never"
