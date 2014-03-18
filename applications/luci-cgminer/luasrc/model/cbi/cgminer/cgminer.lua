@@ -6,6 +6,12 @@ conf = m:section(TypedSection, "cgminer", "")
 conf.anonymous = true
 conf.addremove = false
 
+ntp = conf:option(ListValue, "ntp_enable", translate("NTP Service(Default: ASIA)"))
+ntp.default = "asia"
+ntp:value("asia", translate("ASIA"))
+ntp:value("openwrt", translate("OpenWrt Default"))
+ntp:value("disable", translate("Disable"))
+
 pool1url = conf:option(Value, "pool1url", translate("Pool 1"))
 pool1user = conf:option(Value, "pool1user", translate("Pool1 worker"))
 pool1pw = conf:option(Value, "pool1pw", translate("Pool1 password"))
