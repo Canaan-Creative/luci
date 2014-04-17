@@ -28,8 +28,8 @@ pb:value("--balance", translate("Balance"))
 pb:value("--load-balance", translate("Load Balance"))
 pb:value("  ", translate("Failover"))
 
-cf = conf:option(Value, "chip_frequency", translate("Chip Frequency(MHS)(Default: 1500)"))
-cv = conf:option(Value, "chip_voltage", translate("Chip Voltage(Default: 10000 means 1.0V)"))
+cf = conf:option(Value, "chip_frequency", translate("Chip Frequency(Avalon2: 1500, Avalon3: 450)"))
+cv = conf:option(Value, "chip_voltage", translate("Chip Voltage(Avalon2: 10000, Avalon3: 6625)"))
 fan = conf:option(Value, "fan", translate("Fan%(Default: 90%)"))
 
 api_allow = conf:option(Value, "api_allow", translate("API Allow(Default: W:127.0.0.1)"))
