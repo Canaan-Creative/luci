@@ -1,6 +1,7 @@
 --[[
 LuCI - Lua Configuration Interface
 
+Copyright 2014 Fengling <Fengling.Qin@gmail.com>
 Copyright 2013 Xiangfu
 Copyright 2008 Steven Barth <steven@midlink.org>
 Copyright 2008 Jo-Philipp Wich <xm@leipzig.freifunk.net>
@@ -22,7 +23,12 @@ f.submit = false
 
 t = f:section(Table, luci.controller.cgminer.summary(), translate("Summary"))
 t:option(DummyValue, "elapsed", translate("Elapsed"))
-t:option(DummyValue, "mhsav", translate("MHSav"))
+ghsav = t:option(DummyValue, "mhsav", translate("GHSav"))
+function ghsav.cfgvalue(self, section)
+	local v = Value.cfgvalue(self, section):gsub(",","")
+	return tonumber(v)/1000 
+end
+
 t:option(DummyValue, "foundblocks", translate("FoundBlocks"))
 t:option(DummyValue, "getworks", translate("Getworks"))
 t:option(DummyValue, "accepted", translate("Accepted"))
@@ -73,8 +79,18 @@ t1:option(DummyValue, "name", translate("Device"))
 t1:option(DummyValue, "enable", translate("Enabled"))
 t1:option(DummyValue, "status", translate("Status"))
 t1:option(DummyValue, "temp", translate("Temperature(C)"))
-t1:option(DummyValue, "mhsav", translate("MHSav"))
-t1:option(DummyValue, "mhs5s", translate("MHS5s"))
+ghsav = t1:option(DummyValue, "mhsav", translate("GHSav"))
+function ghsav.cfgvalue(self, section)
+	local v = Value.cfgvalue(self, section)
+	return v/1000
+end
+
+ghs5s = t1:option(DummyValue, "mhs5s", translate("GHS5s"))
+function ghs5s.cfgvalue(self, section)
+	local v = Value.cfgvalue(self, section)
+	return v/1000
+end
+
 t1:option(DummyValue, "lvw", translate("LastValidWork"))
 
 t1 = f:section(Table, luci.controller.cgminer.stats(), translate("Avalon2 Status"))
@@ -85,6 +101,10 @@ t1:option(DummyValue, "dh", translate("DH%"))
 t1:option(DummyValue, "temp", translate("Temperature(C)"))
 t1:option(DummyValue, "fan", translate("Fan(RPM)"))
 t1:option(DummyValue, "voltage", translate("Voltage(V)"))
-t1:option(DummyValue, "freq", translate("Frequency(MHS)"))
+freq = t1:option(DummyValue, "freq", translate("Frequency(GHS)"))
+function freq.cfgvalue(self, section)
+	local v = Value.cfgvalue(self, section)
+	return v/1000
+end
 
 return f
