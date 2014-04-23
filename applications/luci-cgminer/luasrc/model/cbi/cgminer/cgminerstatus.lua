@@ -91,6 +91,24 @@ function ghs5s.cfgvalue(self, section)
 	return v/1000
 end
 
+ghs1m = t1:option(DummyValue, "mhs1m", translate("GHS1m"))
+function ghs1m.cfgvalue(self, section)
+	local v = Value.cfgvalue(self, section)
+	return v/1000
+end
+
+ghs5m = t1:option(DummyValue, "mhs5m", translate("GHS5m"))
+function ghs5m.cfgvalue(self, section)
+	local v = Value.cfgvalue(self, section)
+	return v/1000
+end
+
+ghs15m = t1:option(DummyValue, "mhs15m", translate("GHS15m"))
+function ghs15m.cfgvalue(self, section)
+	local v = Value.cfgvalue(self, section)
+	return v/1000
+end
+
 t1:option(DummyValue, "lvw", translate("LastValidWork"))
 
 t1 = f:section(Table, luci.controller.cgminer.stats(), translate("Avalon2 Status"))

@@ -207,7 +207,7 @@ function devs()
    end
 
    for line in devs do
-      local asc, name, id, enabled, status, temp, mhsav, mhs5s, lvw, dh =
+      local asc, name, id, enabled, status, temp, mhsav, mhs5s, mhs1m, mhs5m, mhs15m, lvw, dh =
 	 line:match("ASC=(%d+)," ..
 		    "Name=([%a%d]+)," ..
 		    "ID=(%d+)," ..
@@ -216,6 +216,9 @@ function devs()
 		    "Temperature=([%.%d]+)," ..
 		    "MHS av=([%.%d]+)," ..
 		    "MHS 5s=([%.%d]+)," ..
+		    "MHS 1m=([%.%d]+)," ..
+		    "MHS 5m=([%.%d]+)," ..
+		    "MHS 15m=([%.%d]+)," ..
 		    ".*," ..
 		    "Last Valid Work=(%d+)," ..
 		    "Device Hardware%%=([%.%d]+)")
@@ -234,6 +237,9 @@ function devs()
 	       ['temp'] = temp,
 	       ['mhsav'] = mhsav,
 	       ['mhs5s'] = mhs5s,
+	       ['mhs1m'] = mhs1m,
+	       ['mhs5m'] = mhs5m,
+	       ['mhs15m'] = mhs15m,
 	       ['lvw'] = lvw_date
 	    }
 	end
