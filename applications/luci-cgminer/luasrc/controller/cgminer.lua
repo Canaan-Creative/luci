@@ -249,91 +249,127 @@ function devs()
 end
 
 function stats()
-   local data = {}
+	local data = {}
 
-   local stats = luci.util.execi("/usr/bin/cgminer-api -o stats | sed \"s/|/\\n/g\" | grep AV2 ")
+	local stats = luci.util.execi("/usr/bin/cgminer-api -o stats | sed \"s/|/\\n/g\" | grep AV2 ")
 
-   if not stats then
-      return
-   end
+	if not stats then
+		return
+	end
 
-   for line in stats do
-      local id,
-      	    id1, id2, id3,
-      	    lw1, lw2, lw3,
-      	    dh1, dh2, dh3,
-      	    t11, t12, t21, t22, t31, t32,
-      	    f11, f12, f21, f22, f31, f32,
-      	    v1, v2, v3,
-      	    f1, f2, f3 =
-	 line:match(".*," ..
-	 	    "ID=AV2([%d]+)," ..
-	 	    ".*," ..
-	 	    "ID1 MM Version=([%+%-%d%a]+)," ..
-	 	    "ID2 MM Version=([%+%-%d%a]+)," ..
-	 	    "ID3 MM Version=([%+%-%d%a]+)," ..
-	 	    ".*," ..
-	 	    "Local works1=(%d+)," ..
-	 	    "Local works2=(%d+)," ..
-	 	    "Local works3=(%d+)," ..
-	 	    ".*," ..
-	 	    "Device hardware error1%%=([%.%d]+)," ..
-	 	    "Device hardware error2%%=([%.%d]+)," ..
-	 	    "Device hardware error3%%=([%.%d]+)," ..
-	 	    "Temperature1=(%d+)," ..
-	 	    "Temperature2=(%d+)," ..
-	 	    "Temperature3=(%d+)," ..
-	 	    "Temperature4=(%d+)," ..
-	 	    "Temperature5=(%d+)," ..
-	 	    "Temperature6=(%d+)," ..
-	 	    "Fan1=(%d+)," ..
-	 	    "Fan2=(%d+)," ..
-	 	    "Fan3=(%d+)," ..
-	 	    "Fan4=(%d+)," ..
-	 	    "Fan5=(%d+)," ..
-	 	    "Fan6=(%d+)," ..
-	 	    "Voltage1=([%.%d]+)," ..
-	 	    "Voltage2=([%.%d]+)," ..
-	 	    "Voltage3=([%.%d]+)," ..
-	 	    "Frequency1=(%d+)," ..
-	 	    "Frequency2=(%d+)," ..
-	 	    "Frequency3=(%d+)")
-	 if id then
-	    data[#data+1] = {
-	       ['id'] = 'AV2-' .. id,
-	       ['mm'] = id1,
-	       ['lw'] = lw1,
-	       ['dh'] = dh1,
-	       ['temp'] = t11 .. '|' .. t12,
-	       ['fan'] = f11 .. '|' .. f12,
-	       ['voltage'] = v1,
-	       ['freq'] = f1
-	    }
+	for line in stats do
+		local id,
+		id1, id2, id3,
+		lw1, lw2, lw3,
+		dh1, dh2, dh3,
+		t11, t12, t21, t22, t31, t32,
+		f11, f12, f21, f22, f31, f32,
+		v1, v2, v3,
+		f1, f2, f3;
+		id =
+		line:match(".*," ..
+			"ID=AV2([%d]+),")
 
-	    data[#data+1] = {
-	       ['id'] = 'AV2-' .. id,
-	       ['mm'] = id2,
-	       ['lw'] = lw2,
-	       ['dh'] = dh2,
-	       ['temp'] = t21 .. '|' .. t22,
-	       ['fan'] = f21 .. '|' .. f22,
-	       ['voltage'] = v2,
-	       ['freq'] = f2
-	    }
+		if id then
+			id1 =
+			line:match(".*," ..
+				"ID1 MM Version=([%+%-%d%a]+),")
 
-	    data[#data+1] = {
-	       ['id'] = 'AV2-' .. id,
-	       ['mm'] = id3,
-	       ['lw'] = lw3,
-	       ['dh'] = dh3,
-	       ['temp'] = t31 .. '|' .. t32,
-	       ['fan'] = f31 .. '|' .. f32,
-	       ['voltage'] = v3,
-	       ['freq'] = f3
-	    }
+			if id1 then
+				lw1,dh1,t11,t12,f11,f12,v1,f1=
+				line:match(".*," ..
+					"Local works1=(%d+)," ..
+					".*" ..
+					"Device hardware error1%%=([%.%d]+)," ..
+					".*" ..
+					"Temperature1=(%d+)," ..
+					"Temperature2=(%d+)," ..
+					".*" ..
+					"Fan1=(%d+)," ..
+					"Fan2=(%d+)," ..
+					".*" ..
+					"Voltage1=([%.%d]+)," ..
+					".*" ..
+					"Frequency1=(%d+),")
 
-	 end
-   end
+				data[#data+1] = {
+				['id'] = 'AV2-' .. id,
+				['mm'] = id1,
+				['lw'] = lw1,
+				['dh'] = dh1,
+				['temp'] = t11 .. '|' .. t12,
+				['fan'] = f11 .. '|' .. f12,
+				['voltage'] = v1,
+				['freq'] = f1
+			}
+			end
 
-   return data
+			local id2 = line:match(".*," ..
+				"ID2 MM Version=([%+%-%d%a]+),")
+
+			if id2 then
+				lw2,dh2,t21,t22,f21,f22,v2,f2=
+				line:match(".*," ..
+					"Local works2=(%d+)," ..
+					".*" ..
+					"Device hardware error2%%=([%.%d]+)," ..
+					".*" ..
+					"Temperature3=(%d+)," ..
+					"Temperature4=(%d+)," ..
+					".*" ..
+					"Fan3=(%d+)," ..
+					"Fan4=(%d+)," ..
+					".*" ..
+					"Voltage2=([%.%d]+)," ..
+					".*" ..
+					"Frequency2=(%d+),")
+
+				data[#data+1] = {
+				['id'] = 'AV2-' .. id,
+				['mm'] = id2,
+				['lw'] = lw2,
+				['dh'] = dh2,
+				['temp'] = t21 .. '|' .. t22,
+				['fan'] = f21 .. '|' .. f22,
+				['voltage'] = v2,
+				['freq'] = f2
+			}
+			end
+
+
+			local id3 = line:match(".*," ..
+				"ID3 MM Version=([%+%-%d%a]+),")
+
+			if id3 then
+				lw3,dh3,t31,t32,f31,f32,v3,f3=
+				line:match(".*," ..
+					"Local works3=(%d+)," ..
+					".*" ..
+					"Device hardware error3%%=([%.%d]+)," ..
+					".*" ..
+					"Temperature5=(%d+)," ..
+					"Temperature6=(%d+)," ..
+					".*" ..
+					"Fan5=(%d+)," ..
+					"Fan6=(%d+)," ..
+					".*" ..
+					"Voltage3=([%.%d]+)," ..
+					".*" ..
+					"Frequency3=(%d+),")
+
+				data[#data+1] = {
+				['id'] = 'AV2-' .. id,
+				['mm'] = id3,
+				['lw'] = lw3,
+				['dh'] = dh3,
+				['temp'] = t31 .. '|' .. t32,
+				['fan'] = f31 .. '|' .. f32,
+				['voltage'] = v3,
+				['freq'] = f3
+			}
+			end
+		end
+	end
+
+	return data
 end
