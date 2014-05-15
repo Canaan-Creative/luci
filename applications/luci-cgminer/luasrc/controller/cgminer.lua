@@ -295,12 +295,12 @@ function stats()
 				data[#data+1] = {
 				['id'] = 'AV2-' .. id,
 				['mm'] = id1,
-				['lw'] = lw1,
-				['dh'] = dh1,
-				['temp'] = t11 .. '|' .. t12,
-				['fan'] = f11 .. '|' .. f12,
-				['voltage'] = v1,
-				['freq'] = f1
+				['lw'] = lw1 or '0',
+				['dh'] = dh1 or '0',
+				['temp'] = (t11 or '0') .. '|' .. (t12 or '0'),
+				['fan'] = (f11 or '0') .. '|' .. (f12 or '0'),
+				['voltage'] = v1 or '0',
+				['freq'] = f1 or '0'
 			}
 			end
 
@@ -327,12 +327,12 @@ function stats()
 				data[#data+1] = {
 				['id'] = 'AV2-' .. id,
 				['mm'] = id2,
-				['lw'] = lw2,
-				['dh'] = dh2,
-				['temp'] = t21 .. '|' .. t22,
-				['fan'] = f21 .. '|' .. f22,
-				['voltage'] = v2,
-				['freq'] = f2
+				['lw'] = lw2 or '0',
+				['dh'] = dh2 or '0',
+				['temp'] = (t21 or '0') .. '|' .. (t22 or '0'),
+				['fan'] = (f21 or '0') .. '|' .. (f22 or '0'),
+				['voltage'] = v2 or '0',
+				['freq'] = f2 or '0'
 			}
 			end
 
@@ -360,12 +360,12 @@ function stats()
 				data[#data+1] = {
 				['id'] = 'AV2-' .. id,
 				['mm'] = id3,
-				['lw'] = lw3,
-				['dh'] = dh3,
-				['temp'] = t31 .. '|' .. t32,
-				['fan'] = f31 .. '|' .. f32,
-				['voltage'] = v3,
-				['freq'] = f3
+				['lw'] = lw3 or '0',
+				['dh'] = dh3 or '0',
+				['temp'] = (t31 or '0') .. '|' .. (t32 or '0'),
+				['fan'] = (f31 or '0') .. '|' .. (f32 or '0'),
+				['voltage'] = v3 or '0',
+				['freq'] = f3 or '0'
 			}
 			end
 		end
