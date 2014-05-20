@@ -259,13 +259,13 @@ function stats()
 
 	for line in stats do
 		local id,
-		id1, id2, id3,
-		lw1, lw2, lw3,
-		dh1, dh2, dh3,
-		t11, t12, t21, t22, t31, t32,
-		f11, f12, f21, f22, f31, f32,
-		v1, v2, v3,
-		f1, f2, f3;
+		id1, id2, id3, id4,
+		lw1, lw2, lw3, lw4,
+		dh1, dh2, dh3, dh4,
+		t11, t12, t21, t22, t31, t32, t41, t42,
+		f11, f12, f21, f22, f31, f32, f41, f42,
+		v1, v2, v3, v4,
+		f1, f2, f3, f4;
 		id =
 		line:match(".*," ..
 			"ID=AV2([%d]+),")
@@ -276,7 +276,7 @@ function stats()
 				"ID1 MM Version=([%+%-%d%a]+),")
 
 			if id1 then
-				lw1,dh1,t11,t12,f11,f12,v1,f1=
+				lw1, dh1, t11, t12, f11, f12, v1, f1 =
 				line:match(".*," ..
 					"Local works1=(%d+)," ..
 					".*" ..
@@ -301,14 +301,14 @@ function stats()
 				['fan'] = (f11 or '0') .. '|' .. (f12 or '0'),
 				['voltage'] = v1 or '0',
 				['freq'] = f1 or '0'
-			}
+				}
 			end
 
 			local id2 = line:match(".*," ..
 				"ID2 MM Version=([%+%-%d%a]+),")
 
 			if id2 then
-				lw2,dh2,t21,t22,f21,f22,v2,f2=
+				lw2, dh2, t21, t22, f21, f22, v2, f2 =
 				line:match(".*," ..
 					"Local works2=(%d+)," ..
 					".*" ..
@@ -333,7 +333,7 @@ function stats()
 				['fan'] = (f21 or '0') .. '|' .. (f22 or '0'),
 				['voltage'] = v2 or '0',
 				['freq'] = f2 or '0'
-			}
+				}
 			end
 
 
@@ -341,7 +341,7 @@ function stats()
 				"ID3 MM Version=([%+%-%d%a]+),")
 
 			if id3 then
-				lw3,dh3,t31,t32,f31,f32,v3,f3=
+				lw3, dh3, t31, t32, f31, f32, v3, f3 =
 				line:match(".*," ..
 					"Local works3=(%d+)," ..
 					".*" ..
@@ -366,7 +366,39 @@ function stats()
 				['fan'] = (f31 or '0') .. '|' .. (f32 or '0'),
 				['voltage'] = v3 or '0',
 				['freq'] = f3 or '0'
-			}
+				}
+			end
+
+			local id4 = line:match(".*," ..
+				"ID4 MM Version=([%+%-%d%a]+),")
+
+			if id4 then
+				lw4, dh4, t41, t42, f41, f42, v4, f4 =
+				line:match(".*," ..
+					"Local works4=(%d+)," ..
+					".*" ..
+					"Device hardware error4%%=([%.%d]+)," ..
+					".*" ..
+					"Temperature7=(%d+)," ..
+					"Temperature8=(%d+)," ..
+					".*" ..
+					"Fan7=(%d+)," ..
+					"Fan8=(%d+)," ..
+					".*" ..
+					"Voltage4=([%.%d]+)," ..
+					".*" ..
+					"Frequency4=(%d+),")
+
+				data[#data+1] = {
+				['id'] = 'AV2-' .. id,
+				['mm'] = id4,
+				['lw'] = lw4 or '0',
+				['dh'] = dh4 or '0',
+				['temp'] = (t41 or '0') .. '|' .. (t42 or '0'),
+				['fan'] = (f41 or '0') .. '|' .. (f42 or '0'),
+				['voltage'] = v4 or '0',
+				['freq'] = f4 or '0'
+				}
 			end
 		end
 	end
