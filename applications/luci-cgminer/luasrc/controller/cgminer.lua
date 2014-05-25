@@ -293,6 +293,8 @@ function stats()
 					"Frequency1=(%d+),")
 
 				data[#data+1] = {
+				['devid'] = id,
+				['moduleid'] = '1',
 				['id'] = 'AV2-' .. id,
 				['mm'] = id1,
 				['lw'] = lw1 or '0',
@@ -325,6 +327,8 @@ function stats()
 					"Frequency2=(%d+),")
 
 				data[#data+1] = {
+				['devid'] = id,
+				['moduleid'] = '2',
 				['id'] = 'AV2-' .. id,
 				['mm'] = id2,
 				['lw'] = lw2 or '0',
@@ -358,6 +362,8 @@ function stats()
 					"Frequency3=(%d+),")
 
 				data[#data+1] = {
+				['devid'] = id,
+				['moduleid'] = '3',
 				['id'] = 'AV2-' .. id,
 				['mm'] = id3,
 				['lw'] = lw3 or '0',
@@ -390,6 +396,8 @@ function stats()
 					"Frequency4=(%d+),")
 
 				data[#data+1] = {
+				['devid'] = id,
+				['moduleid'] = '4',
 				['id'] = 'AV2-' .. id,
 				['mm'] = id4,
 				['lw'] = lw4 or '0',
