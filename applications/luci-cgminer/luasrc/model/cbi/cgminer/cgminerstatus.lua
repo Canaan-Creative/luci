@@ -91,6 +91,8 @@ t1:option(DummyValue, "lvw", translate("LastValidWork"))
 local stats = luci.controller.cgminer.stats()
 t1 = f:section(Table, stats, translate("Avalon2 Status"))
 indicator = t1:option(Button, "_indicator", translate("Indicator"))
+indicator.inputtitle = translate("LED")
+
 function indicator.write(self, section)
 	cmd = "/usr/bin/cgminer-api " .. "\'ascset|" .. stats[section].devid .. ',led,' .. stats[section].moduleid .. "\' " .. "127.0.0.1 4038";
 	luci.util.execi(cmd)
