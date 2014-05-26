@@ -94,7 +94,7 @@ indicator = t1:option(Button, "_indicator", translate("Indicator"))
 indicator.inputtitle = translate("LED")
 
 function indicator.write(self, section)
-	cmd = "/usr/bin/cgminer-api " .. "\'ascset|" .. stats[section].devid .. ',led,' .. stats[section].moduleid .. "\' " .. "127.0.0.1 4038";
+	cmd = "/usr/bin/cgminer-api " .. "\'ascset|" .. stats[section].devid .. ',led,' .. stats[section].moduleid .. "\'"
 	luci.util.execi(cmd)
 end
 t1:option(DummyValue, "id", translate("Device"))
