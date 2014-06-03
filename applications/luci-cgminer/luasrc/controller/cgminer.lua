@@ -17,7 +17,15 @@ module("luci.controller.cgminer", package.seeall)
 function index()
    entry({"admin", "status", "cgminer"}, cbi("cgminer/cgminer"), _("Cgminer Configuration"))
    entry({"admin", "status", "cgminerstatus"}, cbi("cgminer/cgminerstatus"), _("Cgminer Status"))
+   entry({"admin", "status", "cgminerstatus", "restart"}, call("action_cgminerrestart"), nil).leaf = true
    entry({"admin", "status", "cgminerapi"}, call("action_cgminerapi"), _("Cgminer API Log"))
+end
+
+function action_cgminerrestart()
+	luci.util.exec("/etc/init.d/cgminer restart")
+	luci.http.redirect(
+		luci.dispatcher.build_url("admin", "status", "cgminerstatus")
+	)
 end
 
 function action_cgminerapi()

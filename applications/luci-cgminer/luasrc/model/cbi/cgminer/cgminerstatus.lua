@@ -14,7 +14,8 @@ You may obtain a copy of the License at
 
 $Id$
 ]]--
-f = SimpleForm("cgminerstatus", translate("Cgminer Status"),
+btnref = luci.dispatcher.build_url("admin", "status", "cgminerstatus", "restart")
+f = SimpleForm("cgminerstatus", translate("Cgminer Status") .. "  <input type=\"button\" value=\" " .. translate("Restart Cgminer") .. " \" onclick=\"location.href='" .. btnref .. "'\" href=\"#\"/>",
 	        translate("Please visit <a href='http://en.bitcoin.it/wiki/Avalon'> http://en.bitcoin.it/wiki/Avalon</a> for documentation and "..
 	        "join IRC channel: <a href='http://goo.gl/2ll1C0'> #avalon @freenode.net</a> for share and help."))
 
