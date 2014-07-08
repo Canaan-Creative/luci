@@ -54,27 +54,27 @@ function summary()
 	    localwork, remotefailures, networkblocks, totalmh, wu,
 	    diffaccepted, diffrejected, diffstale, bestshare =
 	       line:match(".*," ..
-	       		  "Elapsed=(%d+)," ..
-	       		  "MHS av=([%d%.]+)," ..
+	       		  "Elapsed=(-?%d+)," ..
+	       		  "MHS av=(-?[%d%.]+)," ..
 	       		  ".*," ..
-	       		  "Found Blocks=(%d+)," ..
-	       		  "Getworks=(%d+)," ..
-	       		  "Accepted=(%d+)," ..
-	       		  "Rejected=(%d+)," ..
-	       		  "Hardware Errors=(%d+)," ..
-	       		  "Utility=([%d%.]+)," ..
-	       		  "Discarded=(%d+)," ..
-	       		  "Stale=(%d+)," ..
-	       		  "Get Failures=(%d+)," ..
-	       		  "Local Work=(%d+)," ..
-	       		  "Remote Failures=(%d+)," ..
-	       		  "Network Blocks=(%d+)," ..
-	       		  "Total MH=([%d%.]+)," ..
-	       		  "Work Utility=([%d%.]+)," ..
-	       		  "Difficulty Accepted=([%d]+)%.%d+," ..
-	       		  "Difficulty Rejected=([%d]+)%.%d+," ..
-	       		  "Difficulty Stale=([%d]+)%.%d+," ..
-	       		  "Best Share=(%d+)")
+	       		  "Found Blocks=(-?%d+)," ..
+	       		  "Getworks=(-?%d+)," ..
+	       		  "Accepted=(-?%d+)," ..
+	       		  "Rejected=(-?%d+)," ..
+	       		  "Hardware Errors=(-?%d+)," ..
+	       		  "Utility=([-?%d%.]+)," ..
+	       		  "Discarded=(-?%d+)," ..
+	       		  "Stale=(-?%d+)," ..
+	       		  "Get Failures=(-?%d+)," ..
+	       		  "Local Work=(-?%d+)," ..
+	       		  "Remote Failures=(-?%d+)," ..
+	       		  "Network Blocks=(-?%d+)," ..
+	       		  "Total MH=(-?[%d%.]+)," ..
+	       		  "Work Utility=(-?[%d%.]+)," ..
+	       		  "Difficulty Accepted=(-?[%d]+)%.%d+," ..
+	       		  "Difficulty Rejected=(-?[%d]+)%.%d+," ..
+	       		  "Difficulty Stale=(-?[%d]+)%.%d+," ..
+	       		  "Best Share=(-?%d+)")
       if elapsed then
 	 local str
 	 local days
@@ -142,28 +142,28 @@ function pools()
    for line in pools do
       local pi, url, st, pri, quo, lp, gw, a, r, dc, sta, gf,
       	    rf, user, lst, ds, da, dr, dsta, lsd, hs, sa, su, hg =
-	 line:match("POOL=(%d+)," ..
+	 line:match("POOL=(-?%d+)," ..
 	 	    "URL=(.*)," ..
 	 	    "Status=(%a+)," ..
-	 	    "Priority=(%d+)," ..
-	 	    "Quota=(%d+)," ..
+	 	    "Priority=(-?%d+)," ..
+	 	    "Quota=(-?%d+)," ..
 	 	    "Long Poll=(%a+)," ..
-	 	    "Getworks=(%d+)," ..
-	 	    "Accepted=(%d+)," ..
-	 	    "Rejected=(%d+)," ..
+	 	    "Getworks=(-?%d+)," ..
+	 	    "Accepted=(-?%d+)," ..
+	 	    "Rejected=(-?%d+)," ..
 	 	    ".*," ..
-	 	    "Discarded=(%d+)," ..
-	 	    "Stale=(%d+)," ..
-	 	    "Get Failures=(%d+)," ..
-	 	    "Remote Failures=(%d+)," ..
+	 	    "Discarded=(-?%d+)," ..
+	 	    "Stale=(-?%d+)," ..
+	 	    "Get Failures=(-?%d+)," ..
+	 	    "Remote Failures=(-?%d+)," ..
 	 	    "User=(.*)," ..
-	 	    "Last Share Time=(%d+)," ..
-	 	    "Diff1 Shares=(%d+)," ..
+	 	    "Last Share Time=(-?%d+)," ..
+	 	    "Diff1 Shares=(-?%d+)," ..
 	 	    ".*," ..
-	 	    "Difficulty Accepted=(%d+)[%.%d]+," ..
-	 	    "Difficulty Rejected=(%d+)[%.%d]+," ..
-	 	    "Difficulty Stale=(%d+)[%.%d]+," ..
-	 	    "Last Share Difficulty=(%d+)[%.%d]+," ..
+	 	    "Difficulty Accepted=(-?%d+)[%.%d]+," ..
+	 	    "Difficulty Rejected=(-?%d+)[%.%d]+," ..
+	 	    "Difficulty Stale=(-?%d+)[%.%d]+," ..
+	 	    "Last Share Difficulty=(-?%d+)[%.%d]+," ..
 	 	    "Has Stratum=(%a+)," ..
 	 	    "Stratum Active=(%a+)," ..
 	 	    "Stratum URL=.*," ..
@@ -221,15 +221,15 @@ function devs()
 		    "ID=(%d+)," ..
 		    "Enabled=(%a+)," ..
 		    "Status=(%a+)," ..
-		    "Temperature=([%.%d]+)," ..
-		    "MHS av=([%.%d]+)," ..
-		    "MHS 5s=([%.%d]+)," ..
-		    "MHS 1m=([%.%d]+)," ..
-		    "MHS 5m=([%.%d]+)," ..
-		    "MHS 15m=([%.%d]+)," ..
+		    "Temperature=(-?[%.%d]+)," ..
+		    "MHS av=(-?[%.%d]+)," ..
+		    "MHS 5s=(-?[%.%d]+)," ..
+		    "MHS 1m=(-?[%.%d]+)," ..
+		    "MHS 5m=(-?[%.%d]+)," ..
+		    "MHS 15m=(-?[%.%d]+)," ..
 		    ".*," ..
-		    "Last Valid Work=(%d+)," ..
-		    "Device Hardware%%=([%.%d]+)")
+		    "Last Valid Work=(-?%d+)," ..
+		    "Device Hardware%%=(-?[%.%d]+)")
 
 	if lvw == "0" then
 	    lvw_date = "Never"
@@ -286,19 +286,19 @@ function stats()
 			if id1 then
 				lw1, dh1, t11, t12, f11, f12, v1, f1 =
 				line:match(".*," ..
-					"Local works1=(%d+)," ..
+					"Local works1=(-?%d+)," ..
 					".*" ..
-					"Device hardware error1%%=([%.%d]+)," ..
+					"Device hardware error1%%=(-?[%.%d]+)," ..
 					".*" ..
-					"Temperature1=(%d+)," ..
-					"Temperature2=(%d+)," ..
+					"Temperature1=(-?%d+)," ..
+					"Temperature2=(-?%d+)," ..
 					".*" ..
-					"Fan1=(%d+)," ..
-					"Fan2=(%d+)," ..
+					"Fan1=(-?%d+)," ..
+					"Fan2=(-?%d+)," ..
 					".*" ..
-					"Voltage1=([%.%d]+)," ..
+					"Voltage1=(-?[%.%d]+)," ..
 					".*" ..
-					"Frequency1=(%d+),")
+					"Frequency1=(-?%d+),")
 
 				data[#data+1] = {
 				['devid'] = id,
@@ -320,19 +320,19 @@ function stats()
 			if id2 then
 				lw2, dh2, t21, t22, f21, f22, v2, f2 =
 				line:match(".*," ..
-					"Local works2=(%d+)," ..
+					"Local works2=(-?%d+)," ..
 					".*" ..
-					"Device hardware error2%%=([%.%d]+)," ..
+					"Device hardware error2%%=(-?[%.%d]+)," ..
 					".*" ..
-					"Temperature3=(%d+)," ..
-					"Temperature4=(%d+)," ..
+					"Temperature3=(-?%d+)," ..
+					"Temperature4=(-?%d+)," ..
 					".*" ..
-					"Fan3=(%d+)," ..
-					"Fan4=(%d+)," ..
+					"Fan3=(-?%d+)," ..
+					"Fan4=(-?%d+)," ..
 					".*" ..
-					"Voltage2=([%.%d]+)," ..
+					"Voltage2=([-?%.%d]+)," ..
 					".*" ..
-					"Frequency2=(%d+),")
+					"Frequency2=(-?%d+),")
 
 				data[#data+1] = {
 				['devid'] = id,
@@ -355,19 +355,19 @@ function stats()
 			if id3 then
 				lw3, dh3, t31, t32, f31, f32, v3, f3 =
 				line:match(".*," ..
-					"Local works3=(%d+)," ..
+					"Local works3=(-?%d+)," ..
 					".*" ..
-					"Device hardware error3%%=([%.%d]+)," ..
+					"Device hardware error3%%=([-?%.%d]+)," ..
 					".*" ..
-					"Temperature5=(%d+)," ..
-					"Temperature6=(%d+)," ..
+					"Temperature5=(-?%d+)," ..
+					"Temperature6=(-?%d+)," ..
 					".*" ..
-					"Fan5=(%d+)," ..
-					"Fan6=(%d+)," ..
+					"Fan5=(-?%d+)," ..
+					"Fan6=(-?%d+)," ..
 					".*" ..
-					"Voltage3=([%.%d]+)," ..
+					"Voltage3=([-?%.%d]+)," ..
 					".*" ..
-					"Frequency3=(%d+),")
+					"Frequency3=(-?%d+),")
 
 				data[#data+1] = {
 				['devid'] = id,
@@ -389,19 +389,19 @@ function stats()
 			if id4 then
 				lw4, dh4, t41, t42, f41, f42, v4, f4 =
 				line:match(".*," ..
-					"Local works4=(%d+)," ..
+					"Local works4=(-?%d+)," ..
 					".*" ..
-					"Device hardware error4%%=([%.%d]+)," ..
+					"Device hardware error4%%=([-?%.%d]+)," ..
 					".*" ..
-					"Temperature7=(%d+)," ..
-					"Temperature8=(%d+)," ..
+					"Temperature7=(-?%d+)," ..
+					"Temperature8=(-?%d+)," ..
 					".*" ..
-					"Fan7=(%d+)," ..
-					"Fan8=(%d+)," ..
+					"Fan7=(-?%d+)," ..
+					"Fan8=(-?%d+)," ..
 					".*" ..
-					"Voltage4=([%.%d]+)," ..
+					"Voltage4=([-?%.%d]+)," ..
 					".*" ..
-					"Frequency4=(%d+),")
+					"Frequency4=(-?%d+),")
 
 				data[#data+1] = {
 				['devid'] = id,
