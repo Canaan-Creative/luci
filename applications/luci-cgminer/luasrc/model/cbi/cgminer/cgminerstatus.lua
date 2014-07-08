@@ -16,8 +16,8 @@ $Id$
 ]]--
 btnref = luci.dispatcher.build_url("admin", "status", "cgminerstatus", "restart")
 f = SimpleForm("cgminerstatus", translate("Cgminer Status") .. "  <input type=\"button\" value=\" " .. translate("Restart Cgminer") .. " \" onclick=\"location.href='" .. btnref .. "'\" href=\"#\"/>",
-	        translate("Please visit <a href='http://en.bitcoin.it/wiki/Avalon'> http://en.bitcoin.it/wiki/Avalon</a> for documentation and "..
-	        "join IRC channel: <a href='http://goo.gl/2ll1C0'> #avalon @freenode.net</a> for share and help."))
+			translate("Please visit <a href='https://ehash.com'> https://ehash.com</a> for support and "..
+			"join IRC channel: <a href='http://goo.gl/2ll1C0'> #avalon @freenode.net</a> for share and help."))
 
 f.reset = false
 f.submit = false
@@ -98,6 +98,7 @@ function indicator.write(self, section)
 	cmd = "/usr/bin/cgminer-api " .. "\'ascset|" .. stats[section].devid .. ',led,' .. stats[section].moduleid .. "\'"
 	luci.util.execi(cmd)
 end
+
 t1:option(DummyValue, "id", translate("Device"))
 t1:option(DummyValue, "mm", translate("MM"))
 t1:option(DummyValue, "lw", translate("LocalWorks"))
