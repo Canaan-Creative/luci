@@ -92,11 +92,24 @@ t1:option(DummyValue, "lvw", translate("LastValidWork"))
 local stats = luci.controller.cgminer.stats()
 t1 = f:section(Table, stats, translate("Avalon2 Status"))
 indicator = t1:option(Button, "_indicator", translate("Indicator"))
-indicator.inputtitle = translate("LED")
+function indicator.render(self, section, scope)
+        if stats[section].led == '0' then
+                self.title = translate("LED OFF")
+        else
+                self.title = translate("LED ON")
+        end
+
+        Button.render(self, section, scope)
+end
 
 function indicator.write(self, section)
-	cmd = "/usr/bin/cgminer-api " .. "\'ascset|" .. stats[section].devid .. ',led,' .. stats[section].moduleid .. "\'"
-	luci.util.execi(cmd)
+        cmd = "/usr/bin/cgminer-api " .. "\'ascset|" .. stats[section].devid .. ',led,' .. stats[section].moduleid .. "\'"
+        luci.util.execi(cmd)
+        if stats[section].led == '0' then
+                stats[section].led = '1'
+        else
+                stats[section].led = '0'
+        end
 end
 
 t1:option(DummyValue, "id", translate("Device"))

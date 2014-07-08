@@ -273,7 +273,8 @@ function stats()
 		t11, t12, t21, t22, t31, t32, t41, t42,
 		f11, f12, f21, f22, f31, f32, f41, f42,
 		v1, v2, v3, v4,
-		f1, f2, f3, f4;
+		f1, f2, f3, f4,
+		led1, led2, led3, led4;
 		id =
 		line:match(".*," ..
 			"ID=AV2([%d]+),")
@@ -284,7 +285,7 @@ function stats()
 				"ID1 MM Version=([%+%-%d%a]+),")
 
 			if id1 then
-				lw1, dh1, t11, t12, f11, f12, v1, f1 =
+				lw1, dh1, t11, t12, f11, f12, v1, f1, led1 =
 				line:match(".*," ..
 					"Local works1=(-?%d+)," ..
 					".*" ..
@@ -298,7 +299,9 @@ function stats()
 					".*" ..
 					"Voltage1=(-?[%.%d]+)," ..
 					".*" ..
-					"Frequency1=(-?%d+),")
+					"Frequency1=(-?%d+)," ..
+					".*" ..
+					"Led 01=(%d)")
 
 				data[#data+1] = {
 				['devid'] = id,
@@ -310,7 +313,8 @@ function stats()
 				['temp'] = (t11 or '0') .. '|' .. (t12 or '0'),
 				['fan'] = (f11 or '0') .. '|' .. (f12 or '0'),
 				['voltage'] = v1 or '0',
-				['freq'] = f1 or '0'
+				['freq'] = f1 or '0',
+				['led'] = led1 or '0'
 				}
 			end
 
@@ -318,7 +322,7 @@ function stats()
 				"ID2 MM Version=([%+%-%d%a]+),")
 
 			if id2 then
-				lw2, dh2, t21, t22, f21, f22, v2, f2 =
+				lw2, dh2, t21, t22, f21, f22, v2, f2, led2 =
 				line:match(".*," ..
 					"Local works2=(-?%d+)," ..
 					".*" ..
@@ -332,7 +336,9 @@ function stats()
 					".*" ..
 					"Voltage2=([-?%.%d]+)," ..
 					".*" ..
-					"Frequency2=(-?%d+),")
+					"Frequency2=(-?%d+)," ..
+					".*" ..
+					"Led 02=(%d)")
 
 				data[#data+1] = {
 				['devid'] = id,
@@ -344,7 +350,8 @@ function stats()
 				['temp'] = (t21 or '0') .. '|' .. (t22 or '0'),
 				['fan'] = (f21 or '0') .. '|' .. (f22 or '0'),
 				['voltage'] = v2 or '0',
-				['freq'] = f2 or '0'
+				['freq'] = f2 or '0',
+				['led'] = led2 or '0'
 				}
 			end
 
@@ -353,7 +360,7 @@ function stats()
 				"ID3 MM Version=([%+%-%d%a]+),")
 
 			if id3 then
-				lw3, dh3, t31, t32, f31, f32, v3, f3 =
+				lw3, dh3, t31, t32, f31, f32, v3, f3, led3 =
 				line:match(".*," ..
 					"Local works3=(-?%d+)," ..
 					".*" ..
@@ -367,7 +374,9 @@ function stats()
 					".*" ..
 					"Voltage3=([-?%.%d]+)," ..
 					".*" ..
-					"Frequency3=(-?%d+),")
+					"Frequency3=(-?%d+)," ..
+					".*" ..
+					"Led 03=(%d)")
 
 				data[#data+1] = {
 				['devid'] = id,
@@ -379,7 +388,8 @@ function stats()
 				['temp'] = (t31 or '0') .. '|' .. (t32 or '0'),
 				['fan'] = (f31 or '0') .. '|' .. (f32 or '0'),
 				['voltage'] = v3 or '0',
-				['freq'] = f3 or '0'
+				['freq'] = f3 or '0',
+				['led'] = led3 or '0'
 				}
 			end
 
@@ -387,7 +397,7 @@ function stats()
 				"ID4 MM Version=([%+%-%d%a]+),")
 
 			if id4 then
-				lw4, dh4, t41, t42, f41, f42, v4, f4 =
+				lw4, dh4, t41, t42, f41, f42, v4, f4, led4 =
 				line:match(".*," ..
 					"Local works4=(-?%d+)," ..
 					".*" ..
@@ -401,7 +411,9 @@ function stats()
 					".*" ..
 					"Voltage4=([-?%.%d]+)," ..
 					".*" ..
-					"Frequency4=(-?%d+),")
+					"Frequency4=(-?%d+)," ..
+					".*" ..
+					"Led 04=(%d)")
 
 				data[#data+1] = {
 				['devid'] = id,
@@ -413,7 +425,8 @@ function stats()
 				['temp'] = (t41 or '0') .. '|' .. (t42 or '0'),
 				['fan'] = (f41 or '0') .. '|' .. (f42 or '0'),
 				['voltage'] = v4 or '0',
-				['freq'] = f4 or '0'
+				['freq'] = f4 or '0',
+				['led'] = led4 or '0'
 				}
 			end
 		end
