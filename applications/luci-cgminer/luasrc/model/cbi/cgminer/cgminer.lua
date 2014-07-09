@@ -1,6 +1,6 @@
 m = Map("cgminer", translate("Configuration"),
-        translate("Please visit <a href='https://ehash.com'> https://ehash.com</a> for support and "..
-        "join IRC channel: <a href='http://goo.gl/2ll1C0'> #avalon @freenode.net</a> for share and help."))
+        translate("Please visit <a href='https://ehash.com/support'> https://ehash.com/support</a> for support,"..
+        "visit <a href='http://downloads.canaan-creative.com'> http://downloads.canaan-creative.com</a> for firmware download."))
 
 conf = m:section(TypedSection, "cgminer", "")
 conf.anonymous = true

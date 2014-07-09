@@ -16,8 +16,8 @@ $Id$
 ]]--
 btnref = luci.dispatcher.build_url("admin", "status", "cgminerstatus", "restart")
 f = SimpleForm("cgminerstatus", translate("Cgminer Status") .. "  <input type=\"button\" value=\" " .. translate("Restart Cgminer") .. " \" onclick=\"location.href='" .. btnref .. "'\" href=\"#\"/>",
-			translate("Please visit <a href='https://ehash.com'> https://ehash.com</a> for support and "..
-			"join IRC channel: <a href='http://goo.gl/2ll1C0'> #avalon @freenode.net</a> for share and help."))
+			translate("Please visit <a href='https://ehash.com/support'> https://ehash.com/support</a> for support,"..
+			"visit <a href='http://downloads.canaan-creative.com'>http://downloads.canaan-creative.com</a> for firmware download."))
 
 f.reset = false
 f.submit = false
