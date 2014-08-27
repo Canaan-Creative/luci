@@ -208,7 +208,7 @@ end
 
 function devs()
    local data = {}
-   local devs = luci.util.execi("/usr/bin/cgminer-api -o devs | sed \"s/|/\\n/g\" ")
+   local devs = luci.util.execi("/usr/bin/cgminer-api -o edevs | sed \"s/|/\\n/g\" ")
 
    if not devs then
       return
@@ -259,7 +259,7 @@ end
 function stats()
 	local data = {}
 
-	local stats = luci.util.execi("/usr/bin/cgminer-api -o stats | sed \"s/|/\\n/g\" | grep AV2 ")
+	local stats = luci.util.execi("/usr/bin/cgminer-api -o estats | sed \"s/|/\\n/g\" | grep AV2 ")
 
 	if not stats then
 		return
