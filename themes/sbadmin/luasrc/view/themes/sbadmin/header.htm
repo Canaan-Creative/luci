@@ -1,0 +1,85 @@
+<%#
+LuCI - Lua Configuration Interface
+Copyright 2008 Steven Barth <steven@midlink.org>
+Copyright 2008-2010 Jo-Philipp Wich <xm@subsignal.org>
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+	http://www.apache.org/licenses/LICENSE-2.0
+
+$Id: header.htm 9558 2012-12-18 13:58:22Z jow $
+
+-%>
+<%
+	local sys  = require "luci.sys"
+	local http = require "luci.http"
+	local disp = require "luci.dispatcher"
+
+	local hostname = sys.hostname()
+	local node = disp.context.dispatched
+
+	http.prepare_content("text/html")
+%>
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="<%=luci.i18n.context.lang%>" lang="<%=luci.i18n.context.lang%>">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta http-equiv="Content-Script-Type" content="text/javascript" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="">
+<meta name="author" content="">
+
+<title><%=striptags( hostname .. ( (node and node.title) and ' - ' .. translate(node.title) or '')) %> - LuCI</title>
+
+<!-- Bootstrap Core CSS -->
+<link href="<%=media%>/css/bootstrap.min.css" rel="stylesheet">
+
+<!-- Custom CSS -->
+<link href="<%=media%>/css/sb-admin.css" rel="stylesheet">
+
+<!-- Morris Charts CSS -->
+<link href="<%=media%>/css/plugins/morris.css" rel="stylesheet">
+
+<!-- Custom Fonts -->
+<link href="<%=media%>/font-awesome-4.1.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+<!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+<!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+<![endif]-->
+
+<!-- jQuery Version 1.11.0 -->
+<script src="<%=media%>/js/jquery-1.11.0.js"></script>
+
+<!-- Bootstrap Core JavaScript -->
+<script src="<%=media%>/js/bootstrap.min.js"></script>
+
+<!-- Morris Charts JavaScript -->
+<script src="<%=media%>/js/plugins/morris/raphael.min.js"></script>
+<script src="<%=media%>/js/plugins/morris/morris.min.js"></script>
+<script src="<%=media%>/js/plugins/morris/morris-data.js"></script>
+</head>
+<body class="lang_<%=luci.i18n.context.lang%>">
+
+<p class="skiplink">
+<span id="skiplink1"><a href="#navigation"><%:Skip to navigation%></a></span>
+<span id="skiplink2"><a href="#content"><%:Skip to content%></a></span>
+</p>
+
+<div id="menubar">
+<h2 class="navigation"><a id="navigation" name="navigation"><%:Navigation%></a></h2>
+
+<div id="maincontainer">
+	<div id="maincontent">
+		<noscript>
+			<div class="errorbox">
+				<strong><%:Java Script required!%></strong><br />
+				<%:You must enable Java Script in your browser or LuCI will not work properly.%>
+			</div>
+		</noscript>
