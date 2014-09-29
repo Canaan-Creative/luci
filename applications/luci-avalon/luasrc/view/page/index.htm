@@ -20,7 +20,11 @@
     <!--<script type="text/javascript" src="http://cdn.hcharts.cn/highstock/2.0.3/themes/dark-green.js"></script>-->
     <script type="text/javascript" src="http://cdn.hcharts.cn/highstock/2.0.3/themes/grid-light.js"></script>
     <script>
-        $(function () {                                                                     
+        $(function () {
+            var _intvalTime = 3000;
+            var _fan = 0;                                                         
+	    var _temp = 0;
+
             $(document).ready(function() {                                                  
                 Highcharts.setOptions({                                                     
                     global: {                                                               
@@ -39,11 +43,37 @@
                                                                                             
                                 // set up the updating of the chart each second             
                                 var series = this.series[0];                                
-                                setInterval(function() {                                    
-                                    var x = (new Date()).getTime(), // current time         
-                                        y = Math.random();                                  
-                                    series.addPoint([x, y], true, true);                    
-                                }, 1000);                                                   
+                                setInterval(function() {
+                                    /**
+                                     * Get Status
+                                     * @author Wanggh
+                                     */
+                                	$.ajax({
+                       	    			url:'/cgi-bin/luci/avalon/api/getstatus',
+                       	    			type:'post',
+                       	    			dataType: 'json',
+                       	    			success:function(_data){
+                       	        			if (_data) {
+                       	            			var _html = '<tr>';
+                       	            			_fan = _data.fan ? _data.fan : '0';
+							_temp = _data.temp ? _data.temp : '0';
+                       	            			_html += '<td>' + _data.ghsav + '</td>';
+                       	            			_html += '<td>' + _data.modularcnt + '</td>';
+                       	            			_html += '<td>777</td>';
+                       	            			_html += '<td>' + _data.freq + '</td>';
+                       	            			_html += '<td>' + _data.voltage + '</td>';
+                       	            			_html += '</tr>';
+                       	            			$('#statusListZone').html(_html);
+                       	           			}
+                       	    			},
+                       	    		});               
+                                    //var x = (new Date()).getTime(), // current time         
+                                      //  y = Math.random();       
+                                    var x = (new Date()).getTime(),
+                                    	y = parseInt(_fan);
+
+					series.addPoint([x, y], true, true);                    
+                                }, _intvalTime);                                                   
                             }                                                               
                         }                                                                   
                     },                                                                      
@@ -80,15 +110,15 @@
                     series: [{                                                              
                         name: 'Random data',                                                
                         data: (function() {                                                 
-                            // generate an array of random data                             
+                            // Initial data 
                             var data = [],                                                  
                                 time = (new Date()).getTime(),                              
                                 i;                                                          
                                                                                             
                             for (i = -19; i <= 0; i++) {                                    
                                 data.push({                                                 
-                                    x: time + i * 1000,                                     
-                                    y: Math.random()                                        
+                                    x: time + i * _intvalTime,                                     
+                                    y: 0
                                 });                                                         
                             }                                                               
                             return data;                                                    
@@ -109,9 +139,9 @@
                                 var series = this.series[0];                                
                                 setInterval(function() {                                    
                                     var x = (new Date()).getTime(), // current time         
-                                        y = Math.random();                                  
+                                        y = parseInt(_temp); 
                                     series.addPoint([x, y], true, true);                    
-                                }, 1000);                                                   
+                                }, _intvalTime);                                                   
                             }                                                               
                         }                                                                   
                     },                                                                      
@@ -155,8 +185,8 @@
                                                                                             
                             for (i = -50; i <= 0; i++) {                                    
                                 data.push({                                                 
-                                    x: time + i * 1000,                                     
-                                    y: Math.random()                                        
+                                    x: time + i * _intvalTime,                                     
+                                    y: 0 
                                 });                                                         
                             }                                                               
                             return data;                                                    
@@ -267,13 +297,9 @@
                                             <th>电压</th>  
                                         </tr>
                                     </thead>
-                                    <tbody>
+                                    <tbody id='statusListZone'>
                                         <tr>
-                                            <td>1</td>
-                                            <td>Mark</td>
-                                            <td>fdsaf</td>
-                                             <td>1</td>
-                                            <td>Mark</td>
+                                        	<td colspan="5"><center>正在加载中...</center></td>
                                         </tr>
 
                                     </tbody>
