@@ -17,12 +17,18 @@ module("luci.controller.avalon", package.seeall)
 function index()
 	entry({"avalon"}, alias("avalon", "page", "index"), _("Index"), 90).dependent=false
 	entry({"avalon", "page", "index"}, template("page/index"), _("Index"))
-	entry({"avalon", "page", "table"}, template("page/table"), _("Table"))
-	entry({"avalon", "page", "form"}, template("page/form"), _("Form"))
-	entry({"avalon", "page", "chart"}, template("page/chart"), _("Chart"))
+	entry({"avalon", "page", "network"}, template("page/newwork"), _("Network"))
+	entry({"avalon", "page", "cf"}, template("page/cf"), _("Cf"))
+	entry({"avalon", "page", "network_wan"}, template("page/network_wan"), _("Network_wan"))
+	entry({"avalon", "page", "network_lan"}, template("page/network_lan"), _("Network_lan"))
+	entry({"avalon", "page", "network_wifi"}, template("page/network_wifi"), _("Network_wifi"))
 	entry({"avalon", "page", "blank"}, template("page/blank"), _("Blank"))
 	entry({"avalon", "page", "ui"}, template("page/ui"), _("UI"))
 	entry({"avalon", "page", "tab-panel"}, template("page/tab-panel"), _("Tabe-panel"))
+	entry({"avalon", "network", "lan"}, cbi("lan"), _("Networklan"))
+	entry({"avalon", "network", "wan"}, cbi("wan"), _("Networkwan"))
+	entry({"avalon", "network", "wireless"}, cbi("wireless"), _("Networkwireless"))
+	entry({"avalon", "page", "cgsetting"}, cbi("cgsetting"), _("CGSetting"))
 	entry({"avalon", "api", "getstatus"}, call("api_getstatus"), nil)
 	entry({"avalon", "api", "getlog"}, call("api_getlog"), nil).dependent=false
 end
@@ -192,6 +198,12 @@ function api_getstatus()
 		status.fan = fan
 		status.voltage = v
 		status.freq = f
+	else
+		-- random data
+		math.randomseed(os.time())
+		status.temp = math.random(0,100)
+		status.fan = math.random(0,7000)
+		status.ghsav = math.random(200, 300)
 	end
 
 	local devs = luci.util.execi("/usr/bin/cgminer-api -o edevs | sed \"s/|/\\n/g\" ")

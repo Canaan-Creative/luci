@@ -14,16 +14,15 @@
     <link href="<%=media%>/assets/css/custom.css" rel="stylesheet" />
      <!-- GOOGLE FONTS-->
     <script src="<%=media%>/assets/js/jquery-1.10.2.js"></script>
-    <script type="text/javascript" src="http://cdn.hcharts.cn/jquery/jquery-1.8.3.min.js"></script>
-    <script type="text/javascript" src="http://cdn.hcharts.cn/highcharts/highcharts.js"></script>
-    <script type="text/javascript" src="http://cdn.hcharts.cn/highcharts/exporting.js"></script>
-    <!--<script type="text/javascript" src="http://cdn.hcharts.cn/highstock/2.0.3/themes/dark-green.js"></script>-->
-    <script type="text/javascript" src="http://cdn.hcharts.cn/highstock/2.0.3/themes/grid-light.js"></script>
+    <script type="text/javascript" src="<%=media%>/assets/js/highcharts.js"></script>
+    <script type="text/javascript" src="<%=media%>/assets/js/dark-unica.js"></script>
     <script>
         $(function () {
-            var _intvalTime = 3000;
+            var _intvalTime = 5000;
             var _fan = 0;                                                         
-	    var _temp = 0;
+	    	var _temp = 0;
+	    	var _i = 50 ;
+	    	var _ghsav = 0; 
 
             $(document).ready(function() {                                                  
                 Highcharts.setOptions({                                                     
@@ -33,16 +32,19 @@
                 });                                                                         
                                                                                             
                 var chart;                                                                  
-                $('#container-speed').highcharts({                                                
-                    chart: {                                                                
-                        type: 'spline',                                                     
-                        animation: Highcharts.svg, // don't animate in old IE               
-                        marginRight: 10,                                                    
-                        events: {                                                           
+                chart = new Highcharts.Chart({  
+                    chart: {  
+                        renderTo: 'container-speed-temperature',  
+                        type: 'spline',  
+                        animation: Highcharts.svg,                  
+                        events: {  
                             load: function() {                                              
-                                                                                            
+                                
                                 // set up the updating of the chart each second             
-                                var series = this.series[0];                                
+                                var series = this.series[0];
+                                var series1 = this.series[1];
+                                var series2 = this.series[2];
+
                                 setInterval(function() {
                                     /**
                                      * Get Status
@@ -54,166 +56,210 @@
                        	    			dataType: 'json',
                        	    			success:function(_data){
                        	        			if (_data) {
-                       	            			var _html = '<tr>';
+                       	            			
                        	            			_fan = _data.fan ? _data.fan : '0';
-							_temp = _data.temp ? _data.temp : '0';
-                       	            			_html += '<td>' + _data.ghsav + '</td>';
-                       	            			_html += '<td>' + _data.modularcnt + '</td>';
-                       	            			_html += '<td>777</td>';
-                       	            			_html += '<td>' + _data.freq + '</td>';
-                       	            			_html += '<td>' + _data.voltage + '</td>';
-                       	            			_html += '</tr>';
-                       	            			$('#statusListZone').html(_html);
+												_temp = _data.temp ? _data.temp : '0';
+												_ghsav = _data.ghsav ? _data.ghsav : '0';
+												
+												$('#ghsav').html(_data.ghsav ? _data.ghsav : 'null');
+												/*
+												$('#mac').html(_data.network.mac ? _data.network.mac : '');
+												$('#ip4').html(_data.network.ip4 ? _data.network.ip4 : '');
+												$('#ip6').html(_data.network.ip6 ? _data.network.ip6 : '');
+												*/
+												$('#ghs5m').html(_data.ghs5m ? _data.ghs5m : 'null');
+												
+												$('#pool').html(_data.pool ? _data.pool : 'no-pool');
+												$('#diff').html(_data.diff ? _data.diff : 'no-diff');
+												$('#accept').html(_data.accept ? _data.accept : 'no-accept');
+												
+												$("#modularcnt").html(_data.modularcnt ? _data.modularcnt : 'null');
+												$("#voltage").html(_data.voltage ? _data.voltage : 'null');
+												$("#freq").html(_data.freq ? _data.freq : 'null');
+												$("#temp").html(_data.temp ? _data.temp : 'null');
+												$("#dh").html(_data.dh ? _data.dh : 'null');
+												$("#mmver").html(_data.mmver ? _data.mmver : 'null');
+											
                        	           			}
                        	    			},
                        	    		});               
-                                    //var x = (new Date()).getTime(), // current time         
-                                      //  y = Math.random();       
+   
                                     var x = (new Date()).getTime(),
-                                    	y = parseInt(_fan);
-
-					series.addPoint([x, y], true, true);                    
+                                   	y = parseInt(_fan); 
+                                  	y1 = parseInt(_temp);
+                                  	y2 = parseInt(_ghsav);
+                                    series.addPoint([x, y], true, true);  
+                                    series1.addPoint([x, y1], true, true); 
+                                    series2.addPoint([x, y2], true, true); 
                                 }, _intvalTime);                                                   
-                            }                                                               
-                        }                                                                   
-                    },                                                                      
-                    title: {                                                                
-                        text: 'Live random data'                                            
-                    },                                                                      
-                    xAxis: {                                                                
-                        type: 'datetime',                                                   
-                        tickPixelInterval: 150                                              
-                    },                                                                      
-                    yAxis: {                                                                
-                        title: {                                                            
-                            text: 'Value'                                                   
-                        },                                                                  
-                        plotLines: [{                                                       
-                            value: 0,                                                       
-                            width: 1,                                                       
-                            color: '#808080'                                                
-                        }]                                                                  
-                    },                                                                      
-                    tooltip: {                                                              
-                        formatter: function() {                                             
-                                return '<b>'+ this.series.name +'</b><br>'+                
-                                Highcharts.dateFormat('%Y-%m-%d %H:%M:%S', this.x) +'<br>'+
-                                Highcharts.numberFormat(this.y, 2);                         
-                        }                                                                   
-                    },                                                                      
-                    legend: {                                                               
-                        enabled: false                                                      
-                    },                                                                      
-                    exporting: {                                                            
-                        enabled: false                                                      
-                    },                                                                      
-                    series: [{                                                              
-                        name: 'Random data',                                                
-                        data: (function() {                                                 
-                            // Initial data 
-                            var data = [],                                                  
-                                time = (new Date()).getTime(),                              
-                                i;                                                          
-                                                                                            
-                            for (i = -19; i <= 0; i++) {                                    
-                                data.push({                                                 
-                                    x: time + i * _intvalTime,                                     
-                                    y: 0
-                                });                                                         
-                            }                                                               
-                            return data;                                                    
-                        })()                                                                
-                    }]                                                                      
+                            }   
+                        }  
+                    },  
+        			title: {
+        				text: 'Average Monthly Temperature and Rainfall in Tokyo'
+        			},
+        			subtitle: {
+        				text: 'Source: WorldClimate.com'
+        			},
+                    xAxis: { 
+                        type: 'datetime', 
+                        tickPixelInterval: 150 
+                    }, 
+                    credits:{
+                    	enabled: false	
+                    },
+                    yAxis: [{ 
+        			  labels: {
+        				  	formatter: function() {
+        	                    return this.value +'°C';
+        	                },
+        					//format: '{value}°C',
+        					style: {
+        						color: '#ffbc75'
+        					}
+        				},
+        				title: {
+        					text: 'Temperature',
+        					style: {
+        						color: '#ffbc75'
+        					}
+        				},
+        				opposite: true,
+                    }, 
+                    { 
+        				labels: {
+        					//format: '{value} mm',
+        					formatter: function() {
+        	                    return this.value +'RPM';
+        	                },
+        					style: {
+        						color: '#7cb5ec'
+        					}
+        				},
+        				title: {
+        					text: 'Fan',
+        					style: {
+        						color: '#7cb5ec'
+        					}
+        				}, 
+        				
+                    },
+                    {
+        				labels: {
+        					//format: '{value} mm',
+        					formatter: function() {
+        	                    return this.value +'GHS';
+        	                },
+        					style: {
+        						color: '#90ec7d'
+        					}
+        				},
+        				title: {
+        					text: 'Ghsav',
+        					style: {
+        						color: '#90ec7d'
+        					}
+        				}, 
+        				opposite: true ,
+                    },
+                    ], 
+
+        			tooltip: {
+        				shared: true
+        			},			
+        			legend: {
+        				layout: 'vertical',
+        				align: 'left',
+        				x: 120,
+        				verticalAlign: 'top',
+        				y: 50,
+        				floating: true,
+        				backgroundColor: '#2f2f31'
+        			}, 
+                    exporting: { 
+                        enabled: false 
+                    }, 
+                    series: [{ 
+        				yAxis:1,
+        				color: '#7cb5ec',
+                        name: 'Fan', 
+                        data: (function() { // generate an array of random data                              
+                            var data = [], 
+                            time = (new Date()).getTime(), 
+                            i; 
+                            for (i = -_i; i <= 0; i++) { 
+                                data.push({ 
+                                    x: time + i * 1000, 
+                                    y: null 
+                                }); 
+                            } 
+                            return data; 
+                        })(),
+        				tooltip: {
+        					valueSuffix: ' RPM'
+        				},
+        	            marker: {
+        	                enabled: false
+        	            },
+        	            dashStyle: 'shortdot',
+                    }, 
+                    { 
+                    	color: '#ffbc75',
+                    	yAxis: 2,
+                        name: 'Temperature',  
+                        data: (function() { // generate an array of random data                               
+                            var data = [],  
+                            time = (new Date()).getTime(),  
+                            i;   
+                            
+                            for (i = -_i; i <= 0; i++) {  
+                                data.push({  
+                                    x: time + i * 1000,  
+                                    y: null  
+                                });  
+                            }  
+                            return data;  
+                        })() ,
+        				tooltip: {
+        					valueSuffix: '°C'
+        				},
+        	            marker: {
+        	                enabled: false
+        	            },
+        	            dashStyle: 'shortdot',
+                    },
+                    { 
+                    	color: '#90ec7d',
+                        name: 'GHSav',  
+                        data: (function() { // generate an array of random data                               
+                            var data = [],  
+                            time = (new Date()).getTime(),  
+                            i;  
+                            for (i = -_i; i <= 0; i++) {  
+                                data.push({  
+                                    x: time + i * 1000,  
+                                    y: null  
+                                });  
+                            }  
+                            return data;  
+                        })() ,
+        				tooltip: {
+        					valueSuffix: 'GHS'
+        				},
+        	            marker: {
+        	                enabled: false
+        	            },
+        	            //dashStyle: 'shortdot',
+                    }]  
                 });
-
-                /*temperature*/
-                $('#container-temperature').highcharts({                                                
-                    chart: {                                                                
-                        type: 'spline',                                                     
-                        animation: Highcharts.svg, // don't animate in old IE               
-                        marginRight: 10,                                                    
-                        events: {                                                           
-                            load: function() {                                              
-                                                                                            
-                                // set up the updating of the chart each second             
-                                var series = this.series[0];                                
-                                setInterval(function() {                                    
-                                    var x = (new Date()).getTime(), // current time         
-                                        y = parseInt(_temp); 
-                                    series.addPoint([x, y], true, true);                    
-                                }, _intvalTime);                                                   
-                            }                                                               
-                        }                                                                   
-                    },                                                                      
-                    title: {                                                                
-                        text: 'Temperature'                                            
-                    },                                                                      
-                    xAxis: {                                                                
-                        type: 'datetime',                                                   
-                        tickPixelInterval: 150                                              
-                    },                                                                      
-                    yAxis: {                                                                
-                        title: {                                                            
-                            text: 'Value'                                                   
-                        },                                                                  
-                        plotLines: [{                                                       
-                            value: 0,                                                       
-                            width: 1,                                                       
-                            color: '#808080'                                                
-                        }]                                                                  
-                    },                                                                      
-                    tooltip: {                                                              
-                        formatter: function() {                                             
-                                return '<b>'+ this.series.name +'</b><br>'+                
-                                Highcharts.dateFormat('%Y-%m-%d %H:%M:%S', this.x) +'<br>'+
-                                Highcharts.numberFormat(this.y, 2);                         
-                        }                                                                   
-                    },                                                                      
-                    legend: {                                                               
-                        enabled: false                                                      
-                    },                                                                      
-                    exporting: {                                                            
-                        enabled: false                                                      
-                    },                                                                      
-                    series: [{                                                              
-                        name: 'Random data',                                                
-                        data: (function() {                                                 
-                            // generate an array of random data                             
-                            var data = [],                                                  
-                                time = (new Date()).getTime(),                              
-                                i;                                                          
-                                                                                            
-                            for (i = -50; i <= 0; i++) {                                    
-                                data.push({                                                 
-                                    x: time + i * _intvalTime,                                     
-                                    y: 0 
-                                });                                                         
-                            }                                                               
-                            return data;                                                    
-                        })()                                                                
-                    }]                                                                      
-                });                                                                         
+                                                                        
             });                                                                             
                                                                                             
         }); 
     </script>
 </head>
 <body>
-    <div id="wrapper">
-        <nav class="navbar navbar-default navbar-cls-top " role="navigation" style="margin-bottom: 0">
-            <div class="navbar-header">
-                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".sidebar-collapse">
-                    <span class="sr-only">Toggle navigation</span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
-                <a class="navbar-brand" href="index">Avalon CGminer</a> 
-            </div>
-  <div style="color: white;padding: 15px 50px 5px 50px;float: right;font-size: 16px;">
-    <a href="#" class="btn btn-danger square-btn-adjust">Logout</a> 
-  </div>
-        </nav>   
+    <div id="wrapper">  
         <!-- /. NAV TOP  -->
         <nav class="navbar-default navbar-side" role="navigation">
             <div class="sidebar-collapse">
@@ -223,30 +269,22 @@
                         <img src="<%=media%>/assets/img/avalon-logo-180.png" class="user-image img-responsive"/>
 					</li>
                     <li>
-                        <a class="active-menu"  href="index"><i class="fa fa-dashboard fa-3x"></i>运行状态</a>
+                        <a class="active-menu"  href="index"><i class="fa fa-dashboard fa-3x"></i>Dashboard</a>
                     </li>
                     <li>
-                        <a href="#"><i class="fa fa-table fa-3x"></i> CGminer<span class="fa arrow"></span></a>
-                        <ul class="nav nav-second-level">
-                            <li>
-                                <a href="#">配置</a>
-                            </li>
-                            <li>
-                                <a href="#">API Log</a>
-                            </li>
-                        </ul>
+                        <a href="cf"><i class="fa fa-table fa-3x"></i> Configuration</a>
                     </li> 
                     <li>
-                        <a href="#"><i class="fa fa-sitemap fa-3x"></i> 网络设置<span class="fa arrow"></span></a>
+                        <a href="#"><i class="fa fa-sitemap fa-3x"></i> Network<span class="fa arrow"></span></a>
                         <ul class="nav nav-second-level">
                             <li>
-                                <a href="#">WAN</a>
+                                <a href="network_wan">WAN</a>
                             </li>
                             <li>
-                                <a href="#">LAN</a>
+                                <a href="network_lan">LAN</a>
                             </li>
                             <li>
-                                <a href="#">WIFI</a>
+                                <a href="network_wifi">WIFI</a>
                             </li>
                         </ul>
                     </li>
@@ -254,10 +292,10 @@
                         <a href="#"><i class="fa fa-bar-chart-o fa-3x"></i> Avalon<span class="fa arrow"></span></a>
                         <ul class="nav nav-second-level">
                             <li>
-                                <a href="#">在线商城</a>
+                                <a href="https://ehash.com" target="_blank">EHash</a>
                             </li>
                             <li>
-                                <a href="#">联系我们</a>
+                                <a href="#">Contact</a>
                             </li>
                         </ul>
                     </li> 	
@@ -268,78 +306,69 @@
         <!-- /. NAV SIDE  -->
         <div id="page-wrapper" >
             <div id="page-inner">
-                <div class="row">
-                    <div class="col-md-12">
-                     <h2>运行状态</h2>   
-                        <h5>基本信息描述 </h5>
+                                 
+                <div class="row margin-left-right-0 margin-top-20 cginfo">
+                    <div class="col-md-6 col-sm-6">
+                        <div class="bg-color-333 height-148 cginfo-padding">
+                            <h2>Network Information <span><a href="#"> <a href="#"> > Quick setting</a></a></span></h2>
+                            <p><strong>MAC-Address:</strong> <span id='mac'>B8:27:EB:E1:52:0E</span></p>
+                            <p><strong>IPv4:</strong> <span id='ip4'>192.168.1.95/24</span></p>
+                            <p><strong>IPv6:</strong> <span id='ip6'>FC00:0:0:0:0:0:0:200/7</span></p>
+                        </div>
                     </div>
-                </div>              
+                    <div class="col-md-6 col-sm-6">
+                        <div class="bg-color-333 height-148 cginfo-padding">
+                            <h2 style='color:red;'>Overview</h2>
+                            <p>Controller Versions : 41920</p>
+                            <p>Time : 2014 | 10 | 10</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="row margin-left-right-0 margin-top-20 cginfo">
+                    <div class="col-md-2 col-sm-2">
+                        <div class="bg-color-333 height-148 cginfo-padding">
+                            <h2>Hash Rate</h2>
+                            <p>Average:<span id="ghsav"></span></p>
+                            <p>Per 5m:<span id="ghs5m"></span></p>
+                        </div>
+                    </div>
+                    <div class="col-md-4 col-sm-4">
+                        <div class="bg-color-333 height-148 cginfo-padding">
+                            <h2>Current Pool <span><a href="#"> > Quick setting</a></span></h2>
+                            <p id='pool'>--</p>
+                            <p>Diffcult:<span id='diff'>--</span> | Accepted:<span id='accept'>--</span></p>
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-sm-6">
+                        <div class="bg-color-333 height-148 cginfo-padding">
+                            <h2>Modules Information </h2>
+                            <p>Live Modules:<span id='modularcnt'>0</span> | ASIC Voltage:<span id='voltage'>0</span> | ASIC Frequency:<span id='freq'>0</span>Gh/s</p>
+                            <p>Temperature:<span id='temp'>0</span> | DH:<span id='dh'>0</span> | MM Version:<span id='mmver'>0</span></p>
+                        </div>
+                    </div>
+                </div>
                  <!-- /. ROW  -->
                   <hr />
 
                 <!--jackie start-->
-                <div class="row" >
-                    <div class="col-md-12 col-sm-12 col-xs-12">
-               
-                    <div class="panel panel-default">
-                        <div class="panel-heading">
-                           <strong>基本信息</strong>
-                        </div>
-                        <div class="panel-body">
-                            <div class="table-responsive">
-                                <table class="table table-striped table-bordered table-hover">
-                                    <thead>
-                                        <tr>
-                                            <th>总体速度</th>
-                                            <th>模组数</th>  
-                                            <th>ip信息</th>
-                                            <th>频率</th>
-                                            <th>电压</th>  
-                                        </tr>
-                                    </thead>
-                                    <tbody id='statusListZone'>
-                                        <tr>
-                                        	<td colspan="5"><center>正在加载中...</center></td>
-                                        </tr>
-
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    </div>
+                <div class="row margin-left-right-0" >
 
                     <!--风扇转速start-->
                       
                     <div class="col-md-12 col-sm-12 col-xs-12">               
                         <div class="panel panel-default">
                             <div class="panel-heading">
-                               <strong>风扇转速</strong>
+                               <strong>Fan   /  Temperature  / GHSav</strong>
                             </div>
                             <div class="panel-body">
                                 <div class="table-responsive">
-                                    <div id="container-speed" style="height:400px"></div>
+                                    <div id="container-speed-temperature" style="height:400px"></div>
                                 </div>
                             </div>
                         </div>
                     </div>
                     <!--风扇转速end-->
-
-                    <!--温度 start-->
-                    <div class="col-md-12 col-sm-12 col-xs-12">               
-                        <div class="panel panel-default">
-                            <div class="panel-heading">
-                               <strong>温度</strong>
-                            </div>
-                            <div class="panel-body">
-                                <div class="table-responsive">
-                                    <div id="container-temperature" style="height:400px"></div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <!--温度 end-->
 
                 </div>
 

@@ -1,0 +1,92 @@
+	<style type='text/css'>
+	</style>
+	<div class="panel panel-default">
+		<div class="panel-heading">
+			Interfaces - LAN
+		</div>
+		<% 	
+			local wanuci = require "luci.model.uci".cursor()
+		%>
+		<table class="table table-bordered">
+			<tr class='pppoetype typelist' width="100%">
+				<td width='10%'>Protocol</td>
+				<td>
+					<select class='wanchange' >
+						<option value='pppoe'  <%=sel1%>>PPPoE</option>
+						<option value='dhcp'   <%=sel2%>>DHCP client</option>
+						<option value='static' <%=sel3%>>Static address</option>
+					</select>
+				</td>
+			</tr>
+			<tr class='pppoetype'>
+				<td width='10%'>Username：</td>
+				<td><input type='text' class='wify_long pppoe_pst' value='<%=wanuci.get("network","wan","username")%>'></td>
+			</tr>
+			<tr class='pppoetype'>
+				<td width='10%'>Password：</td>
+				<td><input type='text' class='wify_long pppoe_pwd' value='<%=wanuci.get("network","wan","password")%>'></td>
+			</tr>
+			<tr class='wanstatic'>
+				<td width='10%'>IP address：</td>
+				<td><input type='text' class='wify_long wanstatic_ip' value='<%=wanuci.get("network","wan","ipaddr")%>'></td>
+			</tr>
+			<tr class='wanstatic'>
+				<td width='10%'>Netmask：</td>
+				<td><input type='text' class='wify_long wanstatic_netmask' value='<%=wanuci.get("network","wan","netmask")%>'></td>
+			</tr>			
+			<tr class='wanstatic'>
+				<td width='10%'>Gateway：</td>
+				<td><input type='text' class='wify_long wanstatic_gateway' value='<%=wanuci.get("network","wan","gateway")%>'></td>
+			</tr>
+			<tr class='wanstatic'>
+				<td width='10%'>DNS：</td>
+				<td><input type='text' class='wify_long wanstatic_dns' value='<%=wanuci.get("network","wan","dns")%>'></td>
+			</tr>
+		</table>
+		<!--
+		<span id="pppoe_btn">
+			<%if wifitype == 'pppoe' and netmd:get_wannet() then%>
+				<a href='javascript:void(0)' class='pppoetype subbtn pppoe_off' style='display:block;'><b>断开</b></a>
+			<%else%>
+				<a href='javascript:void(0)' class='dial'><b><%=word%></b></a>
+			<%end%>
+		</span>
+		<span class='alert_word'>
+			<%if wifitype == 'pppoe' and netmd:get_wannet() then%>
+				已连接
+			<%end%>
+		</span>
+		-->
+	</div>
+<script type='text/javascript'>
+	function wantypeChange(){
+		var proto = $('.wanchange').children('option:selected').val();
+
+		if (proto == 'pppoe'){
+			$('.pppoetype').css('display','');
+			$('.wanstatic').css('display','none');
+			//$('.dial b').html('拨号');
+			$('.pppoestatus').css('display','');
+		}else if(proto == 'dhcp'){
+			$('.wanstatic').css('display','none');
+			$('.pppoetype').css('display','none');
+			//$('#pppoe_btn').html("<a href='javascript:void(0)' class='dial'><b>保存</b></a>");
+			$('.pppoestatus').css('display','none');
+		    	$('.typelist').css('display','');
+			//$('.alert_word').html('');
+		}else if(proto == 'static'){
+			$('.wanstatic').css('display','');
+			$('.pppoetype').css('display','none');
+			//$('#pppoe_btn').html("<a href='javascript:void(0)' class='dial'><b>保存</b></a>");
+			$('.pppoestatus').css('display','none');
+		    	$('.typelist').css('display','');
+			//$('.alert_word').html('');
+		}
+	}
+
+	$('.wanchange').change(function(){
+		wantypeChange();
+	})
+
+	wantypeChange();
+</script>

@@ -11,12 +11,12 @@
     ========================================================  */
 /*==============================================
     GENERAL  STYLES    
-    =============================================*/
+  =============================================*/
 body {
     font-family: 'Open Sans', sans-serif;
 }
 
- #wrapper {
+#wrapper {
     width: 100%;
     background:#202020;
 }
@@ -66,12 +66,12 @@ p {
     background-color:#F8F8F8;
 
 }
-   .noti-box {
+.noti-box {
 min-height: 100px;
 padding: 20px;
 }
 
-    .noti-box .icon-box {
+.noti-box .icon-box {
 display: block;
 float: left;
 margin: 0 15px 10px 0;
@@ -95,25 +95,25 @@ font-size: 40px;
 border-radius: 50px;
 
 }
-    .bg-color-green {
+.bg-color-green {
 background-color: #00CE6F;
 color: #fff;
 }
- .bg-color-blue {
+.bg-color-blue {
 background-color: #A95DF0;
 color: #fff;
 }
-  .bg-color-red {
+.bg-color-red {
 background-color: #DB0630;
 color: #fff;
 }
-  .bg-color-brown {
+.bg-color-brown {
 background-color: #B94A00;
 color: #fff;
 }
 
 
- .icon-box-right {
+.icon-box-right {
 display: block;
 float: right;
 margin: 0 15px 10px 0;
@@ -125,14 +125,14 @@ text-align: center;
 font-size: 40px;
 }
 
- .main-temp-back {
+.main-temp-back {
 background: #8702A8;
 color: #FFFFFF;
 font-size: 16px;
 font-weight: 300;
 text-align: center;
 }
- .main-temp-back .text-temp {
+.main-temp-back .text-temp {
 font-size: 40px;
 }
 .back-dash {
@@ -197,14 +197,13 @@ color: #8d8888;
 
 
 .user-image {
-    margin: 25px auto;
+    margin: 15px 0px 15px 10px;
 -webkit-border-radius: 10px;
 -moz-border-radius: 10px;
 border-radius: 10px;
 max-height:170px;
 max-width:170px;
 }
-
 .navbar-cls-top .navbar-brand {
 	color: #fff;
 background: #C90000;
@@ -256,7 +255,7 @@ font-weight: 700;
 	
 }
 .sidebar-collapse > .nav > li > a {
-	padding:15px 10px;
+	padding:5px 10px;
 }
 .sidebar-collapse > .nav > li {
 	border-bottom: 1px solid rgba(107, 108, 109, 0.19);
@@ -376,4 +375,34 @@ line-height: 1.428571429;
    
 }
 
+/*Jianlongli add css custom*/
+ul,ol,li{list-style-type:none;} 
+.bg-color-333{background:#333;}
+.bg-color-red{background:red;}
+.color-red{color:red;}
+.bg-color-green{background:green;}
+/*
+ * .overview{ height:72px;}
+ * .overview h2{color: #fff; font-size: 36px; padding-left: 15px;font-size:26px;}
+ * .overview ul{padding-top:15px;}
+ * .overview ul li{height:20px; color: red;}
+ * */
+.overview{ width: 100%;  padding-top:20px; height: 72px; }
+.overview li{ float: left;}
+.overview li h2{margin:0px; color: #fff; font-size:26px; }
+.overview li p{ margin:0px; height:25px; color:red; padding:0px 0px 0px 20px;font-size: 14px; }
 
+.margin-left-right-0{margin:0px;}
+.margin-top-20{margin-top: 20px;} 
+.height-148{height: auto;}
+.border-left-20{border-left:20px solid #fff;}
+.cginfo-padding{padding: 15px 0px 15px 20px;}
+
+.cginfo h2{margin:0px; color: #fff; font-size:26px;}
+.cginfo h2 span{color:red;font-size: 14px; font-weight: normal;}
+.cginfo p{margin:0px; color:#fff; height: 25px; line-height: 25px; font-size: 14px; padding-top:10px;}
+
+.fa-table:before{ content:url(../img/settings.png);}
+.fa-sitemap:before{content: url(../img/globe.png);}
+.fa-dashboard:before{content:url(../img/Curves.png);}
+.fa-bar-chart-o:before{content:url(../img/star-o.png);}
