@@ -456,6 +456,12 @@ $(eval $(call application,transmission,LuCI Support for Transmission,\
 $(eval $(call application,watchcat,LuCI Support for Watchcat,\
 	+PACKAGE_luci-app-watchcat:watchcat))
 
+$(eval $(call application,cgminer,LuCI Support for CGMiner,\
+	+PACKAGE_luci-app-cgminer:cgminer))
+
+$(eval $(call application,avalon,LuCI Support for Avalon,\
+	+PACKAGE_luci-app-avalon:avalon))
+
 ### Server Gateway Interfaces ###
 define sgi
   define Package/luci-sgi-$(1)
@@ -518,6 +524,8 @@ $(eval $(call theme,freifunk-bno,Freifunk Berlin Nordost Theme,\
 
 $(eval $(call theme,freifunk-generic,Freifunk Generic Theme,\
 	Manuel Munz <freifunk-at-somakoma-dot-de>))
+
+$(eval $(call theme,sbadmin,Canaan-Creative))
 
 ### Translations ###
 define translation
@@ -597,7 +605,6 @@ $(eval $(call collection,ssl,\
 $(eval $(call collection,light,\
 	Minimum package set using only admin mini and the standard theme,\
 	+uhttpd +luci-mod-admin-mini +luci-theme-openwrt @BROKEN))
-
 
 ### Compile ###
 PKG_CONFIG_DEPENDS=$(patsubst %,CONFIG_PACKAGE_%,$(LUCI_BUILD_PACKAGES))
