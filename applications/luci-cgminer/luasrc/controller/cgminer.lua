@@ -276,32 +276,32 @@ function stats()
 		f1, f2, f3, f4,
 		led1, led2, led3, led4;
 		id =
-		line:match(".*," ..
+		line:match(".*" ..
 		"ID=AV2([%d]+),")
 
 		if id then
 			id1 =
-			line:match(".*," ..
-			"ID1 MM Version=([%+%-%d%a]+),")
+			line:match(".-" ..
+			"MM ID1=Ver%[([%+%-%d%a]+)%]")
 
 			if id1 then
 				lw1, dh1, t11, t12, f11, f12, v1, f1, led1 =
-				line:match(".*," ..
-					"Local works1=(-?%d+)," ..
-					".*" ..
-					"Device hardware error1%%=(-?[%.%d]+)," ..
-					".*" ..
-					"Temperature1=(-?%d+)," ..
-					"Temperature2=(-?%d+)," ..
-					".*" ..
-					"Fan1=(-?%d+)," ..
-					"Fan2=(-?%d+)," ..
-					".*" ..
-					"Voltage1=(-?[%.%d]+)," ..
-					".*" ..
-					"Frequency1=(-?%d+)," ..
-					".*" ..
-					"Led 01=(%d)")
+				line:match("MM ID1=Ver.-" ..
+					"LW%[(-?%d+)%]" ..
+					".-" ..
+					"DH%[(-?[%.%d]+%%)%]" ..
+					".-" ..
+					"Temp%[(-?%d+)%s" ..
+					"(-?%d+)%]" ..
+					".-" ..
+					"Fan%[(-?%d+)%s" ..
+					"(-?%d+)%]" ..
+					".-" ..
+					"Vol%[(-?[%.%d]+)%]" ..
+					".-" ..
+					"Freq%[(-?[%.%d]+)%]" ..
+					".-" ..
+					"Led%[(%d)%]")
 
 				data[#data+1] = {
 					['devid'] = id,
@@ -318,27 +318,27 @@ function stats()
 				}
 			end
 
-			local id2 = line:match(".*," ..
-			"ID2 MM Version=([%+%-%d%a]+),")
+			local id2 = line:match(".-," ..
+			"MM ID2=Ver%[([%+%-%d%a]+)%]")
 
 			if id2 then
 				lw2, dh2, t21, t22, f21, f22, v2, f2, led2 =
-				line:match(".*," ..
-					"Local works2=(-?%d+)," ..
-					".*" ..
-					"Device hardware error2%%=(-?[%.%d]+)," ..
-					".*" ..
-					"Temperature3=(-?%d+)," ..
-					"Temperature4=(-?%d+)," ..
-					".*" ..
-					"Fan3=(-?%d+)," ..
-					"Fan4=(-?%d+)," ..
-					".*" ..
-					"Voltage2=([-?%.%d]+)," ..
-					".*" ..
-					"Frequency2=(-?%d+)," ..
-					".*" ..
-					"Led 02=(%d)")
+				line:match("MM ID2=Ver.-" ..
+					"LW%[(-?%d+)%]" ..
+					".-" ..
+					"DH%[(-?[%.%d]+%%)%]" ..
+					".-" ..
+					"Temp%[(-?%d+)%s" ..
+					"(-?%d+)%]" ..
+					".-" ..
+					"Fan%[(-?%d+)%s" ..
+					"(-?%d+)%]" ..
+					".-" ..
+					"Vol%[(-?[%.%d]+)%]" ..
+					".-" ..
+					"Freq%[(-?[%.%d]+)%]" ..
+					".-" ..
+					"Led%[(%d)%]")
 
 				data[#data+1] = {
 					['devid'] = id,
@@ -356,27 +356,27 @@ function stats()
 			end
 
 
-			local id3 = line:match(".*," ..
-			"ID3 MM Version=([%+%-%d%a]+),")
+			local id3 = line:match(".-," ..
+			"MM ID3=Ver%[([%+%-%d%a]+)%]")
 
 			if id3 then
 				lw3, dh3, t31, t32, f31, f32, v3, f3, led3 =
-				line:match(".*," ..
-					"Local works3=(-?%d+)," ..
-					".*" ..
-					"Device hardware error3%%=([-?%.%d]+)," ..
-					".*" ..
-					"Temperature5=(-?%d+)," ..
-					"Temperature6=(-?%d+)," ..
-					".*" ..
-					"Fan5=(-?%d+)," ..
-					"Fan6=(-?%d+)," ..
-					".*" ..
-					"Voltage3=([-?%.%d]+)," ..
-					".*" ..
-					"Frequency3=(-?%d+)," ..
-					".*" ..
-					"Led 03=(%d)")
+				line:match("MM ID3=Ver.-" ..
+					"LW%[(-?%d+)%]" ..
+					".-" ..
+					"DH%[(-?[%.%d]+%%)%]" ..
+					".-" ..
+					"Temp%[(-?%d+)%s" ..
+					"(-?%d+)%]" ..
+					".-" ..
+					"Fan%[(-?%d+)%s" ..
+					"(-?%d+)%]" ..
+					".-" ..
+					"Vol%[(-?[%.%d]+)%]" ..
+					".-" ..
+					"Freq%[(-?[%.%d]+)%]" ..
+					".-" ..
+					"Led%[(%d)%]")
 
 				data[#data+1] = {
 					['devid'] = id,
@@ -393,27 +393,27 @@ function stats()
 				}
 			end
 
-			local id4 = line:match(".*," ..
-			"ID4 MM Version=([%+%-%d%a]+),")
+			local id4 = line:match(".-," ..
+			"MM ID4=Ver%[([%+%-%d%a]+)%]")
 
 			if id4 then
 				lw4, dh4, t41, t42, f41, f42, v4, f4, led4 =
-				line:match(".*," ..
-					"Local works4=(-?%d+)," ..
-					".*" ..
-					"Device hardware error4%%=([-?%.%d]+)," ..
-					".*" ..
-					"Temperature7=(-?%d+)," ..
-					"Temperature8=(-?%d+)," ..
-					".*" ..
-					"Fan7=(-?%d+)," ..
-					"Fan8=(-?%d+)," ..
-					".*" ..
-					"Voltage4=([-?%.%d]+)," ..
-					".*" ..
-					"Frequency4=(-?%d+)," ..
-					".*" ..
-					"Led 04=(%d)")
+				line:match("MM ID4=Ver.-" ..
+					"LW%[(-?%d+)%]" ..
+					".-" ..
+					"DH%[(-?[%.%d]+%%)%]" ..
+					".-" ..
+					"Temp%[(-?%d+)%s" ..
+					"(-?%d+)%]" ..
+					".-" ..
+					"Fan%[(-?%d+)%s" ..
+					"(-?%d+)%]" ..
+					".-" ..
+					"Vol%[(-?[%.%d]+)%]" ..
+					".-" ..
+					"Freq%[(-?[%.%d]+)%]" ..
+					".-" ..
+					"Led%[(%d)%]")
 
 				data[#data+1] = {
 					['devid'] = id,

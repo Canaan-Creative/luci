@@ -118,16 +118,7 @@ t1:option(DummyValue, "lw", translate("LocalWorks"))
 t1:option(DummyValue, "dh", translate("DH%"))
 t1:option(DummyValue, "temp", translate("Temperature(C)"))
 t1:option(DummyValue, "fan", translate("Fan(RPM)"))
-voltage = t1:option(DummyValue, "voltage", translate("ASIC V(V)"))
-function voltage.cfgvalue(self, section)
-	local v = Value.cfgvalue(self, section)
-	return v/10000
-end
-
-freq = t1:option(DummyValue, "freq", translate("ASIC F(GHS)"))
-function freq.cfgvalue(self, section)
-	local v = Value.cfgvalue(self, section)
-	return v/1000
-end
+t1:option(DummyValue, "voltage", translate("ASIC V(V)"))
+t1:option(DummyValue, "freq", translate("ASIC F(GHS)"))
 
 return f
