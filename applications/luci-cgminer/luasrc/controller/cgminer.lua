@@ -267,35 +267,38 @@ function stats()
 
 	for line in stats do
 		local id,
-		id1, id2, id3, id4,
-		lw1, lw2, lw3, lw4,
-		dh1, dh2, dh3, dh4,
-		t11, t12, t21, t22, t31, t32, t41, t42,
-		f11, f12, f21, f22, f31, f32, f41, f42,
-		v1, v2, v3, v4,
-		f1, f2, f3, f4,
-		led1, led2, led3, led4;
+		idn,
+		lwn,
+		dhn,
+		tempn,
+		fann,
+		voln,
+		freqn,
+		ledn;
 		id =
 		line:match(".*" ..
 		"ID=AV2([%d]+),")
 
 		if id then
-			id1 =
-			line:match(".-" ..
-			"MM ID1=Ver%[([%+%-%d%a]+)%]")
+			for index=1,64 do
+				idn =
+				line:match(".-" ..
+				"MM ID" ..
+				tostring(index) ..
+				"=Ver%[([%+%-%d%a]+)%]")
 
-			if id1 then
-				lw1, dh1, t11, t12, f11, f12, v1, f1, led1 =
-				line:match("MM ID1=Ver.-" ..
+				if idn then
+					lwn, dhn, tempn, fann, voln, freqn, ledn =
+					line:match("MM ID" ..
+					tostring(index) ..
+					"=Ver.-" ..
 					"LW%[(-?%d+)%]" ..
 					".-" ..
 					"DH%[(-?[%.%d]+%%)%]" ..
 					".-" ..
-					"Temp%[(-?%d+)%s" ..
-					"(-?%d+)%]" ..
+					"Temp%[(-?%d+)%]" ..
 					".-" ..
-					"Fan%[(-?%d+)%s" ..
-					"(-?%d+)%]" ..
+					"Fan%[(-?%d+)%]" ..
 					".-" ..
 					"Vol%[(-?[%.%d]+)%]" ..
 					".-" ..
@@ -303,131 +306,20 @@ function stats()
 					".-" ..
 					"Led%[(%d)%]")
 
-				data[#data+1] = {
-					['devid'] = id,
-					['moduleid'] = '1',
-					['id'] = 'AV2-' .. id,
-					['mm'] = id1,
-					['lw'] = lw1 or '0',
-					['dh'] = dh1 or '0',
-					['temp'] = (t11 or '0') .. '|' .. (t12 or '0'),
-					['fan'] = (f11 or '0') .. '|' .. (f12 or '0'),
-					['voltage'] = v1 or '0',
-					['freq'] = f1 or '0',
-					['led'] = led1 or '0'
-				}
-			end
-
-			local id2 = line:match(".-," ..
-			"MM ID2=Ver%[([%+%-%d%a]+)%]")
-
-			if id2 then
-				lw2, dh2, t21, t22, f21, f22, v2, f2, led2 =
-				line:match("MM ID2=Ver.-" ..
-					"LW%[(-?%d+)%]" ..
-					".-" ..
-					"DH%[(-?[%.%d]+%%)%]" ..
-					".-" ..
-					"Temp%[(-?%d+)%s" ..
-					"(-?%d+)%]" ..
-					".-" ..
-					"Fan%[(-?%d+)%s" ..
-					"(-?%d+)%]" ..
-					".-" ..
-					"Vol%[(-?[%.%d]+)%]" ..
-					".-" ..
-					"Freq%[(-?[%.%d]+)%]" ..
-					".-" ..
-					"Led%[(%d)%]")
-
-				data[#data+1] = {
-					['devid'] = id,
-					['moduleid'] = '2',
-					['id'] = 'AV2-' .. id,
-					['mm'] = id2,
-					['lw'] = lw2 or '0',
-					['dh'] = dh2 or '0',
-					['temp'] = (t21 or '0') .. '|' .. (t22 or '0'),
-					['fan'] = (f21 or '0') .. '|' .. (f22 or '0'),
-					['voltage'] = v2 or '0',
-					['freq'] = f2 or '0',
-					['led'] = led2 or '0'
-				}
-			end
-
-
-			local id3 = line:match(".-," ..
-			"MM ID3=Ver%[([%+%-%d%a]+)%]")
-
-			if id3 then
-				lw3, dh3, t31, t32, f31, f32, v3, f3, led3 =
-				line:match("MM ID3=Ver.-" ..
-					"LW%[(-?%d+)%]" ..
-					".-" ..
-					"DH%[(-?[%.%d]+%%)%]" ..
-					".-" ..
-					"Temp%[(-?%d+)%s" ..
-					"(-?%d+)%]" ..
-					".-" ..
-					"Fan%[(-?%d+)%s" ..
-					"(-?%d+)%]" ..
-					".-" ..
-					"Vol%[(-?[%.%d]+)%]" ..
-					".-" ..
-					"Freq%[(-?[%.%d]+)%]" ..
-					".-" ..
-					"Led%[(%d)%]")
-
-				data[#data+1] = {
-					['devid'] = id,
-					['moduleid'] = '3',
-					['id'] = 'AV2-' .. id,
-					['mm'] = id3,
-					['lw'] = lw3 or '0',
-					['dh'] = dh3 or '0',
-					['temp'] = (t31 or '0') .. '|' .. (t32 or '0'),
-					['fan'] = (f31 or '0') .. '|' .. (f32 or '0'),
-					['voltage'] = v3 or '0',
-					['freq'] = f3 or '0',
-					['led'] = led3 or '0'
-				}
-			end
-
-			local id4 = line:match(".-," ..
-			"MM ID4=Ver%[([%+%-%d%a]+)%]")
-
-			if id4 then
-				lw4, dh4, t41, t42, f41, f42, v4, f4, led4 =
-				line:match("MM ID4=Ver.-" ..
-					"LW%[(-?%d+)%]" ..
-					".-" ..
-					"DH%[(-?[%.%d]+%%)%]" ..
-					".-" ..
-					"Temp%[(-?%d+)%s" ..
-					"(-?%d+)%]" ..
-					".-" ..
-					"Fan%[(-?%d+)%s" ..
-					"(-?%d+)%]" ..
-					".-" ..
-					"Vol%[(-?[%.%d]+)%]" ..
-					".-" ..
-					"Freq%[(-?[%.%d]+)%]" ..
-					".-" ..
-					"Led%[(%d)%]")
-
-				data[#data+1] = {
-					['devid'] = id,
-					['moduleid'] = '4',
-					['id'] = 'AV2-' .. id,
-					['mm'] = id4,
-					['lw'] = lw4 or '0',
-					['dh'] = dh4 or '0',
-					['temp'] = (t41 or '0') .. '|' .. (t42 or '0'),
-					['fan'] = (f41 or '0') .. '|' .. (f42 or '0'),
-					['voltage'] = v4 or '0',
-					['freq'] = f4 or '0',
-					['led'] = led4 or '0'
-				}
+					data[#data+1] = {
+						['devid'] = id,
+						['moduleid'] = tostring(index),
+						['id'] = 'AV2-' .. id,
+						['mm'] = idn,
+						['lw'] = lwn or '0',
+						['dh'] = dhn or '0',
+						['temp'] = tempn or '0',
+						['fan'] = fann or '0',
+						['voltage'] = voln or '0',
+						['freq'] = freqn or '0',
+						['led'] = ledn or '0'
+					}
+				end
 			end
 		end
 	end
