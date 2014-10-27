@@ -259,7 +259,7 @@ end
 function stats()
 	local data = {}
 
-	local stats = luci.util.execi("/usr/bin/cgminer-api -o estats | sed \"s/|/\\n/g\" | grep AV2 ")
+	local stats = luci.util.execi("/usr/bin/cgminer-api -o estats | sed \"s/|/\\n/g\" | grep AV4 ")
 
 	if not stats then
 		return
@@ -277,7 +277,7 @@ function stats()
 		ledn;
 		id =
 		line:match(".*" ..
-		"ID=AV2([%d]+),")
+		"ID=AV4([%d]+),")
 
 		if id then
 			for index=1,64 do
@@ -309,7 +309,7 @@ function stats()
 					data[#data+1] = {
 						['devid'] = id,
 						['moduleid'] = tostring(index),
-						['id'] = 'AV2-' .. id,
+						['id'] = 'AV4-' .. id,
 						['mm'] = idn,
 						['lw'] = lwn or '0',
 						['dh'] = dhn or '0',
