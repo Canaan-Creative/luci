@@ -460,7 +460,7 @@ $(eval $(call application,cgminer,LuCI Support for CGMiner,\
 	+PACKAGE_luci-app-cgminer:cgminer))
 
 $(eval $(call application,avalon,LuCI Support for Avalon,\
-	+PACKAGE_luci-app-avalon:avalon))
+	+PACKAGE_luci-app-avalon:cgminer))
 
 ### Server Gateway Interfaces ###
 define sgi
