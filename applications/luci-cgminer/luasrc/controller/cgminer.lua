@@ -309,7 +309,7 @@ function stats()
 					data[#data+1] = {
 						['devid'] = id,
 						['moduleid'] = tostring(index),
-						['id'] = 'AV4-' .. id,
+						['id'] = 'AV4-' .. id .. '-' .. tostring(index),
 						['mm'] = idn,
 						['lw'] = lwn or '0',
 						['dh'] = dhn or '0',
