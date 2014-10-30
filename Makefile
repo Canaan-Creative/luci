@@ -27,8 +27,9 @@ luabuild: i18nbuild
 		SDK="$(shell test -f .running-sdk && echo 1)" make -C$$i luabuild; done
 
 i18nbuild:
-	mkdir -p host/lua-po
-	./build/i18n-po2lua.pl ./po host/lua-po
+	echo "Skip i18n"
+	#mkdir -p host/lua-po
+	#./build/i18n-po2lua.pl ./po host/lua-po
 
 clean:
 	rm -f .running-sdk

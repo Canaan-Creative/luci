@@ -1,38 +1,33 @@
- m = Map("network", "Network") -- We want to edit the uci config file /etc/config/network
+m = Map("network", "Network")
 
- s = m:section(TypedSection, "interface", "Interfaces") -- Especially the "interface"-sections
- s.addremove = false -- Allow the user to create and remove the interfaces
-    function s:filter(value)
-        --return value ~= "loopback" and value -- Don't touch loopback
-        return value =="wan" and value 
-    end 
-    s:depends("proto", "static") -- Only show those with "static"
-    s:depends("proto", "dhcp") -- or "dhcp" as protocol and leave PPPoE and PPTP alone
+s = m:section(TypedSection, "interface")
+s.addremove = false
+s.anonymous = true
+function s:filter(value)
+    return value =="wan" and value 
+end 
 
-    --p = s:option(ListValue, "proto", "Protocol") -- Creates an element list (select box)
-    --p:value("static", "static") -- Key and value pairs
-    --p:value("dhcp", "DHCP")
-    --p.default = "static"
+s:depends("proto", "static")
+s:depends("proto", "dhcp")
 
-    --s:option(Value, "ifname", "interface", "the physical interface to be used") -- This will give a simple textbox
+p = s:option(ListValue, "proto", "Protocol")
+p:value("static", "static")
+p:value("dhcp", "DHCP")
+p.default = "static"
 
-    s:option(Value, "ipaddr", translate("ip", "IP Address")) -- Ja, das ist eine i18n-Funktion ;-)
+ip = s:option(Value, "ipaddr", translate("ip", "IP Address"))
+ip:depends("proto", "static")
 
-    s:option(Value, "netmask", "Netmask"):depends("proto", "static") -- You may remember this "depends" function from above
-    s.template = "network/wan"
+netmask = s:option(Value, "netmask", "Netmask")
+netmask:depends("proto", "static")
 
-    mtu = s:option(Value, "mtu", "MTU")
-    mtu.optional = true -- This one is very optional
+gw = s:option(Value, "gateway", "Gateway")
+gw:depends("proto", "static")
 
-    dns = s:option(Value, "dns", "DNS-Server")
-    dns:depends("proto", "static")
-    dns.optional = true
-    function dns:validate(value) -- Now, that's nifty, eh?
-	    return value:match("[0-9]+\.[0-9]+\.[0-9]+\.[0-9]+") -- Returns nil if it doesn't match otherwise returns match
-    end
+dns = s:option(Value, "dns", "DNS-Server")
+dns:depends("proto", "static")
+function dns:validate(value)
+    return value:match("[0-9]+\.[0-9]+\.[0-9]+\.[0-9]+")
+end
 
-    gw = s:option(Value, "gateway", "Gateway")
-    gw:depends("proto", "static")
-    gw.rmempty = true -- Remove entry if it is empty
-
-    return m -- Returns the map
+return m -- Returns the map
