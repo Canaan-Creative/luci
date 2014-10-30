@@ -6,8 +6,8 @@ conf = m:section(TypedSection, "cgminer", "")
 conf.anonymous = true
 conf.addremove = false
 
-ntp = conf:option(ListValue, "ntp_enable", translate("NTP Service(Default: ASIA)"))
-ntp.default = "asia"
+ntp = conf:option(ListValue, "ntp_enable", translate("NTP Service(Default: Disable)"))
+ntp.default = "disable"
 ntp:value("asia", translate("ASIA"))
 ntp:value("openwrt", translate("OpenWrt Default"))
 ntp:value("disable", translate("Disable"))
@@ -28,9 +28,9 @@ pb:value("--balance", translate("Balance"))
 pb:value("--load-balance", translate("Load Balance"))
 pb:value("  ", translate("Failover"))
 
-cf = conf:option(Value, "chip_frequency", translate("Chip Frequency(Avalon2: 1500, Avalon3: 450)"))
-cv = conf:option(Value, "chip_voltage", translate("Chip Voltage(Avalon2: 10000, Avalon3: 6625)"))
-fan = conf:option(Value, "fan", translate("Fan%(Default: 90%)"))
+cf = conf:option(Value, "chip_frequency", translate("Chip Frequency(Default: 445:385:370)"))
+cv = conf:option(Value, "chip_voltage", translate("Chip Voltage(Default: 8000)"))
+fan = conf:option(Value, "fan", translate("Fan%(Default: 60%)"))
 
 api_allow = conf:option(Value, "api_allow", translate("API Allow(Default: W:127.0.0.1)"))
 more_options = conf:option(Value, "more_options", translate("More Options(Default: --quiet)"))
