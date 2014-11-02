@@ -34,17 +34,4 @@ pool3url = pool3section:option(Value, "pool3url", translate("Pool 3 url"))
 pool3user = pool3section:option(Value, "pool3user", translate("Pool3 worker"))
 pool3pw = pool3section:option(Value, "pool3pw", translate("Pool3 password"))
 
---machinesection = m:section(TypeSection, "cgminer", translate("Machine"))
---machinesection.template = "cgsetting/cbi_tblsection"
---machinesection.anonymous = true
---chip_frequency = machinesection:option(Value, "chip_frequency", translate("Chip Frequency(Avalon2: 1500, Avalon3: 450)"))
---chip_voltage = machinesection:option(Value, "chip_voltage", translate("Chip Voltage(Avalon2: 10000, Avalon3: 6625)"))
---fan = machinesection:option(Value, "fan", translate("Fan%(Default: 90%)"))
-
--- etcsection = m:section(TypeSection, "cgminer", "")
--- etcsection.template = "cgsetting/cbi_tblsection"
--- etcsection.anonymous = true
--- api_allow = etcsection:option(Value, "api_allow", translate("API Allow(Default: W:127.0.0.1)"))
--- more_options = etcsection:option(Value, "more_options", translate("More Options(Default: --quiet)"))
-
 return m

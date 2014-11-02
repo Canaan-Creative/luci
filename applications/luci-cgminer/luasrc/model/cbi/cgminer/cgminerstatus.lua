@@ -52,7 +52,7 @@ t2:option(DummyValue, "stale", translate("Stale"))
 t2:option(DummyValue, "lastsharetime", translate("LST"))
 t2:option(DummyValue, "lastsharedifficulty", translate("LSD"))
 
-t1 = f:section(Table, luci.controller.cgminer.devs(), translate("Avalon2 Devs"))
+t1 = f:section(Table, luci.controller.cgminer.devs(), translate("Avalon Devices"))
 t1:option(DummyValue, "name", translate("Device"))
 t1:option(DummyValue, "enable", translate("Enabled"))
 t1:option(DummyValue, "status", translate("Status"))
@@ -90,7 +90,7 @@ end
 t1:option(DummyValue, "lvw", translate("LastValidWork"))
 
 local stats = luci.controller.cgminer.stats()
-t1 = f:section(Table, stats, translate("Avalon2 Status"))
+t1 = f:section(Table, stats, translate("Avalon Devices Status"))
 indicator = t1:option(Button, "_indicator", translate("Indicator"))
 function indicator.render(self, section, scope)
         if stats[section].led == '0' then
