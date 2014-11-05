@@ -114,6 +114,7 @@ end
 
 t1:option(DummyValue, "id", translate("Device"))
 t1:option(DummyValue, "mm", translate("MM"))
+t1:option(DummyValue, "dna", translate("DNA"))
 t1:option(DummyValue, "lw", translate("LocalWorks"))
 t1:option(DummyValue, "dh", translate("DH%"))
 t1:option(DummyValue, "temp", translate("Temperature(C)"))

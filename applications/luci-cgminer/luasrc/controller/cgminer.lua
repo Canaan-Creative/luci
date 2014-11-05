@@ -288,10 +288,12 @@ function stats()
 				"=Ver%[([%+%-%d%a]+)%]")
 
 				if idn then
-					lwn, dhn, tempn, fann, voln, freqn, ledn =
+					dnan, lwn, dhn, tempn, fann, voln, freqn, ledn =
 					line:match("MM ID" ..
 					tostring(index) ..
 					"=Ver.-" ..
+					"DNA%[(%x+)%]" ..
+					".-" ..
 					"LW%[(-?%d+)%]" ..
 					".-" ..
 					"DH%[(-?[%.%d]+%%)%]" ..
@@ -311,6 +313,7 @@ function stats()
 						['moduleid'] = tostring(index),
 						['id'] = 'AV4-' .. id .. '-' .. tostring(index),
 						['mm'] = idn,
+						['dna'] = string.sub(dnan, -4, -1),
 						['lw'] = lwn or '0',
 						['dh'] = dhn or '0',
 						['temp'] = tempn or '0',
