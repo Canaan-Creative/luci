@@ -406,3 +406,15 @@ ul,ol,li{list-style-type:none;}
 .fa-sitemap:before{content: url(../img/globe.png);}
 .fa-dashboard:before{content:url(../img/Curves.png);}
 .fa-bar-chart-o:before{content:url(../img/star-o.png);}
+.return-old{
+     margin-top:50px;
+     color:#fff;
+     display:block;
+     float:right;
+     padding-right:10px;
+     font-size:12px;
+}
+.return-old:hover{
+     color:#fff;
+     text-decoration:none;
+}
