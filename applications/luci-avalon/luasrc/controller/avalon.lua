@@ -46,17 +46,24 @@ end
 
 function api_getstatus()
 	local status = {
-		ghsav = '290',
-		ghs5s = '291',
-		ghs5m = '292',
+		ghsav = '0',
+		ghs5s = '0',
+		ghs5m = '0',
 		hashrate = {},
-		temp = '30',
-		fan = '6670',
-		voltage = '7000',
-		freq = '500',
-		modularcnt = '0'
+		temp = '0',
+		fan = '0',
+		voltage = '0',
+		freq = '0',
+		modularcnt = '0',
+		dh = 0,
+		mmver = '0',
+		network = {},
+		pool = {},
+		openwrtver = '0',
+		systime = '0'
 	}
 
+	-- Hashrate
 	local summary = luci.util.execi("/usr/bin/cgminer-api -o summary | sed \"s/|/\\n/g\" ")
 
 	if summary then
@@ -74,115 +81,45 @@ function api_getstatus()
 		end
 	end
 
+	-- Modulars information
 	local stats = luci.util.execi("/usr/bin/cgminer-api -o estats | sed \"s/|/\\n/g\" | grep AV4 ")
 	local devdata = {}
 	if stats then
 		for line in stats do
-			local id, temp1, temp2, fan1, fan2, v, f;
+			local id, mmver, dh, temp, fan, v, f;
 			id = line:match(".*," ..
-					"ID=AV4([%d]+),")
+			"ID=AV4([%d]+),")
 			if id then
-				id = line:match(".*," ..
-						"ID1 MM Version=([%+%-%d%a]+),")
-				if id then
-					temp1, temp2, fan1, fan2, v, f =
-					line:match(".*," ..
-					"Temperature1=(-?%d+)," ..
-					"Temperature2=(-?%d+)," ..
-					".*" ..
-					"Fan1=(-?%d+)," ..
-					"Fan2=(-?%d+)," ..
-					".*" ..
-					"Voltage1=(-?[%.%d]+)," ..
-					".*" ..
-					"Frequency1=(-?%d+),")
+				for index=1,64 do
+					mmver = line:match(".-," ..
+					"MM ID" ..
+					tostring(index) ..
+					"=Ver%[([%+%-%d%a]+)%]")
+					if mmver then
+						dh, temp, fan, v, f =
+						line:match("MM ID" ..
+						tostring(index) ..
+						"=Ver.-" ..
+						".-" ..
+						"DH%[(-?[%.%d]+%%)%]" ..
+						".-" ..
+						"Temp%[(-?%d+)%]" ..
+						".-" ..
+						"Fan%[(-?%d+)%]" ..
+						".-" ..
+						"Vol%[(-?[%.%d]+)%]" ..
+						".-" ..
+						"Freq%[(-?[%.%d]+)%]")
 
-					devdata[#devdata+1] = {
-						temp1 = temp1,
-						temp2 = temp2,
-						fan1 = fan1,
-						fan2 = fan2,
-						v = v,
-						f = f
-					}
-				end
-
-				id = line:match(".*," ..
-						"ID2 MM Version=([%+%-%d%a]+),")
-
-				if id then
-					temp1, temp2, fan1, fan2, v, f =
-					line:match(".*," ..
-					"Temperature3=(-?%d+)," ..
-					"Temperature4=(-?%d+)," ..
-					".*" ..
-					"Fan3=(-?%d+)," ..
-					"Fan4=(-?%d+)," ..
-					".*" ..
-					"Voltage2=(-?[%.%d]+)," ..
-					".*" ..
-					"Frequency2=(-?%d+),")
-
-					devdata[#devdata+1] = {
-						temp1 = temp1,
-						temp2 = temp2,
-						fan1 = fan1,
-						fan2 = fan2,
-						v = v,
-						f = f
-					}
-				end
-
-				id = line:match(".*," ..
-						"ID3 MM Version=([%+%-%d%a]+),")
-
-				if id then
-					temp1, temp2, fan1, fan2, v, f =
-					line:match(".*," ..
-					"Temperature5=(-?%d+)," ..
-					"Temperature6=(-?%d+)," ..
-					".*" ..
-					"Fan5=(-?%d+)," ..
-					"Fan6=(-?%d+)," ..
-					".*" ..
-					"Voltage3=(-?[%.%d]+)," ..
-					".*" ..
-					"Frequency3=(-?%d+),")
-
-					devdata[#devdata+1] = {
-						temp1 = temp1,
-						temp2 = temp2,
-						fan1 = fan1,
-						fan2 = fan2,
-						v = v,
-						f = f
-					}
-				end
-
-				id = line:match(".*," ..
-						"ID4 MM Version=([%+%-%d%a]+),")
-
-				if id then
-					temp1, temp2, fan1, fan2, v, f =
-					line:match(".*," ..
-					"Temperature7=(-?%d+)," ..
-					"Temperature8=(-?%d+)," ..
-					".*" ..
-					"Fan7=(-?%d+)," ..
-					"Fan8=(-?%d+)," ..
-					".*" ..
-					"Voltage4=(-?[%.%d]+)," ..
-					".*" ..
-					"Frequency4=(-?%d+),")
-
-					devdata[#devdata+1] = {
-						temp1 = temp1,
-						temp2 = temp2,
-						fan1 = fan1,
-						fan2 = fan2,
-						v = v,
-						f = f
-					}
+						devdata[#devdata+1] = {
+							mmver = mmver,
+							dh = dh,
+							temp = temp,
+							fan = fan,
+							v = v,
+							f = f
+						}
+					end
 				end
 			end
 		end
@@ -190,13 +127,15 @@ function api_getstatus()
 
 	local modularcnt = table.getn(devdata)
 	if modularcnt ~= 0 then
-		local temp, fan, v, f = 0, 0, 0, 0;
+		local mmver, dh, temp, fan, v, f = 0, 0.0, 0, 0, 0, 0;
 
 		status.modularcnt = modularcnt
 
 		for i, item in ipairs(devdata) do
-			temp =  temp + (item.temp1 and item.temp1 or item.temp2)
-			fan = fan + (item.fan1 and item.fan1 or item.fan2)
+			mmver = item.mmver
+			dh = item.dh
+			temp =  temp + item.temp
+			fan = fan + item.fan
 			v = v + item.v
 			f = f + item.f
 		end
@@ -205,16 +144,13 @@ function api_getstatus()
 		fan = fan / modularcnt
 		v = v / modularcnt
 		f = f / modularcnt
+
+		status.mmver = mmver
+		status.dh = dh
 		status.temp = temp
 		status.fan = fan
 		status.voltage = v
 		status.freq = f
-	else
-		-- random data
-		math.randomseed(os.time())
-		status.temp = math.random(0,100)
-		status.fan = math.random(0,7000)
-		status.ghsav = math.random(200, 300)
 	end
 
 	local devs = luci.util.execi("/usr/bin/cgminer-api -o edevs | sed \"s/|/\\n/g\" ")
@@ -236,6 +172,39 @@ function api_getstatus()
 			end
 		end
 	end
+
+	-- pool info
+	local data = {}
+	local pools = luci.util.execi("/usr/bin/cgminer-api -o pools | sed \"s/|/\\n/g\" ")
+
+	if pools then
+		for line in pools do
+			local pool, url, diff, accept =
+			line:match("POOL=(-?%d+)," ..
+				"URL=(.-)," ..
+				".*" ..
+				"Diff1 Shares=(-?%d+)," ..
+				".*," ..
+				"Difficulty Accepted=(-?%d+)[%.%d]+,")
+			if pool then
+				status.pool[#status.pool+1] = {
+					['pool'] = pool,
+					['url'] = url,
+					['diff'] = diff,
+					['accept'] = accept
+				}
+			end
+		end
+	end
+
+	-- network info
+	-- FIX ME:get from luci
+	status.network['mac'] = "12:34:45:56:78:88"
+	status.network['ip4'] = "192.168.11.1"
+	status.network['ip6'] = "12:34:45:56:79:99:00:01:02:03:04"
+
+	status.openwrtver = luci.version.distname .. luci.version.distversion
+	status.systime = os.date("%c")
 
 	luci.http.prepare_content("application/json")
 	luci.http.write_json(status)
