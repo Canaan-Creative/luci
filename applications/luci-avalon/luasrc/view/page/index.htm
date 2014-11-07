@@ -65,16 +65,14 @@
 						    _ghsav = _data.ghsav ? _data.ghsav : '0';
 
 						    $('#ghsav').html(_data.ghsav ? _data.ghsav : 'null');
-						    /*
 						    $('#mac').html(_data.network.mac ? _data.network.mac : '');
 						    $('#ip4').html(_data.network.ip4 ? _data.network.ip4 : '');
 						    $('#ip6').html(_data.network.ip6 ? _data.network.ip6 : '');
-						    */
 						    $('#ghs5m').html(_data.ghs5m ? _data.ghs5m : 'null');
 
-						    $('#pool').html(_data.pool ? _data.pool : 'no-pool');
-						    $('#diff').html(_data.diff ? _data.diff : 'no-diff');
-						    $('#accept').html(_data.accept ? _data.accept : 'no-accept');
+						    $('#pool').html(_data.pool[0].url ? _data.pool[0].url : 'no-pool');
+						    $('#diff').html(_data.pool[0].diff ? _data.pool[0].diff : 'no-diff');
+						    $('#accept').html(_data.pool[0].accept ? _data.pool[0].accept : 'no-accept');
 
 						    $("#modularcnt").html(_data.modularcnt ? _data.modularcnt : 'null');
 						    $("#voltage").html(_data.voltage ? _data.voltage : 'null');
@@ -82,6 +80,9 @@
 						    $("#temp").html(_data.temp ? _data.temp : 'null');
 						    $("#dh").html(_data.dh ? _data.dh : 'null');
 						    $("#mmver").html(_data.mmver ? _data.mmver : 'null');
+
+						    $("#openwrtver").html(_data.openwrtver ? _data.openwrtver : '--');
+						    $("#time").html(_data.systime ? _data.systime : '--');
 
 						}
 					    },
@@ -307,16 +308,16 @@
 			<div class="col-md-6 col-sm-6">
 			    <div class="bg-color-333 height-148 cginfo-padding">
 				<h2>Network Information <span><a href="#"> <a href="#"> > Quick setting</a></a></span></h2>
-				<p><strong>MAC-Address:</strong> <span id='mac'>B8:27:EB:E1:52:0E</span></p>
-				<p><strong>IPv4:</strong> <span id='ip4'>192.168.1.95/24</span></p>
-				<p><strong>IPv6:</strong> <span id='ip6'>FC00:0:0:0:0:0:0:200/7</span></p>
+				<p><strong>MAC-Address:</strong> <span id='mac'></span></p>
+				<p><strong>IPv4:</strong> <span id='ip4'></span></p>
+				<p><strong>IPv6:</strong> <span id='ip6'></span></p>
 			    </div>
 			</div>
 			<div class="col-md-6 col-sm-6">
 			    <div class="bg-color-333 height-148 cginfo-padding">
 				<h2 style='color:red;'>Overview</h2>
-				<p>Controller Versions : 41920</p>
-				<p>Time : 2014 | 10 | 10</p>
+				<p>Controller Versions : <span id="openwrtver"></span></p>
+				<p>Time : <span id="time"></span></p>
 			    </div>
 			</div>
 		    </div>
