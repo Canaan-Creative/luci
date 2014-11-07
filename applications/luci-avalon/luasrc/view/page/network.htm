@@ -17,48 +17,43 @@
 	<style>
 	    .cbi-value{padding:10px 0px 10px 0px;}
 	    .cbi-value-field,.cbi-input-select{height:25px; line-height:25px;}
-	    .cbi-value-field input{ width:100%;}
+	    .cbi-value-field input{ width:30%;}
 	    .cbi-button{height:25px; line-height:25px;}
 	</style>
 	<script type="text/javascript">
 	    $(document).ready(function(){
-
 		    $.ajax({
-url:'/cgi-bin/luci/avalon/page/cgsetting',
+url:'/cgi-bin/luci/avalon/network/wan',
 type:'get',
 success:function(_data){
 if(_data){
 $("#page-inner").html(_data);
 }else{
 $("#page-inner").html('No data~');
-}
-},
+}}
 });
 		    $('input[name="cbi.apply"]').live('click', function(){
 			$('form[name="cbi"]').append('<input type="hidden" name="cbi.apply" value="Save & Apply">');
 			});
-
 		    $('input[value="Save"]').live('click', function(){
 			$('form[name="cbi"]').append('<input type="hidden" value="Save">');
 			});
-
-$('form[name="cbi"]').live('submit',function(){
-
-	$.ajax({
-url:'/cgi-bin/luci/avalon/page/cgsetting',
+		    $('form[name="cbi"]').live('submit',function(){
+			$.ajax({
+url:'/cgi-bin/luci/avalon/network/wan',
 type:'post',
 data:$('form[name="cbi"]').serialize(),
 success:function(_data){
 alert('Submit Ok!');
-},
+}
 });
-	return false;
-	});
+			return false;
+			});
 });
-</script>
+</script>    
 </head>
 <body>
-    <div id="wrapper">
+    <div id="wrapper">  
 	<!-- /. NAV TOP  -->
 	<nav class="navbar-default navbar-side" role="navigation">
 	<div class="sidebar-collapse">
@@ -71,13 +66,13 @@ alert('Submit Ok!');
 		<a href="index"><i class="fa fa-dashboard fa-3x"></i>Dashboard</a>
 		</li>
 		<li>
-		<a class="active-menu" href="cf"><i class="fa fa-table fa-3x"></i> Configuration</a>
+		<a href="cf"><i class="fa fa-table fa-3x"></i> Configuration</a>
+		</li> 
+		<li class='active'>
+		<a class="active-menu" href="network"><i class="fa fa-sitemap fa-3x"></i> Network</a>
 		</li>
 		<li>
-		<a href="network"><i class="fa fa-sitemap fa-3x"></i> Network</a>
-		</li>
-		<li>
-		<a href="#"><i class="fa fa-bar-chart-o fa-3x"></i>Canaan Creative Co., Ltd.<span class="fa arrow"></span></a>
+		<a href="#"><i class="fa fa-bar-chart-o fa-3x"></i> Canaan Creative Co., Ltd.<span class="fa arrow"></span></a>
 		<ul class="nav nav-second-level">
 		    <li>
 		    <a href="https://ehash.com" target="_blank">EHash</a>
@@ -89,15 +84,15 @@ alert('Submit Ok!');
 		    <a href="#">Contact</a>
 		    </li>
 		</ul>
-		</li>
+		</li> 	
 	    </ul><!--{#main menu start}-->
 	    <a href="#" class='return-old'>Return the old version >> </a>
 	</div>
 
-	</nav>
+	</nav>  
 	<!-- /. NAV SIDE  -->
 	<div id="page-wrapper" >
-	    <div id="page-inner" style="margin:0px auto;">
+	    <div id="page-inner" style="margin:0px auto;">               
 		Loading......
 	    </div>
 	    <!-- /. PAGE INNER  -->

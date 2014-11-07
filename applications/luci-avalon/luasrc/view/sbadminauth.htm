@@ -1,81 +1,91 @@
-<%#
-LuCI - Lua Configuration Interface
-Copyright 2008 Steven Barth <steven@midlink.org>
-Copyright 2008-2012 Jo-Philipp Wich <xm@subsignal.org>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Free Bootstrap Admin Template : Binary Admin</title>
+	<!-- BOOTSTRAP STYLES-->
+    <link href="<%=media%>/assets/css/bootstrap.min.css" rel="stylesheet" />
+     <!-- FONTAWESOME STYLES-->
+    <script src="<%=media%>/assets/js/jquery-1.10.2.js"></script>
+      <!-- BOOTSTRAP SCRIPTS -->
+    <script src="<%=media%>/assets/js/bootstrap.min.js"></script>
+    <!-- METISMENU SCRIPTS -->
+</head>
+<style>
 
-Licensed under the Apache License, Version 2.0 (the "License");
-you may not use this file except in compliance with the License.
-You may obtain a copy of the License at
+	.custom-box{
+		 border:1px solid #FFF;
+		 margin:100px auto 0px auto;
+		 width:600px;
+		 height:370px;
+		 padding : 20px 65px;
+	}
+	.custom-box .logo{
+		height:130px;
+		width : 100%;
+		margin-bottom:10px;
+	}
+	.custom-box table{
+		width:100%;
+		margin-top:50px;
+	}
 
-    http://www.apache.org/licenses/LICENSE-2.0
+	.custom-box .inputBox{
+		height:60px;
+		line-height:60px;
+		width:100%;
+		background:#0A0A0A url(<%=media%>/assets/img/cg_lock.png) no-repeat;
+		border:1px solid #fff;
+		color:#777;
+		font-size:20px;
+		padding-left:60px;
+	}
+	.custom-box .inputSubmit{
+		background:#C90000;
+		color:#FFF;
+		margin-left:10px;
+		padding-left:10px;
+	}
+	.other_lists{
+		list-style-type:none;
+		width:100%;
+		height:20px;
+		margin-top:70px;
+	}
 
--%>
-
-<%+header%>
-
-<form method="post" action="<%=pcdata(luci.http.getenv("REQUEST_URI"))%>">
-    <div class="cbi-map">
-	<h2><a id="content" name="content"><%:Authorization Required%></a></h2>
-	<div class="cbi-map-descr">
-	    <%:Please enter your username and password.%>
-	    <%- if fuser then %>
-	    <div class="error"><%:Invalid username and/or password! Please try again.%></div>
-	    <br />
-	    <% end -%>
+	.other_lists li{
+		float:right;
+		height:20px;
+		line-height:20px;
+		border-right: 1px solid #fff;
+		padding:0px 15px;
+	}
+	.other_lists li a{
+		color:#fff;
+	}
+</style>
+<body style="background:#0A0A0A;">
+	<div class="custom-box">
+		<div class="logo">
+		    <img src="<%=media%>/assets/img/cg_logo.png" />
+		</div>
+		<div class="form">
+			<form>
+				<table>
+					<tr>
+						<td><input type="password"  class="inputBox inputPassword"  name="password" id="password" value="Input password" /></td>
+						<td><input type="submit" class="inputBox inputSubmit" name="submit" id="submit" value="LOGIN" /></td>
+					</tr>
+				</table>
+			</form>
+		</div>
+		<ul class="other_lists">
+			<li><a href="#">Downloads</a></li>
+			<li><a href="#">Ehash</a></li>
+			<li><a href="#">Canaan-creative</a></li>
+			<li><a href="#">Btctelecom</a></li>
+		</ul>
 	</div>
-	<fieldset class="cbi-section"><fieldset class="cbi-section-node">
-	    <div class="cbi-value">
-		<label class="cbi-value-title"><%:Username%></label>
-		<div class="cbi-value-field">
-		    <input class="cbi-input-user" type="text" name="username" value="root" />
-		</div>
-	    </div>
-	    <div class="cbi-value cbi-value-last">
-		<label class="cbi-value-title"><%:Password%></label>
-		<div class="cbi-value-field">
-		    <input id="focus_password" class="cbi-input-password" type="password" name="password" />
-		</div>
-	    </div>
-	</fieldset></fieldset>
-    </div>
-
-    <div>
-	<input type="submit" value="<%:Login%>" class="cbi-button cbi-button-apply" />
-	<input type="reset" value="<%:Reset%>" class="cbi-button cbi-button-reset" />
-    </div>
-</form>
-<script type="text/javascript">//<![CDATA[
-    var input = document.getElementById('focus_password');
-    if (input)
-	input.focus();
-//]]></script>
-
-<%
-local uci  = require "luci.model.uci".cursor()
-local fs  = require "nixio.fs"
-local https_key = uci:get("uhttpd", "main", "key")
-local https_port = uci:get("uhttpd", "main", "listen_https")
-if type(https_port) == "table" then
-    https_port = https_port[1]
-end
-
-if https_port and fs.access(https_key) then
-    https_port = https_port:match("(%d+)$")
-%>
-
-<script type="text/javascript">//<![CDATA[
-    if (document.location.protocol != 'https:') {
-	var url = 'https://' + window.location.hostname + ':' + '<%=https_port%>' + window.location.pathname;
-	var img=new Image;
-	img.onload=function(){window.location = url};
-	img.src='https://' + window.location.hostname + ':' + '<%=https_port%>' + '<%=resource%>/cbi/up.gif?' + Math.random();;
-	setTimeout(function(){
-	    img.src=''
-	}, 5000);
-    }
-//]]></script>
-
-<% end %>
-
-<%+footer%>
-
+</body>
+</html>
