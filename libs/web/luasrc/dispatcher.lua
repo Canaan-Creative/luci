@@ -348,7 +348,7 @@ function dispatch(request)
 		"http://luci.subsignal.org/trac/newticket"
 	)
 
-	if track.sysauth then
+	if track.sysauth and c.auth then
 		local sauth = require "luci.sauth"
 
 		local authen = type(track.sysauth_authenticator) == "function"
@@ -658,6 +658,31 @@ function entry(path, target, title, order)
 	c.title  = title
 	c.order  = order
 	c.module = getfenv(2)._NAME
+	c.auth = true
+
+	return c
+end
+
+--- Create a new dispatching node and define common parameters.
+-- Support auth
+-- @param	path	Virtual path
+-- @param	target	Target function to call when dispatched.
+-- @param	title	Destination node title
+-- @param	order	Destination node order value (optional)
+-- @param	auth	Auth or not (true or false)
+-- @return			Dispatching tree node
+function entryauth(path, target, title, order, auth)
+	local c = node(unpack(path))
+
+	c.target = target
+	c.title  = title
+	c.order  = order
+	c.module = getfenv(2)._NAME
+	if auth == nil then
+		c.auth = true
+	else
+		c.auth = auth
+	end
 
 	return c
 end

@@ -40,7 +40,8 @@ function index()
 	entry({"avalon", "network", "wan"}, cbi("wan"), _("Network"))
 	entry({"avalon", "page", "cgsetting"}, cbi("cgsetting"), _("CGSetting"))
 	entry({"avalon", "api", "getstatus"}, call("api_getstatus"), nil)
-	entry({"avalon", "api", "getlog"}, call("api_getlog"), nil).dependent=false
+	entry({"avalon", "api", "getlog"}, call("api_getlog"), nil)
+	entryauth({"avalon", "api", "changetheme"}, call("api_changetheme"), nil, nil, false)
 end
 
 function api_getstatus()
@@ -245,6 +246,32 @@ function api_getlog()
 	local pp   = io.popen("echo -n \"[Firmware Version] => \"; cat /etc/avalon_version; /usr/bin/cgminer-api stats;")
 	msg.log = pp:read("*a")
 	pp:close()
+
+	luci.http.prepare_content("application/json")
+	luci.http.write_json(msg)
+end
+
+function api_changetheme()
+	local msg = {}
+	local uci = require "luci.model.uci".cursor()
+	local theme = luci.http.formvalue("theme")
+
+	msg.ret = 1
+	msg.result = "theme param is null,(openwrt/sbadmin)"
+
+	if theme == "openwrt" then
+		uci:set("luci", "main", "mediaurlbase", "/luci-static/openwrt.org")
+		uci:commit("luci")
+		msg.ret = 0
+		msg.result = "Change to openwrt"
+	end
+
+	if theme == "sbadmin" then
+		uci:set("luci", "main", "mediaurlbase", "/luci-static/sbadmin")
+		uci:commit("luci")
+		msg.ret = 0
+		msg.result = "Change to sbadmin"
+	end
 
 	luci.http.prepare_content("application/json")
 	luci.http.write_json(msg)
