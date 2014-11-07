@@ -198,10 +198,24 @@ function api_getstatus()
 	end
 
 	-- network info
-	-- FIX ME:get from luci
-	status.network['mac'] = "12:34:45:56:78:88"
-	status.network['ip4'] = "192.168.11.1"
-	status.network['ip6'] = "12:34:45:56:79:99:00:01:02:03:04"
+	if nixio.fs.access("/bin/ubus") then
+		local netm = require "luci.model.network".init()
+		local net = netm:get_network("lan")
+		local device = net and net:get_interface()
+		if device then
+			status.network['mac'] = device:mac()
+
+			local _, a
+			for _, a in ipairs(device:ipaddrs()) do
+				status.network['ip4'] = a:host():string()
+			end
+			for _, a in ipairs(device:ip6addrs()) do
+				if not a:is6linklocal() then
+					status.network['ip6'] = a:host():string()
+				end
+			end
+		end
+	end
 
 	status.openwrtver = luci.version.distname .. luci.version.distversion
 	status.systime = os.date("%c")
