@@ -144,6 +144,22 @@ function error500(message)
 	return false
 end
 
+function authenticator.sbadminauth(validator, accs, default)
+	local user = luci.http.formvalue("username")
+	local pass = luci.http.formvalue("password")
+
+	if user and validator(user, pass) then
+		return user
+	end
+
+	require("luci.i18n")
+	require("luci.template")
+	context.path = {}
+	luci.template.render("sbadminauth", {duser=default, fuser=user})
+	return false
+
+end
+
 function authenticator.htmlauth(validator, accs, default)
 	local user = luci.http.formvalue("username")
 	local pass = luci.http.formvalue("password")

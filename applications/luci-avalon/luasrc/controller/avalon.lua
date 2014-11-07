@@ -15,9 +15,23 @@ $Id: init.lua 6731 2011-01-14 19:44:03Z soma $
 module("luci.controller.avalon", package.seeall)
 
 function index()
-	entry({"avalon"}, alias("avalon", "page", "index"), _("Index"), 90).dependent=false
+	local root = node()
+	if not root.target then
+		root.target = alias("avalon")
+		root.index = true
+	end
+
+	local page   = node("avalon")
+	page.target  = firstchild()
+	page.title   = _("Avalon")
+	page.order   = 8
+	page.sysauth = "root"
+	page.sysauth_authenticator = "sbadminauth"
+	page.ucidata = true
+	page.index = true
+
+	entry({"avalon"}, alias("avalon", "page", "index"), _("Avalon"), 90).dependent=false
 	entry({"avalon", "page", "index"}, template("page/index"), _("Index"))
-	entry({"avalon", "page", "login"}, template("page/login"), _("Login"))
 	entry({"avalon", "page", "network"}, template("page/network"), _("Network"))
 	entry({"avalon", "page", "cf"}, template("page/cf"), _("Cf"))
 	entry({"avalon", "page", "blank"}, template("page/blank"), _("Blank"))
