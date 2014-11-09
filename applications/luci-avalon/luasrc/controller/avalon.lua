@@ -30,15 +30,10 @@ function index()
 	page.ucidata = true
 	page.index = true
 
-	entry({"avalon"}, alias("avalon", "page", "index"), _("Avalon"), 90).dependent=false
+	entry({"avalon"}, alias("avalon", "page", "index"), nil, 90).dependent=false
 	entry({"avalon", "page", "index"}, template("page/index"), _("Index"))
-	entry({"avalon", "page", "network"}, template("page/network"), _("Network"))
-	entry({"avalon", "page", "cf"}, template("page/cf"), _("Cf"))
-	entry({"avalon", "page", "blank"}, template("page/blank"), _("Blank"))
-	entry({"avalon", "page", "ui"}, template("page/ui"), _("UI"))
-	entry({"avalon", "page", "tab-panel"}, template("page/tab-panel"), _("Tabe-panel"))
-	entry({"avalon", "network", "wan"}, cbi("wan"), _("Network"))
-	entry({"avalon", "page", "cgsetting"}, cbi("cgsetting"), _("CGSetting"))
+	entry({"avalon", "page", "network"}, cbi("wan"), _("Network"))
+	entry({"avalon", "page", "configure"}, cbi("cgsetting"), _("Configuration"))
 	entry({"avalon", "api", "getstatus"}, call("api_getstatus"), nil)
 	entry({"avalon", "api", "getlog"}, call("api_getlog"), nil)
 	entryauth({"avalon", "api", "changetheme"}, call("api_changetheme"), nil, nil, false)
@@ -270,5 +265,5 @@ function action_logout()
 	end
 
 	luci.http.header("Set-Cookie", "sysauth=; path=" .. dsp.build_url())
-	luci.http.redirect(luci.dispatcher.build_url())
+	luci.http.redirect(luci.dispatcher.build_url("avalon", "page", "index"))
 end

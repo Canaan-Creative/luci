@@ -1,4 +1,3 @@
-xxxxxxxxxxxxxxxxx
 <div class="cbi-value<% if self.error and self.error[section] then %> cbi-value-error<% end %><% if self.last_child then %> cbi-value-last<% end %>" id="cbi-<%=self.config.."-"..section.."-"..self.option%>">
     <%- if self.title and #self.title > 0 then -%>
     <label class="cbi-value-title"<%= attr("for", cbid) %>>

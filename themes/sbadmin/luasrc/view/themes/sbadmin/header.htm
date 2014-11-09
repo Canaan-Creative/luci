@@ -85,41 +85,30 @@ function changetheme()
 		<img src="<%=media%>/assets/img/avalon-logo-180.png" class="user-image img-responsive"/>
 		</li>
 		<li>
-		<a href="index"><i class="fa fa-dashboard fa-3x"></i>Dashboard</a>
+		<a href="<%=luci.dispatcher.build_url("avalon", "page", "index")%>"><i class="fa fa-dashboard fa-3x"></i> Dashboard</a>
 		</li>
 		<li>
-		<a href="cf"><i class="fa fa-table fa-3x"></i> Configuration</a>
+		<a href="<%=luci.dispatcher.build_url("avalon", "page", "configure")%>"><i class="fa fa-table fa-3x"></i> Configuration</a>
 		</li>
-		<li class='active'>
-		<a class="active-menu" href="network"><i class="fa fa-sitemap fa-3x"></i> Network</a>
+		<li>
+		<a href="<%=luci.dispatcher.build_url("avalon", "page", "network")%>"><i class="fa fa-sitemap fa-3x"></i> Network</a>
 		</li>
 		<li>
 		<a href="#"><i class="fa fa-bar-chart-o fa-3x"></i> Canaan Creative Co., Ltd.<span class="fa arrow"></span></a>
 		<ul class="nav nav-second-level">
 			<li>
-			<a href="https://ehash.com" target="_blank">EHash</a>
+			<a href="https://ehash.com" target="_blank"> EHash</a>
 			</li>
 			<li>
-			<a href="http://downloads.canaan-creative.com">Downloads</a>
-			</li>
-			<li>
-			<a href="#">Contact</a>
+			<a href="http://downloads.canaan-creative.com" target="_blank"> Downloads</a>
 			</li>
 		</ul>
 		</li>
 		</ul><!--{#main menu start}-->
-		<a href="<%=luci.dispatcher.build_url("avalon", "api", "logout")%>" class='logout'>Logout</a>
-		<a href="#" class='return-old' onclick="changetheme()">Return the old version >> </a>
+		<a href="<%=luci.dispatcher.build_url("avalon", "api", "logout")%>" class='logout'> Logout</a>
+		<a href="#" class='return-old' onclick="changetheme()"><i class="fa fa-3x"></i> Old Version >></a>
 	</div>
 
 	</nav>
 	<!-- /. NAV SIDE  -->
 	<div id="page-wrapper" >
-		<div id="page-inner" style="margin:0px auto;">
-		Loading......
-		</div>
-		<!-- /. PAGE INNER  -->
-	</div>
-	<!-- /. PAGE WRAPPER  -->
-	</div>
-	<!-- /. WRAPPER  -->

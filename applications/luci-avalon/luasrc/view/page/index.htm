@@ -2,10 +2,10 @@
 	<script type="text/javascript" src="<%=media%>/assets/js/highcharts.js"></script>
 	<script type="text/javascript" src="<%=media%>/assets/js/dark-unica.js"></script>
 	<style>
-	    .panel-body{padding:0px;}
+		.panel-body{padding:0px;}
 	</style>
 	<script>
-	    $(function () {
+		$(function () {
 		var _intvalTime = 5000;
 		var _fan = 0;
 		var _temp = 0;
@@ -13,64 +13,64 @@
 		var _ghsav = 0;
 
 		$(document).ready(function() {
-		    Highcharts.setOptions({
+			Highcharts.setOptions({
 			global: {
-			    useUTC: false
+				useUTC: false
 			}
-		    });
+			});
 
-		    var chart;
-		    chart = new Highcharts.Chart({
+			var chart;
+			chart = new Highcharts.Chart({
 			chart: {
-			    renderTo: 'container-speed-temperature',
-			    type: 'spline',
-			    animation: Highcharts.svg,
-			    events: {
+				renderTo: 'container-speed-temperature',
+				type: 'spline',
+				animation: Highcharts.svg,
+				events: {
 				load: function() {
 
-				    // set up the updating of the chart each second
-				    var series = this.series[0];
-				    var series1 = this.series[1];
-				    var series2 = this.series[2];
+					// set up the updating of the chart each second
+					var series = this.series[0];
+					var series1 = this.series[1];
+					var series2 = this.series[2];
 
-				    setInterval(function() {
+					setInterval(function() {
 					/**
 					* Get Status
 					* @author Wanggh
 					*/
 					$.ajax({
-					    url:'/cgi-bin/luci/avalon/api/getstatus',
-					    type:'post',
-					    dataType: 'json',
-					    success:function(_data){
+						url:'<%=luci.dispatcher.build_url("avalon", "api", "getstatus")%>',
+						type:'post',
+						dataType: 'json',
+						success:function(_data){
 						if (_data) {
 
-						    _fan = _data.fan ? _data.fan : '0';
-						    _temp = _data.temp ? _data.temp : '0';
-						    _ghsav = _data.ghsav ? _data.ghsav : '0';
+							_fan = _data.fan ? _data.fan : '0';
+							_temp = _data.temp ? _data.temp : '0';
+							_ghsav = _data.ghsav ? _data.ghsav : '0';
 
-						    $('#ghsav').html(_data.ghsav ? _data.ghsav : 'null');
-						    $('#mac').html(_data.network.mac ? _data.network.mac : '');
-						    $('#ip4').html(_data.network.ip4 ? _data.network.ip4 : '');
-						    $('#ip6').html(_data.network.ip6 ? _data.network.ip6 : '');
-						    $('#ghs5m').html(_data.ghs5m ? _data.ghs5m : 'null');
+							$('#ghsav').html(_data.ghsav ? _data.ghsav : 'null');
+							$('#mac').html(_data.network.mac ? _data.network.mac : '');
+							$('#ip4').html(_data.network.ip4 ? _data.network.ip4 : '');
+							$('#ip6').html(_data.network.ip6 ? _data.network.ip6 : '');
+							$('#ghs5m').html(_data.ghs5m ? _data.ghs5m : 'null');
 
-						    $('#pool').html(_data.pool[0].url ? _data.pool[0].url : 'no-pool');
-						    $('#diff').html(_data.pool[0].diff ? _data.pool[0].diff : 'no-diff');
-						    $('#accept').html(_data.pool[0].accept ? _data.pool[0].accept : 'no-accept');
+							$('#pool').html(_data.pool[0].url ? _data.pool[0].url : 'no-pool');
+							$('#diff').html(_data.pool[0].diff ? _data.pool[0].diff : 'no-diff');
+							$('#accept').html(_data.pool[0].accept ? _data.pool[0].accept : 'no-accept');
 
-						    $("#modularcnt").html(_data.modularcnt ? _data.modularcnt : 'null');
-						    $("#voltage").html(_data.voltage ? _data.voltage : 'null');
-						    $("#freq").html(_data.freq ? _data.freq : 'null');
-						    $("#temp").html(_data.temp ? _data.temp : 'null');
-						    $("#dh").html(_data.dh ? _data.dh : 'null');
-						    $("#mmver").html(_data.mmver ? _data.mmver : 'null');
+							$("#modularcnt").html(_data.modularcnt ? _data.modularcnt : 'null');
+							$("#voltage").html(_data.voltage ? _data.voltage : 'null');
+							$("#freq").html(_data.freq ? _data.freq : 'null');
+							$("#temp").html(_data.temp ? _data.temp : 'null');
+							$("#dh").html(_data.dh ? _data.dh : 'null');
+							$("#mmver").html(_data.mmver ? _data.mmver : 'null');
 
-						    $("#openwrtver").html(_data.openwrtver ? _data.openwrtver : '--');
-						    $("#time").html(_data.systime ? _data.systime : '--');
+							$("#openwrtver").html(_data.openwrtver ? _data.openwrtver : '--');
+							$("#time").html(_data.systime ? _data.systime : '--');
 
 						}
-					    },
+						},
 					});
 
 					var x = (new Date()).getTime(),
@@ -80,245 +80,236 @@
 					series.addPoint([x, y], true, true);
 					series1.addPoint([x, y1], true, true);
 					series2.addPoint([x, y2], true, true);
-				    }, _intvalTime);
+					}, _intvalTime);
 				}
-			    }
+				}
 			},
 			title: {
-			    text: 'Average Monthly Temperature and Rainfall in Tokyo'
+				text: 'Active Charts'
 			},
 			subtitle: {
-			    text: 'Source: WorldClimate.com'
+				text: 'Update every 5 seconds'
 			},
 			xAxis: {
-			    type: 'datetime',
-			    tickPixelInterval: 150
+				type: 'datetime',
+				tickPixelInterval: 150
 			},
 			credits:{
-			    enabled: false
+				enabled: false
 			},
 			yAxis: [{
-			    labels: {
+				labels: {
 				formatter: function() {
-				    return this.value +'°C';
+					return this.value +'°C';
 				},
 				//format: '{value}°C',
 				style: {
-				    color: '#ffbc75'
+					color: '#ffbc75'
 				}
-			    },
-			    title: {
+				},
+				title: {
 				text: 'Temperature',
 				style: {
-				    color: '#ffbc75'
+					color: '#ffbc75'
 				}
-			    },
-			    opposite: true,
+				},
+				opposite: true,
 			},
 			{
-			    labels: {
+				labels: {
 				//format: '{value} mm',
 				formatter: function() {
-				    return this.value +'RPM';
+					return this.value +'RPM';
 				},
 				style: {
-				    color: '#7cb5ec'
+					color: '#7cb5ec'
 				}
-			    },
-			    title: {
+				},
+				title: {
 				text: 'Fan',
 				style: {
-				    color: '#7cb5ec'
+					color: '#7cb5ec'
 				}
-			    },
+				},
 
 			},
 			{
-			    labels: {
+				labels: {
 				//format: '{value} mm',
 				formatter: function() {
-				    return this.value +'GHS';
+					return this.value +'GHS';
 				},
 				style: {
-				    color: '#90ec7d'
+					color: '#90ec7d'
 				}
-			    },
-			    title: {
+				},
+				title: {
 				text: 'Ghsav',
 				style: {
-				    color: '#90ec7d'
+					color: '#90ec7d'
 				}
-			    },
-			    opposite: true ,
+				},
+				opposite: true ,
 			},
 			],
 
 			tooltip: {
-			    shared: true
+				shared: true
 			},
 			legend: {
-			    layout: 'vertical',
-			    align: 'left',
-			    x: 120,
-			    verticalAlign: 'top',
-			    y: 50,
-			    floating: true,
-			    backgroundColor: '#2f2f31'
+				layout: 'vertical',
+				align: 'left',
+				x: 120,
+				verticalAlign: 'top',
+				y: 50,
+				floating: true,
+				backgroundColor: '#2f2f31'
 			},
 			exporting: {
-			    enabled: false
+				enabled: false
 			},
 			series: [{
-			    yAxis:1,
-			    color: '#7cb5ec',
-			    name: 'Fan',
-			    data: (function() { // generate an array of random data
+				yAxis:1,
+				color: '#7cb5ec',
+				name: 'Fan',
+				data: (function() { // generate an array of random data
 				var data = [],
 				time = (new Date()).getTime(),
 				i;
 				for (i = -_i; i <= 0; i++) {
-				    data.push({
+					data.push({
 					x: time + i * 1000,
 					y: null
-				    });
+					});
 				}
 				return data;
-			    })(),
-			    tooltip: {
+				})(),
+				tooltip: {
 				valueSuffix: ' RPM'
-			    },
-			    marker: {
+				},
+				marker: {
 				enabled: false
-			    },
-			    dashStyle: 'shortdot',
+				},
+				dashStyle: 'shortdot',
 			},
 			{
-			    color: '#ffbc75',
-			    yAxis: 2,
-			    name: 'Temperature',
-			    data: (function() { // generate an array of random data
+				color: '#ffbc75',
+				yAxis: 2,
+				name: 'Temperature',
+				data: (function() { // generate an array of random data
 				var data = [],
 				time = (new Date()).getTime(),
 				i;
 
 				for (i = -_i; i <= 0; i++) {
-				    data.push({
+					data.push({
 					x: time + i * 1000,
 					y: null
-				    });
+					});
 				}
 				return data;
-			    })() ,
-			    tooltip: {
+				})() ,
+				tooltip: {
 				valueSuffix: '°C'
-			    },
-			    marker: {
+				},
+				marker: {
 				enabled: false
-			    },
-			    dashStyle: 'shortdot',
+				},
+				dashStyle: 'shortdot',
 			},
 			{
-			    color: '#90ec7d',
-			    name: 'GHSav',
-			    data: (function() { // generate an array of random data
+				color: '#90ec7d',
+				name: 'GHSav',
+				data: (function() { // generate an array of random data
 				var data = [],
 				time = (new Date()).getTime(),
 				i;
 				for (i = -_i; i <= 0; i++) {
-				    data.push({
+					data.push({
 					x: time + i * 1000,
 					y: null
-				    });
+					});
 				}
 				return data;
-			    })() ,
-			    tooltip: {
+				})() ,
+				tooltip: {
 				valueSuffix: 'GHS'
-			    },
-			    marker: {
+				},
+				marker: {
 				enabled: false
-			    },
-			    //dashStyle: 'shortdot',
+				},
+				//dashStyle: 'shortdot',
 			}]
-		    });
+			});
 
 		});
 
-	    });
+		});
 	</script>
-	    <div id="page-wrapper" >
+		<h2><a id="content" name="content">Dashboard</a></h2>
 		<div id="page-inner">
-
-		    <div class="row margin-left-right-0 margin-top-20 cginfo">
+			<div class="row margin-left-right-0 margin-top-20 cginfo">
 			<div class="col-md-6 col-sm-6">
-			    <div class="bg-color-333 height-148 cginfo-padding">
-				<h2>Network Information <span><a href="#"> <a href="#"> > Quick setting</a></a></span></h2>
+				<div class="bg-color-333 height-148 cginfo-padding">
+				<h2>Network Information <span><a href="#"> <a href="<%=luci.dispatcher.build_url("avalon", "page", "network")%>"> > Quick setting</a></a></span></h2>
 				<p><strong>MAC-Address:</strong> <span id='mac'></span></p>
 				<p><strong>IPv4:</strong> <span id='ip4'></span></p>
 				<p><strong>IPv6:</strong> <span id='ip6'></span></p>
-			    </div>
+				</div>
 			</div>
 			<div class="col-md-6 col-sm-6">
-			    <div class="bg-color-333 height-148 cginfo-padding">
+				<div class="bg-color-333 height-148 cginfo-padding">
 				<h2 style='color:red;'>Overview</h2>
 				<p>Controller Versions : <span id="openwrtver"></span></p>
 				<p>Time : <span id="time"></span></p>
-			    </div>
+				</div>
 			</div>
-		    </div>
+			</div>
 
-		    <div class="row margin-left-right-0 margin-top-20 cginfo">
+			<div class="row margin-left-right-0 margin-top-20 cginfo">
 			<div class="col-md-2 col-sm-2">
-			    <div class="bg-color-333 height-148 cginfo-padding">
+				<div class="bg-color-333 height-148 cginfo-padding">
 				<h2>Hash Rate</h2>
 				<p>Average:<span id="ghsav"></span></p>
 				<p>Per 5m:<span id="ghs5m"></span></p>
-			    </div>
+				</div>
 			</div>
 			<div class="col-md-4 col-sm-4">
-			    <div class="bg-color-333 height-148 cginfo-padding">
-				<h2>Current Pool <span><a href="#"> > Quick setting</a></span></h2>
+				<div class="bg-color-333 height-148 cginfo-padding">
+				<h2>Current Pool <span><a href="<%=luci.dispatcher.build_url("avalon", "page", "configure")%>"> > Quick setting</a></span></h2>
 				<p id='pool'>--</p>
 				<p>Diffcult:<span id='diff'>--</span> | Accepted:<span id='accept'>--</span></p>
-			    </div>
+				</div>
 			</div>
 			<div class="col-md-6 col-sm-6">
-			    <div class="bg-color-333 height-148 cginfo-padding">
+				<div class="bg-color-333 height-148 cginfo-padding">
 				<h2>Modules Information </h2>
 				<p>Live Modules:<span id='modularcnt'>0</span> | ASIC Voltage:<span id='voltage'>0</span> | ASIC Frequency:<span id='freq'>0</span>Gh/s</p>
 				<p>Temperature:<span id='temp'>0</span> | DH:<span id='dh'>0</span> | MM Version:<span id='mmver'>0</span></p>
-			    </div>
+				</div>
 			</div>
-		    </div>
-		    <!-- /. ROW  -->
-		    <hr />
+			</div>
+			<!-- /. ROW  -->
+			<hr />
 
-		    <!--jackie start-->
-		    <div class="row margin-left-right-0" >
-
+			<!--jackie start-->
+			<div class="row margin-left-right-0" >
 			<!--风扇转速start-->
-
 			<div class="col-md-12 col-sm-12 col-xs-12">
-			    <div class="panel panel-default">
+				<div class="panel panel-default">
 				<div class="panel-heading">
-				    <strong>Fan   /  Temperature  / GHSav</strong>
+					<strong>Fan   /  Temperature  / GHSav</strong>
 				</div>
 				<div class="panel-body">
-				    <div class="table-responsive">
+					<div class="table-responsive">
 					<div id="container-speed-temperature" style="height:400px"></div>
-				    </div>
+					</div>
 				</div>
-			    </div>
+				</div>
 			</div>
 			<!--风扇转速end-->
-
-		    </div>
-
-		    <!-- jackie end-->
-
-		    <!-- /. ROW  -->
+			</div>
+			<!-- jackie end-->
+			<!-- /. ROW  -->
 		</div>
-		<!-- /. PAGE INNER  -->
-	    </div>
-	    <!-- /. PAGE WRAPPER  -->
 <%+footer%>
