@@ -31,7 +31,7 @@ function index()
 	page.index = true
 
 	entry({"avalon"}, alias("avalon", "page", "index"), nil, 90).dependent=false
-	entry({"avalon", "page", "index"}, template("page/index"), _("Index"))
+	entry({"avalon", "page", "index"}, template("page/index"), _("Dashboard"))
 	entry({"avalon", "page", "network"}, cbi("wan"), _("Network"))
 	entry({"avalon", "page", "configure"}, cbi("cgsetting"), _("Configuration"))
 	entry({"avalon", "api", "getstatus"}, call("api_getstatus"), nil)
