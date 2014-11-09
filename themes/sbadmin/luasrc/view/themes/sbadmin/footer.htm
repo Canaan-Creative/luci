@@ -15,5 +15,22 @@ $Id: footer.htm 7364 2011-08-13 09:52:12Z jow $
 <div class="clear"></div>
 </div>
 </div>
+<script type="text/javascript">//<![CDATA[
+    function changetheme()
+    {
+        XHR.get('<%=luci.dispatcher.build_url("avalon", "api", "changetheme")%>',
+			{ theme: "openwrt" },
+            function(x, resp)
+            {
+				if (resp.ret == '0')
+				{
+					window.location = '<%=luci.dispatcher.build_url("admin")%>';
+				}
+            }
+        );
+    }
+//]]></script>
+
+<p><a href="#" onclick="changetheme()">Change Theme</a></p>
 </body>
 </html>

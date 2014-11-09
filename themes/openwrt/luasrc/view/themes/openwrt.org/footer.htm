@@ -15,7 +15,23 @@ $Id$
 <div class="clear"></div>
 </div>
 </div>
+<script type="text/javascript">//<![CDATA[
+    function changetheme()
+    {
+        XHR.get('<%=luci.dispatcher.build_url("avalon", "api", "changetheme")%>',
+			{ theme: "sbadmin" },
+            function(x, resp)
+            {
+				if (resp.ret == '0')
+				{
+					window.location = '<%=luci.dispatcher.build_url("avalon", "page", "index")%>';
+				}
+            }
+        );
+    }
+//]]></script>
 
 <p class="luci">Powered by <%= luci.__appname__ .. " (" .. luci.__version__ .. ")" %></p>
+<p><a href="#" onclick="changetheme()">Change Theme</a></p>
 </body>
 </html>
