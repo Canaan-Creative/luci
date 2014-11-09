@@ -85,13 +85,13 @@ function changetheme()
 		<img src="<%=media%>/assets/img/avalon-logo-180.png" class="user-image img-responsive"/>
 		</li>
 		<li>
-		<a href="<%=luci.dispatcher.build_url("avalon", "page", "index")%>"><i class="fa fa-dashboard fa-3x"></i> Dashboard</a>
+		<a <% if ((node and node.title) == "Dashboard") then %>class="active-menu" <% end %> href="<%=luci.dispatcher.build_url("avalon", "page", "index")%>"><i class="fa fa-dashboard fa-3x"></i> Dashboard</a>
 		</li>
 		<li>
-		<a href="<%=luci.dispatcher.build_url("avalon", "page", "configure")%>"><i class="fa fa-table fa-3x"></i> Configuration</a>
+		<a <% if ((node and node.title) == "Configuration") then %>class="active-menu" <% end %> href="<%=luci.dispatcher.build_url("avalon", "page", "configure")%>"><i class="fa fa-table fa-3x"></i> Configuration</a>
 		</li>
 		<li>
-		<a href="<%=luci.dispatcher.build_url("avalon", "page", "network")%>"><i class="fa fa-sitemap fa-3x"></i> Network</a>
+		<a <% if ((node and node.title) == "Network") then %>class="active-menu" <% end %> href="<%=luci.dispatcher.build_url("avalon", "page", "network")%>"><i class="fa fa-sitemap fa-3x"></i> Network</a>
 		</li>
 		<li>
 		<a href="#"><i class="fa fa-bar-chart-o fa-3x"></i> Canaan Creative Co., Ltd.<span class="fa arrow"></span></a>
