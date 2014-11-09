@@ -48,7 +48,23 @@ $Id: header.htm 9558 2012-12-18 13:58:22Z jow $
 <script src="<%=media%>/assets/js/custom.js"></script>
 <!-- button css -->
 <link rel="stylesheet" href="<%=media%>/cascade.css">
-
+<script type="text/javascript">//<![CDATA[
+function changetheme()
+{
+	$.ajax({
+			url:'<%=luci.dispatcher.build_url("avalon", "api", "changetheme")%>',
+			type:'post',
+			data: {theme: "openwrt"},
+			dataType: 'json',
+			success:function(resp){
+				if (resp.ret == '0')
+				{
+					window.location = '<%=luci.dispatcher.build_url("admin")%>';
+				}
+			}
+		});
+}
+//]]></script>
 </head>
 <body class="lang_<%=luci.i18n.context.lang%>">
 <div id="maincontainer">
@@ -59,3 +75,51 @@ $Id: header.htm 9558 2012-12-18 13:58:22Z jow $
 				<%:You must enable Java Script in your browser or LuCI will not work properly.%>
 			</div>
 		</noscript>
+	<div id="wrapper">
+	<!-- /. NAV TOP  -->
+	<nav class="navbar-default navbar-side" role="navigation">
+	<div class="sidebar-collapse">
+		<!--{#main menu start}-->
+		<ul class="nav" id="main-menu">
+		<li class="text-center">
+		<img src="<%=media%>/assets/img/avalon-logo-180.png" class="user-image img-responsive"/>
+		</li>
+		<li>
+		<a href="index"><i class="fa fa-dashboard fa-3x"></i>Dashboard</a>
+		</li>
+		<li>
+		<a href="cf"><i class="fa fa-table fa-3x"></i> Configuration</a>
+		</li>
+		<li class='active'>
+		<a class="active-menu" href="network"><i class="fa fa-sitemap fa-3x"></i> Network</a>
+		</li>
+		<li>
+		<a href="#"><i class="fa fa-bar-chart-o fa-3x"></i> Canaan Creative Co., Ltd.<span class="fa arrow"></span></a>
+		<ul class="nav nav-second-level">
+			<li>
+			<a href="https://ehash.com" target="_blank">EHash</a>
+			</li>
+			<li>
+			<a href="http://downloads.canaan-creative.com">Downloads</a>
+			</li>
+			<li>
+			<a href="#">Contact</a>
+			</li>
+		</ul>
+		</li>
+		</ul><!--{#main menu start}-->
+		<a href="<%=luci.dispatcher.build_url("avalon", "api", "logout")%>" class='logout'>Logout</a>
+		<a href="#" class='return-old' onclick="changetheme()">Return the old version >> </a>
+	</div>
+
+	</nav>
+	<!-- /. NAV SIDE  -->
+	<div id="page-wrapper" >
+		<div id="page-inner" style="margin:0px auto;">
+		Loading......
+		</div>
+		<!-- /. PAGE INNER  -->
+	</div>
+	<!-- /. PAGE WRAPPER  -->
+	</div>
+	<!-- /. WRAPPER  -->

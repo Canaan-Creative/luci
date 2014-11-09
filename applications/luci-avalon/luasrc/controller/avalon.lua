@@ -42,6 +42,7 @@ function index()
 	entry({"avalon", "api", "getstatus"}, call("api_getstatus"), nil)
 	entry({"avalon", "api", "getlog"}, call("api_getlog"), nil)
 	entryauth({"avalon", "api", "changetheme"}, call("api_changetheme"), nil, nil, false)
+	entry({"avalon", "api", "logout"}, call("action_logout"), _("Logout"))
 end
 
 function api_getstatus()
@@ -258,4 +259,16 @@ function api_changetheme()
 
 	luci.http.prepare_content("application/json")
 	luci.http.write_json(msg)
+end
+
+function action_logout()
+	local dsp = require "luci.dispatcher"
+	local sauth = require "luci.sauth"
+	if dsp.context.authsession then
+		sauth.kill(dsp.context.authsession)
+		dsp.context.urltoken.stok = nil
+	end
+
+	luci.http.header("Set-Cookie", "sysauth=; path=" .. dsp.build_url())
+	luci.http.redirect(luci.dispatcher.build_url())
 end

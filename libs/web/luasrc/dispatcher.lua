@@ -348,7 +348,16 @@ function dispatch(request)
 		"http://luci.subsignal.org/trac/newticket"
 	)
 
-	if track.sysauth and (c and c.auth) then
+	local auth = false
+	if c == nil then
+		auth = true
+	end
+
+	if c and c.auth then
+		auth = c.auth
+	end
+
+	if track.sysauth and auth then
 		local sauth = require "luci.sauth"
 
 		local authen = type(track.sysauth_authenticator) == "function"

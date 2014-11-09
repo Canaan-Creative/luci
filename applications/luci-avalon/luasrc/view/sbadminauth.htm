@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Free Bootstrap Admin Template : Binary Admin</title>
+    <title>Login</title>
 	<!-- BOOTSTRAP STYLES-->
     <link href="<%=media%>/assets/css/bootstrap.min.css" rel="stylesheet" />
      <!-- FONTAWESOME STYLES-->
@@ -18,7 +18,7 @@
 		 border:1px solid #FFF;
 		 margin:100px auto 0px auto;
 		 width:600px;
-		 height:370px;
+		 height:400px;
 		 padding : 20px 65px;
 	}
 	.custom-box .logo{
@@ -71,14 +71,20 @@
 		    <img src="<%=media%>/assets/img/cg_logo.png" />
 		</div>
 		<div class="form">
-			<form>
+			<form method="post" action="<%=pcdata(luci.http.getenv("REQUEST_URI"))%>">
 				<table>
+					<div><input style="visibility:hidden;" type="text" name="username" value="root"/></div>
 					<tr>
-						<td><input type="password"  class="inputBox inputPassword"  name="password" id="password" value="Input password" /></td>
-						<td><input type="submit" class="inputBox inputSubmit" name="submit" id="submit" value="LOGIN" /></td>
+						<td><input id="focus_password" type="password" class="inputBox inputPassword" type="password" name="password"/></td>
+						<td><input type="submit" class="inputBox inputSubmit" value="<%:Login%>"></td>
 					</tr>
 				</table>
 			</form>
+		<div class="cbi-map-descr">
+			<%- if fuser then %>
+			<div class="error"><%:Invalid password! Please try again.%></div>
+			<br />
+			<% end -%>
 		</div>
 		<ul class="other_lists">
 			<li><a href="#">Downloads</a></li>
@@ -86,6 +92,12 @@
 			<li><a href="#">Canaan-creative</a></li>
 			<li><a href="#">Btctelecom</a></li>
 		</ul>
+		</div>
 	</div>
+<script type="text/javascript">//<![CDATA[
+	var input = document.getElementById('focus_password');
+	if (input)
+		input.focus();
+//]]></script>
 </body>
 </html>

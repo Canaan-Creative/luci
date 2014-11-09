@@ -1,19 +1,4 @@
-<!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml">
-    <head>
-	<meta charset="utf-8" />
-	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-	<title>Free Bootstrap Admin Template : Binary Admin</title>
-	<!-- BOOTSTRAP STYLES-->
-	<link href="<%=media%>/assets/css/bootstrap.min.css" rel="stylesheet" />
-	<!-- FONTAWESOME STYLES-->
-	<link href="<%=media%>/assets/css/font-awesome.css" rel="stylesheet" />
-	<!-- MORRIS CHART STYLES-->
-	<link href="<%=media%>/assets/js/morris/morris-0.4.3.min.css" rel="stylesheet" />
-	<!-- CUSTOM STYLES-->
-	<link href="<%=media%>/assets/css/custom.css" rel="stylesheet" />
-	<!-- GOOGLE FONTS-->
-	<script src="<%=media%>/assets/js/jquery-1.7.min.js"></script>
+<%+header%>
 	<style>
 	    .cbi-value{padding:10px 0px 10px 0px;}
 	    .cbi-value-field,.cbi-input-select{height:25px; line-height:25px;}
@@ -50,65 +35,5 @@ alert('Submit Ok!');
 			return false;
 			});
 });
-</script>    
-</head>
-<body>
-    <div id="wrapper">  
-	<!-- /. NAV TOP  -->
-	<nav class="navbar-default navbar-side" role="navigation">
-	<div class="sidebar-collapse">
-	    <!--{#main menu start}-->
-	    <ul class="nav" id="main-menu">
-		<li class="text-center">
-		<img src="<%=media%>/assets/img/avalon-logo-180.png" class="user-image img-responsive"/>
-		</li>
-		<li>
-		<a href="index"><i class="fa fa-dashboard fa-3x"></i>Dashboard</a>
-		</li>
-		<li>
-		<a href="cf"><i class="fa fa-table fa-3x"></i> Configuration</a>
-		</li> 
-		<li class='active'>
-		<a class="active-menu" href="network"><i class="fa fa-sitemap fa-3x"></i> Network</a>
-		</li>
-		<li>
-		<a href="#"><i class="fa fa-bar-chart-o fa-3x"></i> Canaan Creative Co., Ltd.<span class="fa arrow"></span></a>
-		<ul class="nav nav-second-level">
-		    <li>
-		    <a href="https://ehash.com" target="_blank">EHash</a>
-		    </li>
-		    <li>
-		    <a href="http://downloads.canaan-creative.com">Downloads</a>
-		    </li>
-		    <li>
-		    <a href="#">Contact</a>
-		    </li>
-		</ul>
-		</li> 	
-	    </ul><!--{#main menu start}-->
-	    <a href="#" class='return-old'>Return the old version >> </a>
-	</div>
-
-	</nav>  
-	<!-- /. NAV SIDE  -->
-	<div id="page-wrapper" >
-	    <div id="page-inner" style="margin:0px auto;">               
-		Loading......
-	    </div>
-	    <!-- /. PAGE INNER  -->
-	</div>
-	<!-- /. PAGE WRAPPER  -->
-    </div>
-    <!-- /. WRAPPER  -->
-    <!-- SCRIPTS -AT THE BOTOM TO REDUCE THE LOAD TIME-->
-    <!-- JQUERY SCRIPTS -->
-
-    <!-- BOOTSTRAP SCRIPTS -->
-    <script src="<%=media%>/assets/js/bootstrap.min.js"></script>
-    <!-- METISMENU SCRIPTS -->
-    <script src="<%=media%>/assets/js/jquery.metisMenu.js"></script>
-    <script src="<%=media%>/assets/js/custom.js"></script>
-
-
-</body>
-</html>
+</script>
+<%+footer%>
