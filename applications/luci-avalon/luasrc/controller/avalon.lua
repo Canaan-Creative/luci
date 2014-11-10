@@ -32,7 +32,7 @@ function index()
 
 	entry({"avalon"}, alias("avalon", "page", "index"), nil, 90).dependent=false
 	entry({"avalon", "page", "index"}, template("page/index"), _("Dashboard"))
-	entry({"avalon", "page", "network"}, cbi("wan"), _("Network"))
+	entry({"avalon", "page", "network"}, cbi("network"), _("Network"))
 	entry({"avalon", "page", "configure"}, cbi("cgsetting"), _("Configuration"))
 	entry({"avalon", "api", "getstatus"}, call("api_getstatus"), nil)
 	entry({"avalon", "api", "getlog"}, call("api_getlog"), nil)
@@ -63,7 +63,7 @@ function api_getstatus()
 	local summary = luci.util.execi("/usr/bin/cgminer-api -o summary | sed \"s/|/\\n/g\" ")
 
 	if summary then
-	    	for line in summary do
+	    for line in summary do
 			local ghsav, ghs5s, ghs5m = line:match(".*," ..
 								"MHS av=(-?[%d%.]+)," ..
 								"MHS 5s=(-?[%d%.]+)," ..

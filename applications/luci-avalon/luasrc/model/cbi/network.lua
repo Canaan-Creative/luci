@@ -1,10 +1,11 @@
 m = Map("network", "Network")
+m.on_after_commit = function() luci.sys.call("/etc/init.d/network restart") end
 
 s = m:section(TypedSection, "interface")
 s.addremove = false
 s.anonymous = true
 function s:filter(value)
-    return value =="wan" and value
+    return value =="lan" and value
 end
 
 s:depends("proto", "static")
