@@ -213,7 +213,9 @@ function api_getstatus()
 		end
 	end
 
-	status.openwrtver = luci.version.distname .. luci.version.distversion
+	local releasedate = io.popen("cat /etc/avalon_version")
+	status.openwrtver = releasedate:read("*line")
+	releasedate:close()
 	status.systime = os.date("%c")
 
 	luci.http.prepare_content("application/json")
