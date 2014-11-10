@@ -45,6 +45,7 @@ function api_getstatus()
 		ghsav = '0',
 		ghs5s = '0',
 		ghs5m = '0',
+		ghs15m = '0',
 		hashrate = {},
 		temp = '0',
 		fan = '0',
@@ -64,15 +65,17 @@ function api_getstatus()
 
 	if summary then
 	    for line in summary do
-			local ghsav, ghs5s, ghs5m = line:match(".*," ..
+			local ghsav, ghs5s, ghs5m, ghs15m = line:match(".*," ..
 								"MHS av=(-?[%d%.]+)," ..
 								"MHS 5s=(-?[%d%.]+)," ..
 								".*," ..
-								"MHS 5m=(-?[%d%.]+),")
+								"MHS 5m=(-?[%d%.]+)," ..
+								"MHS 15m=(-?[%d%.]+),")
 			if ghsav then
 				status.ghsav = ghsav and (ghsav / 1000) or 0
 				status.ghs5s = ghs5s and (ghs5s / 1000) or 0
 				status.ghs5m = ghs5m and (ghs5m / 1000) or 0
+				status.ghs15m = ghs15m and (ghs15m / 1000) or 0
 			end
 		end
 	end
