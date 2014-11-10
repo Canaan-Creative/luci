@@ -49,11 +49,11 @@
 							_temp = _data.temp ? _data.temp : '0';
 							_ghsav = _data.ghs5m ? _data.ghs5m : '0';
 
-							$('#ghsav').html(_data.ghs5s ? _data.ghs5s + 'GHS' : 'null');
+							$('#ghsav').html(_data.ghs5s ? Math.round(_data.ghs5s) + 'GHS' : 'null');
 							$('#mac').html(_data.network.mac ? _data.network.mac : '');
 							$('#ip4').html(_data.network.ip4 ? _data.network.ip4 : '');
 							$('#ip6').html(_data.network.ip6 ? _data.network.ip6 : '');
-							$('#ghs5m').html(_data.ghs5m ? _data.ghs5m + 'GHS' : 'null');
+							$('#ghs5m').html(_data.ghs5m ? Math.round(_data.ghs5m) + 'GHS' : 'null');
 
 							$('#pool').html(_data.pool[0].url ? _data.pool[0].url : 'no-pool');
 							$('#diff').html(_data.pool[0].diff ? _data.pool[0].diff : 'no-diff');
