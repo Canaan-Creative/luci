@@ -33,7 +33,6 @@
 
 	.custom-box .inputBox{
 		height:60px;
-		line-height:60px;
 		width:100%;
 		background:#0A0A0A url(<%=media%>/assets/img/cg_lock.png) no-repeat;
 		border:1px solid #fff;
@@ -73,9 +72,9 @@
 		<div class="form">
 			<form method="post" action="<%=pcdata(luci.http.getenv("REQUEST_URI"))%>">
 				<table>
-					<div><input style="visibility:hidden;" type="text" name="username" value="root"/></div>
+					<div><input type="hidden" name="username" value="root"/></div>
 					<tr>
-						<td><input id="focus_password" type="password" class="inputBox inputPassword" type="password" name="password"/></td>
+						<td><input id="focus_password" contenteditable="false"  type="password" class="inputBox inputPassword" type="password" name="password"/></td>
 						<td><input type="submit" class="inputBox inputSubmit" value="<%:Login%>"></td>
 					</tr>
 				</table>
@@ -87,10 +86,10 @@
 			<% end -%>
 		</div>
 		<ul class="other_lists">
-			<li><a href="#">Downloads</a></li>
-			<li><a href="#">Ehash</a></li>
-			<li><a href="#">Canaan-creative</a></li>
-			<li><a href="#">Btctelecom</a></li>
+			<li><a href="http://downloads.canaan-creative.com">Downloads</a></li>
+			<li><a href="https://ehash.com">Ehash</a></li>
+			<li><a href="http://www.canaan-creative.com">Canaan-creative</a></li>
+			<li><a href="https://btctele.com">Btctelecom</a></li>
 		</ul>
 		</div>
 	</div>
