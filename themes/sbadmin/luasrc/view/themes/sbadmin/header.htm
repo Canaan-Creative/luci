@@ -49,10 +49,10 @@ $Id: header.htm 9558 2012-12-18 13:58:22Z jow $
 <!-- button css -->
 <link rel="stylesheet" href="<%=media%>/cascade.css">
 <script type="text/javascript">//<![CDATA[
-function changetheme()
+function settheme()
 {
 	$.ajax({
-			url:'<%=luci.dispatcher.build_url("avalon", "api", "changetheme")%>',
+			url:'<%=luci.dispatcher.build_url("avalon", "api", "settheme")%>',
 			type:'post',
 			data: {theme: "openwrt"},
 			dataType: 'json',
@@ -106,7 +106,7 @@ function changetheme()
 		</li>
 		</ul><!--{#main menu start}-->
 		<a href="<%=luci.dispatcher.build_url("avalon", "api", "logout")%>" class='logout'> Logout</a>
-		<a href="#" class='return-old' onclick="changetheme()"><i class="fa fa-3x"></i> Old Version >></a>
+		<a href="#" class='return-old' onclick="settheme()"><i class="fa fa-3x"></i> Old Version >></a>
 	</div>
 
 	</nav>

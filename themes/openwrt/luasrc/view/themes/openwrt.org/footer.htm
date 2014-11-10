@@ -16,9 +16,9 @@ $Id$
 </div>
 </div>
 <script type="text/javascript">//<![CDATA[
-    function changetheme()
+    function settheme()
     {
-        XHR.get('<%=luci.dispatcher.build_url("avalon", "api", "changetheme")%>',
+        XHR.get('<%=luci.dispatcher.build_url("avalon", "api", "settheme")%>',
 			{ theme: "sbadmin" },
             function(x, resp)
             {
@@ -32,6 +32,6 @@ $Id$
 //]]></script>
 
 <p class="luci">Powered by <%= luci.__appname__ .. " (" .. luci.__version__ .. ")" %></p>
-<p><a href="#" onclick="changetheme()">Change Theme</a></p>
+<p><a href="#" onclick="settheme()">Change Theme</a></p>
 </body>
 </html>

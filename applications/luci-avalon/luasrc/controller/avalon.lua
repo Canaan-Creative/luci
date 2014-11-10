@@ -36,7 +36,7 @@ function index()
 	entry({"avalon", "page", "configure"}, cbi("cgsetting"), _("Configuration"))
 	entry({"avalon", "api", "getstatus"}, call("api_getstatus"), nil)
 	entry({"avalon", "api", "getlog"}, call("api_getlog"), nil)
-	entryauth({"avalon", "api", "changetheme"}, call("api_changetheme"), nil, nil, false)
+	entryauth({"avalon", "api", "settheme"}, call("api_settheme"), nil, nil, false)
 	entry({"avalon", "api", "logout"}, call("action_logout"), _("Logout"))
 end
 
@@ -235,7 +235,7 @@ function api_getlog()
 	luci.http.write_json(msg)
 end
 
-function api_changetheme()
+function api_settheme()
 	local msg = {}
 	local uci = require "luci.model.uci".cursor()
 	local theme = luci.http.formvalue("theme")
