@@ -99,21 +99,21 @@
 			},
 			yAxis: [{
 				labels: {
+				//format: '{value} mm',
 				formatter: function() {
-					return this.value +'°C';
+					return this.value +'GHS';
 				},
-				//format: '{value}°C',
 				style: {
-					color: '#ffbc75'
+					color: '#90ec7d'
 				}
 				},
 				title: {
-				text: 'Temperature',
+				text: 'Ghsav',
 				style: {
-					color: '#ffbc75'
+					color: '#90ec7d'
 				}
 				},
-				opposite: true,
+				opposite: true ,
 			},
 			{
 				labels: {
@@ -135,21 +135,21 @@
 			},
 			{
 				labels: {
-				//format: '{value} mm',
 				formatter: function() {
-					return this.value +'GHS';
+					return this.value +'°C';
 				},
+				//format: '{value}°C',
 				style: {
-					color: '#90ec7d'
+					color: '#ffbc75'
 				}
 				},
 				title: {
-				text: 'Ghsav',
+				text: 'Temperature',
 				style: {
-					color: '#90ec7d'
+					color: '#ffbc75'
 				}
 				},
-				opposite: true ,
+				opposite: true,
 			},
 			],
 
