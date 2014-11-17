@@ -10,7 +10,7 @@
 		var _fan = 0;
 		var _temp = 0;
 		var _i = 50 ;
-		var _ghsav = 0;
+		var _ghs5s = 0;
 
 		$(document).ready(function() {
 			Highcharts.setOptions({
@@ -44,31 +44,31 @@
 						dataType: 'json',
 						success:function(_data){
 						if (_data) {
-
 							_fan = _data.fan ? Math.floor(_data.fan/100) : '0';
 							_temp = _data.temp ? _data.temp : '0';
-							_ghsav = _data.ghs5m ? _data.ghs5m : '0';
+							_ghs5s = _data.ghs5s ? _data.ghs5s : '0';
 
-							$('#ghsav').html(_data.ghs5s ? Math.round(_data.ghs5s) + 'GHS' : 'null');
-							$('#mac').html(_data.network.mac ? _data.network.mac : '');
-							$('#ip4').html(_data.network.ip4 ? _data.network.ip4 : '');
-							$('#ip6').html(_data.network.ip6 ? _data.network.ip6 : '');
-							$('#ghs5m').html(_data.ghs5m ? Math.round(_data.ghs5m) + 'GHS' : 'null');
+							$('#ghsav').html(_data.ghs5s ? Math.round(_data.ghs5s) + 'GHs' : '0GHs');
+							$('#mac').html(_data.network.mac ? _data.network.mac : '--');
+							$('#ip4').html(_data.network.ip4 ? _data.network.ip4 : '--');
+							$('#ip6').html(_data.network.ip6 ? _data.network.ip6 : '--');
+							$('#ghs15m').html(_data.ghs15m ? Math.round(_data.ghs15m) + 'GHs' : '0GHs');
 
-							$('#pool').html(_data.pool[0].url ? _data.pool[0].url : 'no-pool');
-							$('#diff').html(_data.pool[0].diff ? _data.pool[0].diff : 'no-diff');
-							$('#accept').html(_data.pool[0].accept ? _data.pool[0].accept : 'no-accept');
-
-							$("#modularcnt").html(_data.modularcnt ? _data.modularcnt : 'null');
-							$("#voltage").html(_data.voltage ? _data.voltage + 'V' : 'null');
-							$("#freq").html(_data.freq ? _data.freq + 'GHz' : 'null');
+							if (_data.pool[0]) {
+								$('#pool').html(_data.pool[0].url ? _data.pool[0].url : 'no-pool');
+								$('#diff').html(_data.pool[0].diff ? _data.pool[0].diff : 'no-diff');
+								$('#accept').html(_data.pool[0].accept ? _data.pool[0].accept : 'no-accept');
+							}
+							$("#modularcnt").html(_data.modularcnt ? _data.modularcnt : '0');
+							$("#voltage").html(_data.voltage ? _data.voltage + 'V' : '0');
+							$("#freq").html(_data.freq ? _data.freq + 'GHz' : '0');
 
 							//var temp = _data.temp ? _data.temp : '';
 							//temp2 = temp.substr(0,7);
 							//$("#temp").html(temp2);
-							$("#temp").html(_data.temp ? _data.temp + '℃' : 'null');
-							$("#dh").html(_data.dh ? _data.dh : 'null');
-							$("#mmver").html(_data.mmver ? _data.mmver : 'null');
+							$("#temp").html(_data.temp ? _data.temp + '℃' : '0');
+							$("#dh").html(_data.dh ? _data.dh : '0');
+							$("#mmver").html(_data.mmver ? _data.mmver : '0');
 
 							$("#openwrtver").html(_data.openwrtver ? _data.openwrtver : '--');
 							$("#time").html(_data.systime ? _data.systime : '--');
@@ -80,7 +80,7 @@
 					var x = (new Date()).getTime(),
 					y = parseInt(_fan);
 					y1 = parseInt(_temp);
-					y2 = parseInt(_ghsav);
+					y2 = parseInt(_ghs5s);
 					series.addPoint([x, y], true, true);
 					series1.addPoint([x, y1], true, true);
 					series2.addPoint([x, y2], true, true);
@@ -106,14 +106,14 @@
 				labels: {
 				//format: '{value} mm',
 				formatter: function() {
-					return this.value +'GHS';
+					return this.value +'GHs';
 				},
 				style: {
 					color: '#90ec7d'
 				}
 				},
 				title: {
-				text: 'Ghsav',
+				text: 'Ghs',
 				style: {
 					color: '#90ec7d'
 				}
@@ -136,7 +136,6 @@
 					color: '#7cb5ec'
 				}
 				},
-
 			},
 			{
 				labels: {
@@ -171,8 +170,8 @@
 					    case 'Temperature':
 						s +=this.series.name + ':' + this.y + '℃';
 						break;
-					    case 'GHSav':
-						s +=this.series.name + ':' + this.y + 'GHS';
+					    case 'GHs':
+						s +=this.series.name + ':' + this.y + 'GHs';
 					    default :
 						break;
 					}
@@ -244,7 +243,7 @@
 			},
 			{
 				color: '#90ec7d',
-				name: 'GHSav',
+				name: 'GHs',
 				data: (function() { // generate an array of random data
 				var data = [],
 				time = (new Date()).getTime(),
@@ -258,7 +257,7 @@
 				return data;
 				})() ,
 				tooltip: {
-				valueSuffix: 'GHS'
+				valueSuffix: 'GHs'
 				},
 				marker: {
 				enabled: false
@@ -277,16 +276,16 @@
 			<div class="col-md-6 col-sm-6">
 				<div class="bg-color-333 height-148 cginfo-padding">
 				<h2>Network Information <span><a href="#"> <a href="<%=luci.dispatcher.build_url("avalon", "page", "network")%>"> > Quick setting</a></a></span></h2>
-				<p><strong>MAC-Address : </strong> <span id='mac'></span></p>
-				<p><strong>IPv4 : </strong> <span id='ip4'></span></p>
-				<p><strong>IPv6 : </strong> <span id='ip6'></span></p>
+				<p><strong>MAC-Address : </strong> <span id='mac'>--</span></p>
+				<p><strong>IPv4 : </strong> <span id='ip4'>--</span></p>
+				<p><strong>IPv6 : </strong> <span id='ip6'>--</span></p>
 				</div>
 			</div>
 			<div class="col-md-6 col-sm-6">
 				<div class="bg-color-333 height-148 cginfo-padding">
 				<h2>Overview</h2>
-				<p>Controller Versions : <span id="openwrtver"></span></p>
-				<p>Time : <span id="time"></span></p>
+				<p>Controller Versions : <span id="openwrtver">--</span></p>
+				<p>Time : <span id="time">--</span></p>
 				</div>
 			</div>
 			</div>
@@ -295,8 +294,8 @@
 			<div class="col-md-2 col-sm-2">
 				<div class="bg-color-333 height-148 cginfo-padding">
 				<h2>Hash Rate</h2>
-				<p>Per 5s : <span id="ghsav"></span></p>
-				<p>Per 5m : <span id="ghs5m"></span></p>
+				<p>Per 5s : <span id="ghsav">0GHs</span></p>
+				<p>Per 15m : <span id="ghs15m">0GHs</span></p>
 				</div>
 			</div>
 			<div class="col-md-4 col-sm-4">
@@ -323,7 +322,7 @@
 			<div class="col-md-12 col-sm-12 col-xs-12">
 				<div class="panel panel-default">
 				<div class="panel-heading">
-					<strong>Fan   /  Temperature  / GHSav</strong>
+					<strong>Fan   /  Temperature  / GHs</strong>
 				</div>
 				<div class="panel-body">
 					<div class="table-responsive">
