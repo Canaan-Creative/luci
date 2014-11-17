@@ -5,270 +5,280 @@
 		.panel-body{padding:0px;}
 	</style>
 	<script>
-		$(function () {
+	    var _fan = 0;
+	    var _temp = 0;
+	    var _i = 50 ;
+	    var _ghs5s = 0;
+	    var series = 0;
+	    var series1 = 0;
+	    var series2 = 0;
+
+
+	    function getstatus() {
+		/**
+		* Get Status
+		* @author Wanggh
+		*/
+		$.ajax({
+		    url:'<%=luci.dispatcher.build_url("avalon", "api", "getstatus")%>',
+		    type:'post',
+		    dataType: 'json',
+		    success:function(_data){
+			if (_data) {
+			    _fan = _data.fan ? Math.floor(_data.fan/100) : '0';
+			    _temp = _data.temp ? _data.temp : '0';
+			    _ghs5s = _data.ghs5s ? _data.ghs5s : '0';
+
+			    $('#ghsav').html(_data.ghs5s ? Math.round(_data.ghs5s) + 'GHs' : '0GHs');
+			    $('#mac').html(_data.network.mac ? _data.network.mac : '--');
+			    $('#ip4').html(_data.network.ip4 ? _data.network.ip4 : '--');
+			    $('#ip6').html(_data.network.ip6 ? _data.network.ip6 : '--');
+			    $('#ghs15m').html(_data.ghs15m ? Math.round(_data.ghs15m) + 'GHs' : '0GHs');
+
+			    if (_data.pool[0]) {
+				$('#pool').html(_data.pool[0].url ? _data.pool[0].url : 'no-pool');
+				$('#diff').html(_data.pool[0].diff ? _data.pool[0].diff : 'no-diff');
+				$('#accept').html(_data.pool[0].accept ? _data.pool[0].accept : 'no-accept');
+			    }
+			    $("#modularcnt").html(_data.modularcnt ? _data.modularcnt : '0');
+			    $("#voltage").html(_data.voltage ? _data.voltage + 'V' : '0');
+			    $("#freq").html(_data.freq ? _data.freq + 'GHz' : '0');
+
+			    //var temp = _data.temp ? _data.temp : '';
+			    //temp2 = temp.substr(0,7);
+			    //$("#temp").html(temp2);
+			    $("#temp").html(_data.temp ? _data.temp + '℃' : '0');
+			    $("#dh").html(_data.dh ? _data.dh : '0');
+			    $("#mmver").html(_data.mmver ? _data.mmver : '0');
+
+			    $("#openwrtver").html(_data.openwrtver ? _data.openwrtver : '--');
+			    $("#time").html(_data.systime ? _data.systime : '--');
+
+			}
+		    },
+		});
+
+		var x = (new Date()).getTime(),
+		y = parseInt(_fan);
+		y1 = parseInt(_temp);
+		y2 = parseInt(_ghs5s);
+		series.addPoint([x, y], true, true);
+		series1.addPoint([x, y1], true, true);
+		series2.addPoint([x, y2], true, true);
+	    }
+
+	    $(function () {
 		var _intvalTime = 5000;
-		var _fan = 0;
-		var _temp = 0;
-		var _i = 50 ;
-		var _ghs5s = 0;
 
 		$(document).ready(function() {
-			Highcharts.setOptions({
+		    Highcharts.setOptions({
 			global: {
-				useUTC: false
+			    useUTC: false
 			}
-			});
+		    });
 
-			var chart;
-			chart = new Highcharts.Chart({
+		    var chart;
+		    chart = new Highcharts.Chart({
 			chart: {
-				renderTo: 'container-speed-temperature',
-				type: 'spline',
-				animation: Highcharts.svg,
-				events: {
+			    renderTo: 'container-speed-temperature',
+			    type: 'spline',
+			    animation: Highcharts.svg,
+			    events: {
 				load: function() {
 
-					// set up the updating of the chart each second
-					var series = this.series[0];
-					var series1 = this.series[1];
-					var series2 = this.series[2];
+				    // set up the updating of the chart each second
+				    series = this.series[0];
+				    series1 = this.series[1];
+				    series2 = this.series[2];
 
-					setInterval(function() {
-					/**
-					* Get Status
-					* @author Wanggh
-					*/
-					$.ajax({
-						url:'<%=luci.dispatcher.build_url("avalon", "api", "getstatus")%>',
-						type:'post',
-						dataType: 'json',
-						success:function(_data){
-						if (_data) {
-							_fan = _data.fan ? Math.floor(_data.fan/100) : '0';
-							_temp = _data.temp ? _data.temp : '0';
-							_ghs5s = _data.ghs5s ? _data.ghs5s : '0';
-
-							$('#ghsav').html(_data.ghs5s ? Math.round(_data.ghs5s) + 'GHs' : '0GHs');
-							$('#mac').html(_data.network.mac ? _data.network.mac : '--');
-							$('#ip4').html(_data.network.ip4 ? _data.network.ip4 : '--');
-							$('#ip6').html(_data.network.ip6 ? _data.network.ip6 : '--');
-							$('#ghs15m').html(_data.ghs15m ? Math.round(_data.ghs15m) + 'GHs' : '0GHs');
-
-							if (_data.pool[0]) {
-								$('#pool').html(_data.pool[0].url ? _data.pool[0].url : 'no-pool');
-								$('#diff').html(_data.pool[0].diff ? _data.pool[0].diff : 'no-diff');
-								$('#accept').html(_data.pool[0].accept ? _data.pool[0].accept : 'no-accept');
-							}
-							$("#modularcnt").html(_data.modularcnt ? _data.modularcnt : '0');
-							$("#voltage").html(_data.voltage ? _data.voltage + 'V' : '0');
-							$("#freq").html(_data.freq ? _data.freq + 'GHz' : '0');
-
-							//var temp = _data.temp ? _data.temp : '';
-							//temp2 = temp.substr(0,7);
-							//$("#temp").html(temp2);
-							$("#temp").html(_data.temp ? _data.temp + '℃' : '0');
-							$("#dh").html(_data.dh ? _data.dh : '0');
-							$("#mmver").html(_data.mmver ? _data.mmver : '0');
-
-							$("#openwrtver").html(_data.openwrtver ? _data.openwrtver : '--');
-							$("#time").html(_data.systime ? _data.systime : '--');
-
-						}
-						},
-					});
-
-					var x = (new Date()).getTime(),
-					y = parseInt(_fan);
-					y1 = parseInt(_temp);
-					y2 = parseInt(_ghs5s);
-					series.addPoint([x, y], true, true);
-					series1.addPoint([x, y1], true, true);
-					series2.addPoint([x, y2], true, true);
-					}, _intvalTime);
+				    getstatus();
+				    setInterval(function() {
+					getstatus();
+				    }, _intvalTime);
 				}
-				}
+			    }
 			},
 			title: {
-				text: 'Active Charts'
+			    text: 'Active Charts'
 			},
 			subtitle: {
-				text: 'Update every 5 seconds'
+			    text: 'Update every 5 seconds'
 			},
 			xAxis: {
-				type: 'datetime',
-				tickPixelInterval: 150
+			    type: 'datetime',
+			    tickPixelInterval: 150
 			},
 
 			credits:{
-				enabled: false
+			    enabled: false
 			},
 			yAxis: [{
-				labels: {
+			    labels: {
 				//format: '{value} mm',
 				formatter: function() {
-					return this.value +'GHs';
+				    return this.value +'GHs';
 				},
 				style: {
-					color: '#90ec7d'
+				    color: '#90ec7d'
 				}
-				},
-				title: {
+			    },
+			    title: {
 				text: 'Ghs',
 				style: {
-					color: '#90ec7d'
+				    color: '#90ec7d'
 				}
-				},
-				opposite: true ,
+			    },
+			    opposite: true ,
 			},
 			{
-				labels: {
+			    labels: {
 				//format: '{value} mm',
 				formatter: function() {
-					return this.value +'RPM';
+				    return this.value +'RPM';
 				},
 				style: {
-					color: '#7cb5ec'
+				    color: '#7cb5ec'
 				}
-				},
-				title: {
+			    },
+			    title: {
 				text: 'Fan',
 				style: {
-					color: '#7cb5ec'
+				    color: '#7cb5ec'
 				}
-				},
+			    },
 			},
 			{
-				labels: {
+			    labels: {
 				formatter: function() {
-					return this.value +'°C';
+				    return this.value +'°C';
 				},
 				//format: '{value}°C',
 				style: {
-					color: '#ffbc75'
+				    color: '#ffbc75'
 				}
-				},
-				title: {
+			    },
+			    title: {
 				text: 'Temperature',
 				style: {
-					color: '#ffbc75'
+				    color: '#ffbc75'
 				}
-				},
-				opposite: true,
+			    },
+			    opposite: true,
 			},
 			],
 
 			tooltip: {
-				shared: true,
-				formatter : function(){
-				    //var s = '<b>' + this.x + '</b>';
-				    var s = '';
-				    $.each(this.points,function(){
-					switch(this.series.name){
-					    case 'Fan':
-						s +=this.series.name + ':' + this.y*100 + 'RPM';
-						break;
-					    case 'Temperature':
-						s +=this.series.name + ':' + this.y + '℃';
-						break;
-					    case 'GHs':
-						s +=this.series.name + ':' + this.y + 'GHs';
-					    default :
-						break;
-					}
-					s +='<br>';
-				    })
-				    return s;
-				}
+			    shared: true,
+			    formatter : function(){
+				//var s = '<b>' + this.x + '</b>';
+				var s = '';
+				$.each(this.points,function(){
+				    switch(this.series.name){
+					case 'Fan':
+					s +=this.series.name + ':' + this.y*100 + 'RPM';
+					break;
+					case 'Temperature':
+					s +=this.series.name + ':' + this.y + '℃';
+					break;
+					case 'GHs':
+					s +=this.series.name + ':' + this.y + 'GHs';
+					default :
+					break;
+				    }
+				    s +='<br>';
+				})
+				return s;
+			    }
 
 			},
 			legend: {
-				layout: 'vertical',
-				align: 'left',
-				x: 120,
-				verticalAlign: 'top',
-				floating: true,
-				backgroundColor: '#2f2f31'
+			    layout: 'vertical',
+			    align: 'left',
+			    x: 120,
+			    verticalAlign: 'top',
+			    floating: true,
+			    backgroundColor: '#2f2f31'
 			},
 			exporting: {
-				enabled: false
+			    enabled: false
 			},
 			series: [{
-				yAxis:1,
-				color: '#7cb5ec',
-				name: 'Fan',
-				data: (function() { // generate an array of random data
+			    yAxis:1,
+			    color: '#7cb5ec',
+			    name: 'Fan',
+			    data: (function() { // generate an array of random data
 				var data = [],
 				time = (new Date()).getTime(),
 				i;
 				for (i = -_i; i <= 0; i++) {
-					data.push({
+				    data.push({
 					x: time + i * 1000,
 					y: null
-					});
+				    });
 				}
 				return data;
-				})(),
-				tooltip: {
+			    })(),
+			    tooltip: {
 				valueSuffix: ' RPM'
-				},
-				marker: {
+			    },
+			    marker: {
 				enabled: false
-				},
-				dashStyle: 'shortdot',
+			    },
+			    dashStyle: 'shortdot',
 			},
 			{
-				color: '#ffbc75',
-				yAxis: 2,
-				name: 'Temperature',
-				data: (function() { // generate an array of random data
+			    color: '#ffbc75',
+			    yAxis: 2,
+			    name: 'Temperature',
+			    data: (function() { // generate an array of random data
 				var data = [],
 				time = (new Date()).getTime(),
 				i;
 
 				for (i = -_i; i <= 0; i++) {
-					data.push({
+				    data.push({
 					x: time + i * 1000,
 					y: null
-					});
+				    });
 				}
 				return data;
-				})() ,
-				tooltip: {
+			    })() ,
+			    tooltip: {
 				valueSuffix: '°C'
-				},
-				marker: {
+			    },
+			    marker: {
 				enabled: false
-				},
-				dashStyle: 'shortdot',
+			    },
+			    dashStyle: 'shortdot',
 			},
 			{
-				color: '#90ec7d',
-				name: 'GHs',
-				data: (function() { // generate an array of random data
+			    color: '#90ec7d',
+			    name: 'GHs',
+			    data: (function() { // generate an array of random data
 				var data = [],
 				time = (new Date()).getTime(),
 				i;
 				for (i = -_i; i <= 0; i++) {
-					data.push({
+				    data.push({
 					x: time + i * 1000,
 					y: null
-					});
+				    });
 				}
 				return data;
-				})() ,
-				tooltip: {
+			    })() ,
+			    tooltip: {
 				valueSuffix: 'GHs'
-				},
-				marker: {
+			    },
+			    marker: {
 				enabled: false
-				},
-				//dashStyle: 'shortdot',
+			    },
+			    //dashStyle: 'shortdot',
 			}]
-			});
+		    });
 
 		});
 
-		});
+	    });
 	</script>
 		<h2><a id="content" name="content">Dashboard</a></h2>
 		<div id="page-inner">
