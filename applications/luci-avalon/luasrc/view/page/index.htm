@@ -13,6 +13,13 @@
 	    var series1 = 0;
 	    var series2 = 0;
 
+	    function secondsToHms(d) {
+		d = Number(d);
+		var h = Math.floor(d / 3600);
+		var m = Math.floor(d % 3600 / 60);
+		var s = Math.floor(d % 3600 % 60);
+		return ((h > 0 ? h + ":" : "") + (m >= 0 ? (h > 0 && m < 10 ? "0" : "") + m + ":" : "0:") + (s < 10 ? "0" : "") + s);
+	    }
 
 	    function getstatus() {
 		/**
@@ -53,6 +60,7 @@
 
 			    $("#openwrtver").html(_data.openwrtver ? _data.openwrtver : '--');
 			    $("#time").html(_data.systime ? _data.systime : '--');
+			    $("#elapsed").html(_data.elapsed ? secondsToHms(_data.elapsed) : '--');
 
 			}
 		    },
@@ -295,6 +303,7 @@
 				<h2>Overview</h2>
 				<p>Controller Versions : <span id="openwrtver">--</span></p>
 				<p>Time : <span id="time">--</span></p>
+				<p>CGMiner Elapsed : <span id="elapsed">0</span></p>
 				</div>
 			</div>
 			</div>
