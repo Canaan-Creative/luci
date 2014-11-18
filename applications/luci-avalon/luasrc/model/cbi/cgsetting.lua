@@ -1,6 +1,4 @@
-m = Map("cgminer", translate("Configuration"),
-        translate("<p>Please visit <a class='btn btn-default btn-sm'  href='https://ehash.com/support'> Support</a> for support,"..
-        "visit <a class='btn btn-default btn-sm' href='http://downloads.canaan-creative.com'> Downloads</a> for firmware download.</p>"))
+m = Map("cgminer", translate("Configuration"))
 
 ntp_section = m:section(TypedSection, "cgminer", translate("NTP"))
 ntp_section.template = "cgsetting/cbi_tblsection"
