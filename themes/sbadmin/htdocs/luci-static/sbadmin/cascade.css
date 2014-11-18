@@ -70,7 +70,7 @@
 .cbi-value-field input {
    width:100%;
 }
-.loginout{
+.return-old{
     border: 1px solid red;
     /* margin-top: 50px; */
     display: block;
@@ -83,7 +83,7 @@
     color: #fff;
     background: #C90000!important;
 }
-.return-old{
+.loginout{
      border: 1px solid red;
      /* margin-top: 50px; */
      display: block;
