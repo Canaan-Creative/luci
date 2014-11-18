@@ -25,7 +25,7 @@
 		    dataType: 'json',
 		    success:function(_data){
 			if (_data) {
-			    _fan = _data.fan ? Math.floor(_data.fan/100) : '0';
+			    _fan = _data.fan ? 100 * Math.floor(_data.fan/100) : '0';
 			    _temp = _data.temp ? _data.temp : '0';
 			    _ghs5s = _data.ghs5s ? _data.ghs5s : '0';
 
@@ -48,7 +48,7 @@
 			    //temp2 = temp.substr(0,7);
 			    //$("#temp").html(temp2);
 			    $("#temp").html(_data.temp ? _data.temp + '℃' : '0');
-			    $("#dh").html(_data.dh ? _data.dh : '0');
+			    $("#dh").html(_data.dh ? _data.dh + '%' : '0');
 			    $("#mmver").html(_data.mmver ? _data.mmver : '0');
 
 			    $("#openwrtver").html(_data.openwrtver ? _data.openwrtver : '--');
@@ -163,7 +163,6 @@
 				    color: '#ffbc75'
 				}
 			    },
-			    opposite: true,
 			},
 			],
 
@@ -175,7 +174,7 @@
 				$.each(this.points,function(){
 				    switch(this.series.name){
 					case 'Fan':
-					s +=this.series.name + ':' + this.y*100 + 'RPM';
+					s +=this.series.name + ':' + this.y + 'RPM';
 					break;
 					case 'Temperature':
 					s +=this.series.name + ':' + this.y + '℃';
