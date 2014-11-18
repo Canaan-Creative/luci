@@ -86,7 +86,7 @@ function api_getstatus()
 	local devdata = {}
 	if stats then
 		for line in stats do
-			local id, mmver, dh, temp, fan, v, f;
+			local id, mmver, dh, temp, fan, v, f = 0, 0, 0.0, 0, 0, 0, 0;
 			id = line:match(".*," ..
 			"ID=AV4([%d]+),")
 			if id then
@@ -101,7 +101,7 @@ function api_getstatus()
 						tostring(index) ..
 						"=Ver.-" ..
 						".-" ..
-						"DH%[(-?[%.%d]+%%)%]" ..
+						"DH%[(-?[%.%d]+)%%%]" ..
 						".-" ..
 						"Temp%[(-?%d+)%]" ..
 						".-" ..
@@ -133,14 +133,16 @@ function api_getstatus()
 
 		for i, item in ipairs(devdata) do
 			mmver = item.mmver
-			dh = item.dh
-			temp =  temp + item.temp
+			dh = dh + item.dh
+			if temp < tonumber(item.temp) then
+			    temp = tonumber(item.temp)
+			end
 			fan = fan + item.fan
 			v = v + item.v
 			f = f + item.f
 		end
 
-		temp = temp / modularcnt
+		dh = dh / modularcnt
 		fan = fan / modularcnt
 		v = v / modularcnt
 		f = f / modularcnt
