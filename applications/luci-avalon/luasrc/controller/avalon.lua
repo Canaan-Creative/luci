@@ -43,6 +43,7 @@ end
 
 function api_getstatus()
 	local status = {
+		elapsed = '0',
 		ghsav = '0',
 		ghs5s = '0',
 		ghs5m = '0',
@@ -65,14 +66,16 @@ function api_getstatus()
 	local summary = luci.util.execi("/usr/bin/cgminer-api -o summary | sed \"s/|/\\n/g\" ")
 
 	if summary then
-	    for line in summary do
-			local ghsav, ghs5s, ghs5m, ghs15m = line:match(".*," ..
+		for line in summary do
+			local elapsed, ghsav, ghs5s, ghs5m, ghs15m = line:match(".*," ..
+								"Elapsed=(-?[%d]+)," ..
 								"MHS av=(-?[%d%.]+)," ..
 								"MHS 5s=(-?[%d%.]+)," ..
 								".*," ..
 								"MHS 5m=(-?[%d%.]+)," ..
 								"MHS 15m=(-?[%d%.]+),")
 			if ghsav then
+				status.elapsed = elapsed
 				status.ghsav = ghsav and (ghsav / 1000) or 0
 				status.ghs5s = ghs5s and (ghs5s / 1000) or 0
 				status.ghs5m = ghs5m and (ghs5m / 1000) or 0
