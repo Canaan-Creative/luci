@@ -37,7 +37,7 @@
 
 			    if (_data.pool[0]) {
 				$('#pool').html(_data.pool[0].url ? _data.pool[0].url : 'no-pool');
-				$('#diff').html(_data.pool[0].diff ? _data.pool[0].diff : 'no-diff');
+				$('#worker').html(_data.pool[0].user ? _data.pool[0].user : '--');
 				$('#accept').html(_data.pool[0].accept ? _data.pool[0].accept : 'no-accept');
 			    }
 			    $("#modularcnt").html(_data.modularcnt ? _data.modularcnt : '0');
@@ -311,7 +311,7 @@
 				<div class="bg-color-333 height-148 cginfo-padding">
 				<h2>Current Pool <span><a href="<%=luci.dispatcher.build_url("avalon", "page", "configure")%>"> > Quick setting</a></span></h2>
 				<p id='pool'>--</p>
-				<p>Diffcult : <span id='diff'>--</span> | Accepted : <span id='accept'>--</span></p>
+				<p>Worker : <span id='worker'>--</span> | Accepted : <span id='accept'>--</span></p>
 				</div>
 			</div>
 			<div class="col-md-6 col-sm-6">
