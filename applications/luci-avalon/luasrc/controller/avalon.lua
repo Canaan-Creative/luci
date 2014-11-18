@@ -181,17 +181,22 @@ function api_getstatus()
 
 	if pools then
 		for line in pools do
-			local pool, url, diff, accept =
+			local pool, url, user, diff, accept =
 			line:match("POOL=(-?%d+)," ..
 				"URL=(.-)," ..
-				".*" ..
+				"Status=Alive.-" ..
+				"User=(.-)," ..
+				".-" ..
 				"Diff1 Shares=(-?%d+)," ..
-				".*," ..
-				"Difficulty Accepted=(-?%d+)[%.%d]+,")
+				".-," ..
+				"Difficulty Accepted=(-?%d+)[%.%d]+," ..
+				".-" ..
+				"Stratum Active=true")
 			if pool then
 				status.pool[#status.pool+1] = {
 					['pool'] = pool,
 					['url'] = url,
+					['user'] = user,
 					['diff'] = diff,
 					['accept'] = accept
 				}
