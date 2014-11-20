@@ -1,6 +1,0 @@
-#!/bin/sh
-uci batch <<-EOF
-	set luci.themes.SbAdmin=/luci-static/sbadmin
-	set luci.main.mediaurlbase=/luci-static/sbadmin
-	commit luci
-EOF

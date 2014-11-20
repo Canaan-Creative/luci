@@ -26,7 +26,7 @@ function index()
 	page.title   = _("Avalon")
 	page.order   = 8
 	page.sysauth = "root"
-	page.sysauth_authenticator = "sbadminauth"
+	page.sysauth_authenticator = "avalonauth"
 	page.ucidata = true
 	page.index = true
 
@@ -252,7 +252,7 @@ function api_settheme()
 	local theme = luci.http.formvalue("theme")
 
 	msg.ret = 1
-	msg.result = "theme param is invalid,(openwrt/sbadmin)"
+	msg.result = "theme param is invalid,(openwrt/avalon)"
 
 	if theme == "openwrt" then
 		uci:set("luci", "main", "mediaurlbase", "/luci-static/openwrt.org")
@@ -261,11 +261,11 @@ function api_settheme()
 		msg.result = "Change to openwrt"
 	end
 
-	if theme == "sbadmin" then
-		uci:set("luci", "main", "mediaurlbase", "/luci-static/sbadmin")
+	if theme == "avalon" then
+		uci:set("luci", "main", "mediaurlbase", "/luci-static/avalon")
 		uci:commit("luci")
 		msg.ret = 0
-		msg.result = "Change to sbadmin"
+		msg.result = "Change to avalon"
 	end
 
 	luci.http.prepare_content("application/json")
@@ -279,8 +279,8 @@ function api_gettheme()
 
 	msg.ret = 0
 	theme = uci:get("luci", "main", "mediaurlbase")
-	if string.find(theme, "sbadmin") then
-	    msg.theme = "sbadmin"
+	if string.find(theme, "avalon") then
+	    msg.theme = "avalon"
 	else
 	    msg.theme = "openwrt"
 	end

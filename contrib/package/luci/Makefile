@@ -525,7 +525,7 @@ $(eval $(call theme,freifunk-bno,Freifunk Berlin Nordost Theme,\
 $(eval $(call theme,freifunk-generic,Freifunk Generic Theme,\
 	Manuel Munz <freifunk-at-somakoma-dot-de>))
 
-$(eval $(call theme,sbadmin,Canaan-Creative))
+$(eval $(call theme,avalon,Canaan-Creative))
 
 ### Translations ###
 define translation

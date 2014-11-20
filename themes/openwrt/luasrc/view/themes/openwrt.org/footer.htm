@@ -19,7 +19,7 @@ $Id$
     function settheme()
     {
         XHR.get('<%=luci.dispatcher.build_url("avalon", "api", "settheme")%>',
-			{ theme: "sbadmin" },
+			{ theme: "avalon" },
             function(x, resp)
             {
 				if (resp.ret == '0')
