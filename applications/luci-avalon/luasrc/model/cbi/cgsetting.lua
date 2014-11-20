@@ -1,4 +1,5 @@
 m = Map("cgminer", translate("Configuration"))
+m.on_after_commit = function() luci.sys.call("/etc/init.d/cgminer restart") end
 
 ntp_section = m:section(TypedSection, "cgminer", translate("NTP"))
 ntp_section.template = "cgsetting/cbi_tblsection"
