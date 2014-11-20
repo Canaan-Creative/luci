@@ -30,7 +30,7 @@ pb:value("  ", translate("Failover"))
 
 cf = conf:option(Value, "chip_frequency", translate("Chip Frequency(Default: 445:385:370)"))
 cv = conf:option(Value, "chip_voltage", translate("Chip Voltage(Default: 8000)"))
-fan = conf:option(Value, "fan", translate("Fan%(Default: 10-100)"))
+fan = conf:option(Value, "fan", translate("Fan%(Default: 20%-100%)"))
 
 api_allow = conf:option(Value, "api_allow", translate("API Allow(Default: W:127.0.0.1)"))
 more_options = conf:option(Value, "more_options", translate("More Options(Default: --real-quiet)"))
