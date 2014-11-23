@@ -59,7 +59,9 @@ function api_getstatus()
 		network = {},
 		pool = {},
 		openwrtver = '0',
-		systime = '0'
+		systime = '0',
+		lw = '0',
+		hw = '0'
 	}
 
 	-- Hashrate
@@ -89,7 +91,7 @@ function api_getstatus()
 	local devdata = {}
 	if stats then
 		for line in stats do
-			local id, mmver, dh, temp, fan, v, f = 0, 0, 0.0, 0, 0, 0, 0;
+			local id, mmver, lw, hw, temp, fan, v, f = 0, 0, 0, 0, 0, 0, 0, 0;
 			id = line:match(".*," ..
 			"ID=AV4([%d]+),")
 			if id then
@@ -99,12 +101,14 @@ function api_getstatus()
 					tostring(index) ..
 					"=Ver%[([%+%-%d%a]+)%]")
 					if mmver then
-						dh, temp, fan, v, f =
+						lw, hw, temp, fan, v, f =
 						line:match("MM ID" ..
 						tostring(index) ..
 						"=Ver.-" ..
 						".-" ..
-						"DH%[(-?[%.%d]+)%%%]" ..
+						"LW%[(-?%d+)%]" ..
+						".-" ..
+						"HW%[(-?%d+)%]" ..
 						".-" ..
 						"Temp%[(-?%d+)%]" ..
 						".-" ..
@@ -116,7 +120,8 @@ function api_getstatus()
 
 						devdata[#devdata+1] = {
 							mmver = mmver,
-							dh = dh,
+							lw = lw,
+							hw = hw,
 							temp = temp,
 							fan = fan,
 							v = v,
@@ -130,13 +135,14 @@ function api_getstatus()
 
 	local modularcnt = table.getn(devdata)
 	if modularcnt ~= 0 then
-		local mmver, dh, temp, fan, v, f = 0, 0.0, 0, 0, 0, 0;
+		local mmver, lw, hw, temp, fan, v, f = 0, 0, 0, 0, 0, 0, 0;
 
 		status.modularcnt = modularcnt
 
 		for i, item in ipairs(devdata) do
 			mmver = item.mmver
-			dh = dh + item.dh
+			lw = lw + tonumber(item.lw)
+			hw = hw + tonumber(item.hw)
 			if temp < tonumber(item.temp) then
 			    temp = tonumber(item.temp)
 			end
@@ -145,13 +151,14 @@ function api_getstatus()
 			f = f + item.f
 		end
 
-		dh = dh / modularcnt
 		fan = fan / modularcnt
 		v = v / modularcnt
 		f = f / modularcnt
 
 		status.mmver = mmver
-		status.dh = dh
+		status.dh = hw * 100 / lw
+		status.lw = lw
+		status.hw = hw
 		status.temp = temp
 		status.fan = fan
 		status.voltage = v
