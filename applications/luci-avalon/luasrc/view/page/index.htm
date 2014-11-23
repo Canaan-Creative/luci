@@ -55,7 +55,7 @@
 			    //temp2 = temp.substr(0,7);
 			    //$("#temp").html(temp2);
 			    $("#temp").html(_data.temp ? _data.temp + '℃' : '0');
-			    $("#dh").html(_data.dh ? _data.dh + '%' : '0');
+			    $("#dh").html(_data.dh ? _data.dh.toFixed(3) + '%' : '0');
 			    $("#mmver").html(_data.mmver ? _data.mmver : '0');
 
 			    $("#openwrtver").html(_data.openwrtver ? _data.openwrtver : '--');
