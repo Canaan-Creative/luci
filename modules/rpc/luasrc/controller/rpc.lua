@@ -170,12 +170,28 @@ end
 
 function rpc_settheme()
 	local http = require "luci.http"
+	local config = require "luci.config"
 	local msg = {}
 	local uci = require "luci.model.uci".cursor()
 	local theme = http.formvalue("theme")
+	local set = false
 
 	msg.ret = 1
-	msg.result = "theme param is invalid,(openwrt/avalon)"
+	msg.result = "theme param is invalid"
+
+	for k, v in pairs(config.themes) do
+		if k:sub(1, 1) ~= "." and string.find(v, theme) then
+			set = true
+		end
+	end
+
+	if set == false then
+		msg.ret = 1
+		msg.result = "theme cann't be found"
+		http.prepare_content("application/json")
+		http.write_json(msg)
+		return
+	end
 
 	if theme == "openwrt" then
 		uci:set("luci", "main", "mediaurlbase", "/luci-static/openwrt.org")
