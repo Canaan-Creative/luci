@@ -36,8 +36,6 @@ function index()
 	entry({"avalon", "page", "configure"}, cbi("cgsetting"), _("Configuration"))
 	entry({"avalon", "api", "getstatus"}, call("api_getstatus"), nil)
 	entry({"avalon", "api", "getlog"}, call("api_getlog"), nil)
-	entryauth({"avalon", "api", "settheme"}, call("api_settheme"), nil, nil, false)
-	entryauth({"avalon", "api", "gettheme"}, call("api_gettheme"), nil, nil, false)
 	entry({"avalon", "api", "logout"}, call("action_logout"), _("Logout"))
 end
 
@@ -248,49 +246,6 @@ function api_getlog()
 	local pp   = io.popen("echo -n \"[Firmware Version] => \"; cat /etc/avalon_version; /usr/bin/cgminer-api stats;")
 	msg.log = pp:read("*a")
 	pp:close()
-
-	luci.http.prepare_content("application/json")
-	luci.http.write_json(msg)
-end
-
-function api_settheme()
-	local msg = {}
-	local uci = require "luci.model.uci".cursor()
-	local theme = luci.http.formvalue("theme")
-
-	msg.ret = 1
-	msg.result = "theme param is invalid,(openwrt/avalon)"
-
-	if theme == "openwrt" then
-		uci:set("luci", "main", "mediaurlbase", "/luci-static/openwrt.org")
-		uci:commit("luci")
-		msg.ret = 0
-		msg.result = "Change to openwrt"
-	end
-
-	if theme == "avalon" then
-		uci:set("luci", "main", "mediaurlbase", "/luci-static/avalon")
-		uci:commit("luci")
-		msg.ret = 0
-		msg.result = "Change to avalon"
-	end
-
-	luci.http.prepare_content("application/json")
-	luci.http.write_json(msg)
-end
-
-function api_gettheme()
-	local msg = {}
-	local uci = require "luci.model.uci".cursor()
-	local theme = ""
-
-	msg.ret = 0
-	theme = uci:get("luci", "main", "mediaurlbase")
-	if string.find(theme, "avalon") then
-	    msg.theme = "avalon"
-	else
-	    msg.theme = "openwrt"
-	end
 
 	luci.http.prepare_content("application/json")
 	luci.http.write_json(msg)

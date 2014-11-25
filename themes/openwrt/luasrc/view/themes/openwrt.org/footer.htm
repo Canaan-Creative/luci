@@ -18,7 +18,7 @@ $Id$
 <script type="text/javascript">//<![CDATA[
     function settheme()
     {
-        XHR.get('<%=luci.dispatcher.build_url("avalon", "api", "settheme")%>',
+        XHR.get('<%=luci.dispatcher.build_url("rpc", "settheme")%>',
 			{ theme: "avalon" },
             function(x, resp)
             {

@@ -18,6 +18,7 @@ local pairs = pairs
 local print = print
 local pcall = pcall
 local table = table
+local string = string
 
 module "luci.controller.rpc"
 
@@ -45,6 +46,8 @@ function index()
 	entry({"rpc", "sys"}, call("rpc_sys"))
 	entry({"rpc", "ipkg"}, call("rpc_ipkg"))
 	entry({"rpc", "auth"}, call("rpc_auth")).sysauth = false
+	entry({"rpc", "settheme"}, call("rpc_settheme")).sysauth = false
+	entry({"rpc", "gettheme"}, call("rpc_gettheme")).sysauth = false
 end
 
 function rpc_auth()
@@ -164,3 +167,49 @@ function rpc_ipkg()
 	http.prepare_content("application/json")
 	ltn12.pump.all(jsonrpc.handle(ipkg, http.source()), http.write)
 end
+
+function rpc_settheme()
+	local http = require "luci.http"
+	local msg = {}
+	local uci = require "luci.model.uci".cursor()
+	local theme = http.formvalue("theme")
+
+	msg.ret = 1
+	msg.result = "theme param is invalid,(openwrt/avalon)"
+
+	if theme == "openwrt" then
+		uci:set("luci", "main", "mediaurlbase", "/luci-static/openwrt.org")
+		uci:commit("luci")
+		msg.ret = 0
+		msg.result = "Change to openwrt"
+	end
+
+	if theme == "avalon" then
+		uci:set("luci", "main", "mediaurlbase", "/luci-static/avalon")
+		uci:commit("luci")
+		msg.ret = 0
+		msg.result = "Change to avalon"
+	end
+
+	http.prepare_content("application/json")
+	http.write_json(msg)
+end
+
+function rpc_gettheme()
+	local http = require "luci.http"
+	local msg = {}
+	local uci = require "luci.model.uci".cursor()
+	local theme = ""
+
+	msg.ret = 0
+	theme = uci:get("luci", "main", "mediaurlbase")
+	if string.find(theme, "avalon") then
+		msg.theme = "avalon"
+	else
+		msg.theme = "openwrt"
+	end
+
+	http.prepare_content("application/json")
+	http.write_json(msg)
+end
+
