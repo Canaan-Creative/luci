@@ -15,6 +15,19 @@ $Id$
 <div class="clear"></div>
 </div>
 </div>
+<%
+-- check new theme can be supported
+local cur_system, cur_model = luci.sys.sysinfo()
+local unsupportlist = {"WR703N"}
+local tsupport = true
+for i, dev in pairs(unsupportlist) do
+	if string.find(cur_model, dev) then
+		tsupport = false
+		break
+	end
+end
+if tsupport then
+%>
 <script type="text/javascript">//<![CDATA[
     function settheme()
     {
@@ -30,8 +43,11 @@ $Id$
         );
     }
 //]]></script>
+<% end %>
 
 <p class="luci">Powered by <%= luci.__appname__ .. " (" .. luci.__version__ .. ")" %></p>
+<% if tsupport then %>
 <p><a href="#" onclick="settheme()">Change Theme</a></p>
+<% end %>
 </body>
 </html>
