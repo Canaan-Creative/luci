@@ -157,7 +157,6 @@ function authenticator.avalonauth(validator, accs, default)
 	context.path = {}
 	luci.template.render("avalonauth", {duser=default, fuser=user})
 	return false
-
 end
 
 function authenticator.htmlauth(validator, accs, default)
@@ -348,16 +347,7 @@ function dispatch(request)
 		"http://luci.subsignal.org/trac/newticket"
 	)
 
-	local auth = false
-	if c == nil then
-		auth = true
-	end
-
-	if c and c.auth then
-		auth = c.auth
-	end
-
-	if track.sysauth and auth then
+	if track.sysauth then
 		local sauth = require "luci.sauth"
 
 		local authen = type(track.sysauth_authenticator) == "function"
@@ -667,31 +657,6 @@ function entry(path, target, title, order)
 	c.title  = title
 	c.order  = order
 	c.module = getfenv(2)._NAME
-	c.auth = true
-
-	return c
-end
-
---- Create a new dispatching node and define common parameters.
--- Support auth
--- @param	path	Virtual path
--- @param	target	Target function to call when dispatched.
--- @param	title	Destination node title
--- @param	order	Destination node order value (optional)
--- @param	auth	Auth or not (true or false)
--- @return			Dispatching tree node
-function entryauth(path, target, title, order, auth)
-	local c = node(unpack(path))
-
-	c.target = target
-	c.title  = title
-	c.order  = order
-	c.module = getfenv(2)._NAME
-	if auth == nil then
-		c.auth = true
-	else
-		c.auth = auth
-	end
 
 	return c
 end
