@@ -27,7 +27,7 @@ t:option(DummyValue, "elapsed", translate("Elapsed"))
 ghsav = t:option(DummyValue, "mhsav", translate("GHSav"))
 function ghsav.cfgvalue(self, section)
 	local v = Value.cfgvalue(self, section):gsub(",","")
-	return tonumber(v)/1000
+	return string.format("%.2f", tonumber(v)/1000)
 end
 
 t:option(DummyValue, "accepted", translate("Accepted"))
@@ -58,31 +58,31 @@ t1:option(DummyValue, "temp", translate("Temperature(C)"))
 ghsav = t1:option(DummyValue, "mhsav", translate("GHSav"))
 function ghsav.cfgvalue(self, section)
 	local v = Value.cfgvalue(self, section)
-	return v/1000
+	return string.format("%.2f", v/1000)
 end
 
 ghs5s = t1:option(DummyValue, "mhs5s", translate("GHS5s"))
 function ghs5s.cfgvalue(self, section)
 	local v = Value.cfgvalue(self, section)
-	return v/1000
+	return string.format("%.2f", v/1000)
 end
 
 ghs1m = t1:option(DummyValue, "mhs1m", translate("GHS1m"))
 function ghs1m.cfgvalue(self, section)
 	local v = Value.cfgvalue(self, section)
-	return v/1000
+	return string.format("%.2f", v/1000)
 end
 
 ghs5m = t1:option(DummyValue, "mhs5m", translate("GHS5m"))
 function ghs5m.cfgvalue(self, section)
 	local v = Value.cfgvalue(self, section)
-	return v/1000
+	return string.format("%.2f", v/1000)
 end
 
 ghs15m = t1:option(DummyValue, "mhs15m", translate("GHS15m"))
 function ghs15m.cfgvalue(self, section)
 	local v = Value.cfgvalue(self, section)
-	return v/1000
+	return string.format("%.2f", v/1000)
 end
 
 t1:option(DummyValue, "lvw", translate("LastValidWork"))
