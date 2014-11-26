@@ -55,7 +55,7 @@
 			    //temp2 = temp.substr(0,7);
 			    //$("#temp").html(temp2);
 			    $("#temp").html(_data.temp ? _data.temp + '℃' : '0');
-			    $("#dh").html(_data.dh ? _data.dh.toFixed(3) + '%' : '0');
+			    $("#fan").html(_data.fan ? 100 * Math.floor(_data.fan/100) + 'RPM' : '0');
 			    $("#mmver").html(_data.mmver ? _data.mmver : '0');
 
 			    $("#openwrtver").html(_data.openwrtver ? _data.openwrtver : '--');
@@ -327,7 +327,7 @@
 				<div class="bg-color-333 height-148 cginfo-padding">
 				<h2>Modules Information </h2>
 				<p>Live Modules: <span id='modularcnt'>0</span> | ASIC Voltage: <span id='voltage'>0</span> | ASIC Frequency: <span id='freq'>0</span></p>
-				<p>Temperature: <span id='temp'>0</span> | DH: <span id='dh'>0</span> | MM Version: <span id='mmver'>0</span></p>
+				<p>MM Version: <span id='mmver'>0</span> | Temperature: <span id='temp'>0</span> | Fan: <span id='fan'>0</span></p>
 				</div>
 			</div>
 			</div>
