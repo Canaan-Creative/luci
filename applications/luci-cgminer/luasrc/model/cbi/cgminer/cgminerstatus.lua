@@ -33,9 +33,7 @@ end
 t:option(DummyValue, "accepted", translate("Accepted"))
 t:option(DummyValue, "rejected", translate("Rejected"))
 t:option(DummyValue, "discarded", translate("Discarded"))
-t:option(DummyValue, "localwork", translate("LocalWork"))
 t:option(DummyValue, "networkblocks", translate("NetworkBlocks"))
-t:option(DummyValue, "wu", translate("WU"))
 t:option(DummyValue, "bestshare", translate("BestShare"))
 
 t2 = f:section(Table, luci.controller.cgminer.pools(), translate("Pools"))

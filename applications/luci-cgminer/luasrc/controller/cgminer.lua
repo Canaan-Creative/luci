@@ -51,7 +51,7 @@ function summary()
 	for line in summary do
 		local elapsed, mhsav, foundblocks, getworks, accepted,
 		rejected, hw, utility, discarded, stale, getfailures,
-		localwork, remotefailures, networkblocks, totalmh, wu,
+		remotefailures, networkblocks, totalmh,
 		diffaccepted, diffrejected, diffstale, bestshare =
 		line:match(".*," ..
 			"Elapsed=(-?%d+)," ..
@@ -66,11 +66,11 @@ function summary()
 			"Discarded=(-?%d+)," ..
 			"Stale=(-?%d+)," ..
 			"Get Failures=(-?%d+)," ..
-			"Local Work=(-?%d+)," ..
+			".-" ..
 			"Remote Failures=(-?%d+)," ..
 			"Network Blocks=(-?%d+)," ..
 			"Total MH=(-?[%d%.]+)," ..
-			"Work Utility=(-?[%d%.]+)," ..
+			".-" ..
 			"Difficulty Accepted=(-?[%d]+)%.%d+," ..
 			"Difficulty Rejected=(-?[%d]+)%.%d+," ..
 			"Difficulty Stale=(-?[%d]+)%.%d+," ..
@@ -115,11 +115,9 @@ function summary()
 				['discarded'] = num_commas(discarded),
 				['stale'] = stale,
 				['getfailures'] = getfailures,
-				['localwork'] = num_commas(localwork),
 				['remotefailures'] = remotefailures,
 				['networkblocks'] = networkblocks,
 				['totalmh'] = string.format("%e",totalmh),
-				['wu'] = num_commas(wu),
 				['diffaccepted'] = num_commas(diffaccepted),
 				['diffrejected'] = num_commas(diffrejected),
 				['diffstale'] = diffstale,
@@ -221,7 +219,7 @@ function devs()
 			"ID=(%d+)," ..
 			"Enabled=(%a+)," ..
 			"Status=(%a+)," ..
-			"Temperature=(-?[%.%d]+)," ..
+			"Temperature=(-?[%d]+).%d+," ..
 			"MHS av=(-?[%.%d]+)," ..
 			"MHS 5s=(-?[%.%d]+)," ..
 			"MHS 1m=(-?[%.%d]+)," ..
