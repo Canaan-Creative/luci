@@ -267,14 +267,7 @@ function stats()
 
 	for line in stats do
 		local id,
-		idn,
-		lwn,
-		dhn,
-		tempn,
-		fann,
-		voln,
-		freqn,
-		ledn;
+		idn;
 		id =
 		line:match(".*" ..
 		"ID=AV4([%d]+),")
@@ -288,7 +281,7 @@ function stats()
 				"=Ver%[([%+%-%d%a]+)%]")
 
 				if idn then
-					dnan, lwn, dhn, tempn, fann, voln, freqn, ledn =
+					local dnan, lwn, ghs5mn, dhn, dh5n, tempn, fann, voln, freqn, ledn =
 					line:match("MM ID" ..
 					tostring(index) ..
 					"=Ver.-" ..
@@ -296,7 +289,11 @@ function stats()
 					".-" ..
 					"LW%[(-?%d+)%]" ..
 					".-" ..
+					"5M%[(-?[%.%d]+)%]" ..
+					".-" ..
 					"DH%[(-?[%.%d]+%%)%]" ..
+					".-" ..
+					"DH5%[(-?[%.%d]+%%)%]" ..
 					".-" ..
 					"Temp%[(-?%d+)%]" ..
 					".-" ..
@@ -315,7 +312,9 @@ function stats()
 						['mm'] = idn,
 						['dna'] = string.sub(dnan, -4, -1),
 						['lw'] = lwn or '0',
+						['5m'] = ghs5mn or '0',
 						['dh'] = dhn or '0',
+						['dh5'] = dh5n or '0',
 						['temp'] = tempn or '0',
 						['fan'] = fann or '0',
 						['voltage'] = voln or '0',
