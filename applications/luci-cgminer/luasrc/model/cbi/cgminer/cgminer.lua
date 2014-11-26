@@ -29,11 +29,11 @@ pb:value("--load-balance", translate("Load Balance"))
 pb:value("  ", translate("Failover"))
 
 cf = conf:option(Value, "chip_frequency", translate("Chip Frequency(Default: 445:385:370)"))
-cv = conf:option(Value, "chip_voltage", translate("Chip Voltage(Default: 8000)"))
-va = conf:option(ListValue, "voltage_adjust", translate("Chip Voltage Adjust Method(Default: Automatic)"))
+cv = conf:option(Value, "chip_voltage", translate("Chip Voltage(Default: 8125)"))
+va = conf:option(ListValue, "voltage_adjust", translate("Automatic Voltage(Default: True)"))
 va.default = "--avalon4-automatic-voltage"
-va:value("--avalon4-automatic-voltage", translate("Automatic"))
-va:value(" ", translate("Manual"))
+va:value("--avalon4-automatic-voltage", translate("True"))
+va:value(" ", translate("False"))
 
 fan = conf:option(Value, "fan", translate("Fan%(Default: 20%-100%)"))
 api_allow = conf:option(Value, "api_allow", translate("API Allow(Default: W:127.0.0.1)"))
