@@ -40,6 +40,40 @@ function num_commas(n)
 	return tostring(math.floor(n)):reverse():gsub("(%d%d%d)","%1,"):gsub(",(%-?)$","%1"):reverse()
 end
 
+function valuetodate(elapsed)
+	if elapsed then
+		local str
+		local days
+		local h
+		local m
+		local s = elapsed % 60;
+		elapsed = elapsed - s
+		elapsed = elapsed / 60
+		if elapsed == 0 then
+			str = string.format("%ds", s)
+		else
+			m = elapsed % 60;
+			elapsed = elapsed - m
+			elapsed = elapsed / 60
+			if elapsed == 0 then
+				str = string.format("%dm %ds", m, s);
+			else
+				h = elapsed % 24;
+				elapsed = elapsed - h
+				elapsed = elapsed / 24
+				if elapsed == 0 then
+					str = string.format("%dh %dm %ds", h, m, s)
+				else
+					str = string.format("%dd %dh %dm %ds", elapsed, h, m, s);
+				end
+			end
+		end
+		return str
+	end
+
+	return "date invalid"
+end
+
 function summary()
 	local data = {}
 	local summary = luci.util.execi("/usr/bin/cgminer-api -o summary | sed \"s/|/\\n/g\" ")
@@ -76,35 +110,8 @@ function summary()
 			"Difficulty Stale=(-?[%d]+)%.%d+," ..
 			"Best Share=(-?%d+)")
 		if elapsed then
-			local str
-			local days
-			local h
-			local m
-			local s = elapsed % 60;
-			elapsed = elapsed - s
-			elapsed = elapsed / 60
-			if elapsed == 0 then
-				str = string.format("%ds", s)
-			else
-				m = elapsed % 60;
-				elapsed = elapsed - m
-				elapsed = elapsed / 60
-				if elapsed == 0 then
-					str = string.format("%dm %ds", m, s);
-				else
-					h = elapsed % 24;
-					elapsed = elapsed - h
-					elapsed = elapsed / 24
-					if elapsed == 0 then
-						str = string.format("%dh %dm %ds", h, m, s)
-					else
-						str = string.format("%dd %dh %dm %ds", elapsed, h, m, s);
-					end
-				end
-			end
-
 			data[#data+1] = {
-				['elapsed'] = str,
+				['elapsed'] = valuetodate(elapsed),
 				['mhsav'] = num_commas(mhsav),
 				['foundblocks'] = foundblocks,
 				['getworks'] = num_commas(getworks),
@@ -279,11 +286,13 @@ function stats()
 				"=Ver%[([%+%-%d%a]+)%]")
 
 				if idn then
-					local dnan, lwn, dhn, ghs5mn, dh5mn, tempn, fann, voln, freqn, ledn =
+					local dnan, elapsedn, lwn, dhn, ghs5mn, dh5mn, tempn, fann, voln, freqn, pgn, ledn =
 					line:match("MM ID" ..
 					tostring(index) ..
 					"=Ver.-" ..
 					"DNA%[(%x+)%]" ..
+					".-" ..
+					"Elapsed%[(-?%d+)%]" ..
 					".-" ..
 					"LW%[(-?%d+)%]" ..
 					".-" ..
@@ -301,6 +310,8 @@ function stats()
 					".-" ..
 					"Freq%[(-?[%.%d]+)%]" ..
 					".-" ..
+					"PG%[(%d+)%]" ..
+					".-" ..
 					"Led%[(%d)%]")
 
 					data[#data+1] = {
@@ -309,6 +320,7 @@ function stats()
 						['id'] = 'AV4-' .. id .. '-' .. tostring(index),
 						['mm'] = idn,
 						['dna'] = string.sub(dnan, -4, -1),
+						['elapsed'] = valuetodate(elapsedn),
 						['lw'] = lwn or '0',
 						['dh'] = dhn or '0',
 						['ghs5m'] = ghs5mn or '0',
@@ -317,6 +329,7 @@ function stats()
 						['fan'] = fann or '0',
 						['voltage'] = voln or '0',
 						['freq'] = freqn or '0',
+						['pg'] = pgn or '0',
 						['led'] = ledn or '0'
 					}
 				end

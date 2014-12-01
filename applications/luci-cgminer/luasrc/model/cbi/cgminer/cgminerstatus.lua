@@ -110,6 +110,7 @@ function indicator.write(self, section)
         end
 end
 
+t1:option(DummyValue, "elapsed", translate("Elapsed"))
 t1:option(DummyValue, "id", translate("Device"))
 t1:option(DummyValue, "mm", translate("MM"))
 t1:option(DummyValue, "dna", translate("DNA"))
@@ -121,5 +122,6 @@ t1:option(DummyValue, "temp", translate("Temperature(C)"))
 t1:option(DummyValue, "fan", translate("Fan(RPM)"))
 t1:option(DummyValue, "voltage", translate("ASIC V(V)"))
 t1:option(DummyValue, "freq", translate("ASIC F(GHS)"))
+t1:option(DummyValue, "pg", translate("PG"))
 
 return f
