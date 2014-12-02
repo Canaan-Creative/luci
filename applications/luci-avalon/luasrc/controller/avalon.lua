@@ -24,7 +24,7 @@ function index()
 
 	entry({"avalon"}, alias("avalon", "page", "index"), nil, 90).dependent=false
 	entry({"avalon", "page", "index"}, template("page/index"), _("Dashboard"))
-	entry({"avalon", "page", "passwdchange"}, cbi("passwdchange")).sysauth = false
+	entry({"avalon", "page", "passwdchange"}, cbi("passwdchange"))
 	entry({"avalon", "page", "network"}, cbi("network"), _("Network"))
 	entry({"avalon", "page", "configure"}, cbi("cgsetting"), _("Configuration"))
 	entry({"avalon", "api", "getstatus"}, call("api_getstatus"), nil)
