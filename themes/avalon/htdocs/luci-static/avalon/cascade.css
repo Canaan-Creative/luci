@@ -96,6 +96,19 @@
      color: #fff;
      background: #C90000!important;
 }
-.return-old,.loginout {
+.passwdchange{
+     border: 1px solid red;
+     /* margin-top: 50px; */
+     display: block;
+     width: 50%;
+     margin: 0 auto;
+     margin-top: 10px;
+     height: 30px;
+     line-height: 30px;
+     text-align: center;
+     color: #fff;
+     background: #C90000!important;
+}
+.return-old,.loginout,.passwdchange{
     color:#fff;
 }
