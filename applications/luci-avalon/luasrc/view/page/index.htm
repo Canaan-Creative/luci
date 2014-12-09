@@ -48,8 +48,8 @@
 				$('#accept').html(_data.pool[0].accept ? _data.pool[0].accept : 'no-accept');
 			    }
 			    $("#modularcnt").html(_data.modularcnt ? _data.modularcnt : '0');
-			    $("#voltage").html(_data.voltage ? _data.voltage + 'V' : '0');
-			    $("#freq").html(_data.freq ? _data.freq + 'GHs' : '0');
+			    $("#voltage").html(_data.voltage ? _data.voltage.toFixed(4) + 'V' : '0');
+			    $("#freq").html(_data.freq ? _data.freq.toFixed(2) + 'GHs' : '0');
 
 			    //var temp = _data.temp ? _data.temp : '';
 			    //temp2 = temp.substr(0,7);
