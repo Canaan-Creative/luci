@@ -80,49 +80,45 @@ function api_getstatus()
 	-- Modulars information
 	local stats = luci.util.execi("/usr/bin/cgminer-api -o estats | sed \"s/|/\\n/g\" | grep AV4 ")
 	local devdata = {}
-	if stats then
-		for line in stats do
-			local id, mmver, lw, hw, temp, fan, v, f = 0, 0, 0, 0, 0, 0, 0, 0;
-			id = line:match(".*," ..
-			"ID=AV4([%d]+),")
-			if id then
-				for index=1,64 do
-					mmver = line:match(".-," ..
-					"MM ID" ..
-					tostring(index) ..
-					"=Ver%[([%+%-%d%a]+)%]")
-					if mmver then
-						lw, hw, temp, fan, v, f =
-						line:match("MM ID" ..
-						tostring(index) ..
-						"=Ver.-" ..
-						".-" ..
-						"LW%[(-?%d+)%]" ..
-						".-" ..
-						"HW%[(-?%d+)%]" ..
-						".-" ..
-						"Temp%[(-?%d+)%]" ..
-						".-" ..
-						"Fan%[(-?%d+)%]" ..
-						".-" ..
-						"Vol%[(-?[%.%d]+)%]" ..
-						".-" ..
-						"Freq%[(-?[%.%d]+)%]")
+    if stats then
+        for line in stats do
+            local id, mmver, lw, hw, temp, fan, v, f = 0, 0, 0, 0, 0, 0, 0, 0;
+            id = line:match(".*," ..
+            "ID=AV4([%d]+),")
+            if id then
+                local istart, iend = line:find("MM ID")
+                while (istart) do
+                    local istr = line:sub(istart)
+                    local index, mmver, lw, hw, temp, fan, v, f =
+                    istr:match("MM ID(%d+)=" ..
+                    "Ver%[([%+%-%d%a]+)%]" ..
+                    ".-" ..
+                    "LW%[(-?%d+)%]" ..
+                    ".-" ..
+                    "HW%[(-?%d+)%]" ..
+                    ".-" ..
+                    "Temp%[(-?%d+)%]" ..
+                    ".-" ..
+                    "Fan%[(-?%d+)%]" ..
+                    ".-" ..
+                    "Vol%[(-?[%.%d]+)%]" ..
+                    ".-" ..
+                    "Freq%[(-?[%.%d]+)%]")
 
-						devdata[#devdata+1] = {
-							mmver = mmver,
-							lw = lw,
-							hw = hw,
-							temp = temp,
-							fan = fan,
-							v = v,
-							f = f
-						}
-					end
-				end
-			end
-		end
-	end
+                    devdata[#devdata+1] = {
+                        mmver = mmver,
+                        lw = lw,
+                        hw = hw,
+                        temp = temp,
+                        fan = fan,
+                        v = v,
+                        f = f
+                    }
+                    istart, iend = line:find("MM ID", iend + 1)
+                end
+            end
+        end
+    end
 
 	local modularcnt = table.getn(devdata)
 	if modularcnt ~= 0 then

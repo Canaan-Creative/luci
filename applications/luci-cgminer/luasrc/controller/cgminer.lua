@@ -271,25 +271,18 @@ function stats()
 	end
 
 	for line in stats do
-		local id,
-		idn;
-		id =
+		local id =
 		line:match(".*" ..
 		"ID=AV4([%d]+),")
 
 		if id then
-			for index=1,64 do
-				idn =
-				line:match(".-" ..
-				"MM ID" ..
-				tostring(index) ..
-				"=Ver%[([%+%-%d%a]+)%]")
-
-				if idn then
-					local dnan, elapsedn, lwn, dhn, ghs5mn, dh5mn, tempn, fann, voln, freqn, pgn, ledn =
-					line:match("MM ID" ..
-					tostring(index) ..
-					"=Ver.-" ..
+			local istart, iend = line:find("MM ID")
+			while (istart) do
+				local istr = line:sub(istart)
+				local index, idn, dnan, elapsedn, lwn, dhn, ghs5mn, dh5mn, tempn, fann, voln, freqn, pgn, ledn =
+				istr:match("MM ID(%d+)=" ..
+					"Ver%[([%+%-%d%a]+)%]" ..
+					".-" ..
 					"DNA%[(%x+)%]" ..
 					".-" ..
 					"Elapsed%[(-?%d+)%]" ..
@@ -332,7 +325,7 @@ function stats()
 						['pg'] = pgn or '0',
 						['led'] = ledn or '0'
 					}
-				end
+					istart, iend = line:find("MM ID", iend + 1)
 			end
 		end
 	end
