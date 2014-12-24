@@ -1,6 +1,6 @@
 m = Map("cgminer", translate("Configuration"),
         translate("Please visit <a href='https://ehash.com/support'> https://ehash.com/support</a> for support,"..
-        "visit <a href='http://downloads.canaan-creative.com'> http://downloads.canaan-creative.com</a> for firmware download."))
+        "visit <a href='http://downloads.canaan-creative.com'> http://downloads.canaan-creative.com</a> for firmware download. DO NOT use 4.0 and 4.1 hardware in same host"))
 
 conf = m:section(TypedSection, "cgminer", "")
 conf.anonymous = true
@@ -29,7 +29,7 @@ pb:value("--load-balance", translate("Load Balance"))
 pb:value("  ", translate("Failover"))
 
 cf = conf:option(Value, "chip_frequency", translate("Chip Frequency(Default: 445:385:370)"))
-cv = conf:option(Value, "chip_voltage", translate("Chip Voltage(Default: 8125)"))
+cv = conf:option(Value, "chip_voltage", translate("Chip Voltage(Default for 4.0: 8125, for 4.1: 7750)"))
 va = conf:option(ListValue, "voltage_adjust", translate("Automatic Voltage(Default: True)"))
 va.default = "--avalon4-automatic-voltage"
 va:value("--avalon4-automatic-voltage", translate("True"))
