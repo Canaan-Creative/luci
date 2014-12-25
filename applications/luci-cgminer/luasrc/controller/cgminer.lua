@@ -15,11 +15,11 @@ $Id$
 module("luci.controller.cgminer", package.seeall)
 
 function index()
-	entry({"admin", "status", "cgminer"}, cbi("cgminer/cgminer"), _("Cgminer Configuration"))
-	entry({"admin", "status", "cgminerstatus"}, cbi("cgminer/cgminerstatus"), _("Cgminer Status"))
+	entry({"admin", "status", "cgminer"}, cbi("cgminer/cgminer"), _("Cgminer Configuration"), 90)
+	entry({"admin", "status", "cgminerapi"}, call("action_cgminerapi"), _("Cgminer API Log"), 91)
+	entry({"admin", "status", "cgminerstatus"}, cbi("cgminer/cgminerstatus"), _("Cgminer Status"), 92)
 	entry({"admin", "status", "cgminerstatus", "restart"}, call("action_cgminerrestart"), nil).leaf = true
-	entry({"admin", "status", "cgminerapi"}, call("action_cgminerapi"), _("Cgminer API Log"))
-	entry({"admin", "status", "set_miningmode"}, call("action_setminingmode"))
+	entry({"admin", "status", "set_miningmode"}, call("action_setminingmode"), nil).leaf = true
 end
 
 function action_cgminerrestart()
