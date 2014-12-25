@@ -19,6 +19,7 @@ function index()
 	entry({"admin", "status", "cgminerstatus"}, cbi("cgminer/cgminerstatus"), _("Cgminer Status"))
 	entry({"admin", "status", "cgminerstatus", "restart"}, call("action_cgminerrestart"), nil).leaf = true
 	entry({"admin", "status", "cgminerapi"}, call("action_cgminerapi"), _("Cgminer API Log"))
+	entry({"admin", "status", "set_miningmode"}, call("action_setminingmode"))
 end
 
 function action_cgminerrestart()
@@ -332,3 +333,28 @@ function stats()
 
 	return data
 end
+
+function action_setminingmode()
+	local uci = luci.model.uci.cursor()
+	local mmode = luci.http.formvalue("mining_mode")
+	local modetab = {
+			customs = " ",
+			normal = "-c /etc/config/a4.normal",
+			eco = "-c /etc/config/a4.eco",
+			turbo = "-c /etc/config/a4.turbo"
+			}
+
+	if modetab[mmode] then
+		uci:set("cgminer", "default", "mining_mode", modetab[mmode])
+		uci:save("cgminer")
+		uci:commit("cgminer")
+		if mmode == "customs" then
+			luci.http.redirect(
+			luci.dispatcher.build_url("admin", "status", "cgminer")
+			)
+		else
+			action_cgminerrestart()
+		end
+	end
+end
+
