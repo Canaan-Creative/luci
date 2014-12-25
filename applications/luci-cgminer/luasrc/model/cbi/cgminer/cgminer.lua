@@ -48,7 +48,9 @@ va.default = "--avalon4-automatic-voltage"
 va:value("--avalon4-automatic-voltage", translate("True"))
 va:value(" ", translate("False"))
 
-fan = conf:option(Value, "fan", translate("Fan%(Default: 20%-100%)"))
+fan = conf:option(Value, "fan", translate("Fan%(Default: 20%)"))
+fan.datatype = "range(0, 100)"
+
 api_allow = conf:option(Value, "api_allow", translate("API Allow(Default: W:127.0.0.1)"))
 more_options = conf:option(Value, "more_options", translate("More Options(Default: --real-quiet)"))
 
