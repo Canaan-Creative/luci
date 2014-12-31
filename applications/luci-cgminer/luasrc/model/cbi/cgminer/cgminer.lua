@@ -35,8 +35,8 @@ mmode:value("-c /etc/config/a4.eco", translate("ECO"))
 mmode:value("-c /etc/config/a4.normal", translate("NORMAL"))
 mmode:value("-c /etc/config/a4.turbo", translate("TURBO"))
 
-cf = conf:option(Value, "chip_frequency", translate("Chip Frequency(Default: 445:385:370)"))
-cf.default = "445:385:370"
+cf = conf:option(Value, "chip_frequency", translate("Chip Frequency(Default: 450:390:370)"))
+cf.default = "450:390:370"
 cf:depends("mining_mode", " ")
 
 cv = conf:option(Value, "chip_voltage", translate("Chip Voltage(Default for 4.0: 8125, for 4.1: 7750)"))
