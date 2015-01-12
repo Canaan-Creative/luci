@@ -39,7 +39,7 @@ cf = conf:option(Value, "chip_frequency", translate("Chip Frequency(Default: 450
 cf.default = "450:390:370"
 cf:depends("mining_mode", " ")
 
-cv = conf:option(Value, "chip_voltage", translate("Chip Voltage(Default for 4.0: 8125, for 4.1: 7750)"))
+cv = conf:option(Value, "chip_voltage", translate("Chip Voltage(Default for 4.0: 8125, for 4.1: 8000)"))
 cv.default = "8125"
 cv:depends("mining_mode", " ")
 
