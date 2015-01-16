@@ -466,7 +466,7 @@ function action_mmupgrade()
 		--
 		elseif step == 2 then
 			luci.template.render("mmapply")
-			fork_exec("mm-tools %q;touch %q" %{ mm_tmp, finish_flag })
+			fork_exec("cd /tmp;mm-tools %q;touch %q" %{ mm_tmp, finish_flag })
 		elseif step == 3 then
 			nixio.fs.unlink(finish_flag)
 			luci.template.render("mmapply", {
