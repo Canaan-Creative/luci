@@ -431,7 +431,9 @@ function action_mmupgrade()
 	luci.http.setfilehandler(
 		function(meta, chunk, eof)
 			if not fp then
-				fp = io.open(mm_tmp, "w")
+				if meta and meta.name == "image" then
+					fp = io.open(mm_tmp, "w")
+				end
 			end
 			if chunk then
 				fp:write(chunk)
