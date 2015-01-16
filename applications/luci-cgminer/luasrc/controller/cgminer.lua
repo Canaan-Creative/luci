@@ -18,6 +18,8 @@ function index()
 	entry({"admin", "status", "cgminer"}, cbi("cgminer/cgminer"), _("Cgminer Configuration"), 90)
 	entry({"admin", "status", "cgminerapi"}, call("action_cgminerapi"), _("Cgminer API Log"), 91)
 	entry({"admin", "status", "cgminerstatus"}, cbi("cgminer/cgminerstatus"), _("Cgminer Status"), 92)
+	entry({"admin", "status", "mmupgrade"}, call("action_mmupgrade"), _("MM Upgrade"), 93)
+	entry({"admin", "status", "checkupgrade"}, call("action_checkupgrade"), nil).leaf = true
 	entry({"admin", "status", "cgminerstatus", "restart"}, call("action_cgminerrestart"), nil).leaf = true
 	entry({"admin", "status", "set_miningmode"}, call("action_setminingmode"), nil).leaf = true
 end
@@ -355,6 +357,164 @@ function action_setminingmode()
 		else
 			action_cgminerrestart()
 		end
+	end
+end
+
+function action_mmupgrade()
+	local mm_tmp   = "/tmp/mm.mcs"
+	local finish_flag   = "/tmp/mm_finish"
+
+	local function mm_upgrade_avail()
+		-- Raspberry Pi and mm-tools
+		local system, model = luci.sys.sysinfo()
+		local supportlist = {"BCM2708"}
+		local support = false
+		for i, dev in pairs(supportlist) do
+			if string.find(model, dev) then
+				support = true
+				break
+			end
+		end
+
+		if support == true then
+			if nixio.fs.access("/usr/bin/mm-tools") then
+				return true
+			end
+		end
+
+		return nil
+	end
+
+	local function mm_supported()
+		local mm_tmp   = "/tmp/mm.mcs"
+
+		if not nixio.fs.access(mm_tmp) then
+			return false
+		end
+
+		local filesize = nixio.fs.stat(mm_tmp).size
+
+		-- TODO: Check mm.mcs format
+		if filesize == 0 then
+			return false
+		end
+		return true
+	end
+
+	local function mm_checksum()
+		return (luci.sys.exec("md5sum %q" % mm_tmp):match("^([^%s]+)"))
+	end
+
+	local function storage_size()
+		local size = 0
+		if nixio.fs.access("/proc/mtd") then
+			for l in io.lines("/proc/mtd") do
+				local d, s, e, n = l:match('^([^%s]+)%s+([^%s]+)%s+([^%s]+)%s+"([^%s]+)"')
+				if n == "linux" or n == "firmware" then
+					size = tonumber(s, 16)
+					break
+				end
+			end
+		elseif nixio.fs.access("/proc/partitions") then
+			for l in io.lines("/proc/partitions") do
+				local x, y, b, n = l:match('^%s*(%d+)%s+(%d+)%s+([^%s]+)%s+([^%s]+)')
+				if b and n and not n:match('[0-9]') then
+					size = tonumber(b) * 1024
+					break
+				end
+			end
+		end
+		return size
+	end
+
+	local fp
+	luci.http.setfilehandler(
+		function(meta, chunk, eof)
+			if not fp then
+				fp = io.open(mm_tmp, "w")
+			end
+			if chunk then
+				fp:write(chunk)
+			end
+			if eof then
+				fp:close()
+			end
+		end
+	)
+
+	if luci.http.formvalue("image") or luci.http.formvalue("step") then
+		--
+		-- Check firmware
+		--
+		local step = tonumber(luci.http.formvalue("step") or 1)
+		if step == 1 then
+			if mm_supported() == true then
+				luci.template.render("mmupgrade", {
+					checksum = mm_checksum(),
+					storage  = storage_size(),
+					size     = nixio.fs.stat(mm_tmp).size,
+				})
+			else
+				nixio.fs.unlink(mm_tmp)
+				luci.template.render("mmupload", {
+					mm_upgrade_avail = mm_upgrade_avail(),
+					mm_image_invalid = true
+				})
+			end
+		--
+		--  Upgrade firmware
+		--
+		elseif step == 2 then
+			luci.template.render("mmapply")
+			fork_exec("mm-tools %q;touch %q" %{ mm_tmp, finish_flag })
+		elseif step == 3 then
+			nixio.fs.unlink(finish_flag)
+			luci.template.render("mmapply", {
+					finish = 1
+				})
+		end
+	else
+		luci.template.render("mmupload", {
+			mm_upgrade_avail = mm_upgrade_avail()
+		})
+	end
+end
+
+function action_checkupgrade()
+	local status = {}
+	local finish_flag   = "/tmp/mm_finish"
+
+	if not nixio.fs.access(finish_flag) then
+		status.finish = 0
+	else
+		status.finish = 1
+	end
+
+	luci.http.prepare_content("application/json")
+	luci.http.write_json(status)
+end
+
+function fork_exec(command)
+	local pid = nixio.fork()
+	if pid > 0 then
+		return
+	elseif pid == 0 then
+		-- change to root dir
+		nixio.chdir("/")
+
+		-- patch stdin, out, err to /dev/null
+		local null = nixio.open("/dev/null", "w+")
+		if null then
+			nixio.dup(null, nixio.stderr)
+			nixio.dup(null, nixio.stdout)
+			nixio.dup(null, nixio.stdin)
+			if null:fileno() > 2 then
+				null:close()
+			end
+		end
+
+		-- replace with target command
+		nixio.exec("/bin/sh", "-c", command)
 	end
 end
 
