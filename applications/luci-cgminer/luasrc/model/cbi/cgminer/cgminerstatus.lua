@@ -15,16 +15,8 @@ You may obtain a copy of the License at
 $Id$
 ]]--
 btnref = luci.dispatcher.build_url("admin", "status", "cgminerstatus", "restart")
-ecoref = luci.dispatcher.build_url("admin", "status", "set_miningmode") .. "?mining_mode=eco"
-normalref = luci.dispatcher.build_url("admin", "status", "set_miningmode") .. "?mining_mode=normal"
-turboref = luci.dispatcher.build_url("admin", "status", "set_miningmode") .. "?mining_mode=turbo"
-customsref = luci.dispatcher.build_url("admin", "status", "set_miningmode") .. "?mining_mode=customs"
 f = SimpleForm("cgminerstatus", translate("Cgminer Status") ..
-		    "  <input type=\"button\" value=\" " .. translate("Restart Cgminer") .. " \" onclick=\"location.href='" .. btnref .. "'\" href=\"#\"/>" ..
-		    "  <input type=\"button\" value=\" " .. translate("ECO Mode") .. " \" onclick=\"location.href='" .. ecoref .. "'\" href=\"#\"/>" ..
-		    "  <input type=\"button\" value=\" " .. translate("NORMAL Mode") .. " \" onclick=\"location.href='" .. normalref .. "'\" href=\"#\"/>" ..
-		    "  <input type=\"button\" value=\" " .. translate("TURBO Mode") .. " \" onclick=\"location.href='" .. turboref .. "'\" href=\"#\"/>" ..
-		    "  <input type=\"button\" value=\" " .. translate("CUSTOMS Mode") .. " \" onclick=\"location.href='" .. customsref .. "'\" href=\"#\"/>",
+		    "  <input type=\"button\" value=\" " .. translate("Restart Cgminer") .. " \" onclick=\"location.href='" .. btnref .. "'\" href=\"#\"/>",
 		    translate("Please visit <a href='https://ehash.com/support'> https://ehash.com/support</a> for support,"..
 		    "visit <a href='http://downloads.canaan-creative.com'>http://downloads.canaan-creative.com</a> for firmware download."))
 
