@@ -22,6 +22,7 @@ function index()
 	entry({"admin", "status", "checkupgrade"}, call("action_checkupgrade"), nil).leaf = true
 	entry({"admin", "status", "cgminerstatus", "restart"}, call("action_cgminerrestart"), nil).leaf = true
 	entry({"admin", "status", "set_miningmode"}, call("action_setminingmode"), nil).leaf = true
+	entry({"admin", "status", "cgminerdebug"}, call("action_cgminerdebug"), nil).leaf = true
 end
 
 function action_cgminerrestart()
@@ -520,3 +521,9 @@ function fork_exec(command)
 	end
 end
 
+function action_cgminerdebug()
+	luci.util.exec("cgminer-api \"debug|D\"")
+	luci.http.redirect(
+	luci.dispatcher.build_url("admin", "status", "cgminerapi")
+	)
+end
