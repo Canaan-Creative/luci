@@ -29,19 +29,17 @@ pb:value("--load-balance", translate("Load Balance"))
 pb:value("  ", translate("Failover"))
 
 mmode = conf:option(ListValue, "mining_mode", translate("Mining Mode(Default: Customs)"))
-mmode.default = " "
-mmode:value(" ", translate("Customs"))
-mmode:value("-c /etc/config/a4.eco", translate("ECO"))
-mmode:value("-c /etc/config/a4.normal", translate("NORMAL"))
-mmode:value("-c /etc/config/a4.turbo", translate("TURBO"))
+mmode.default = "--avalon4-miningmode 0"
+mmode:value("--avalon4-miningmode 0", translate("Customs"))
+mmode:value("--avalon4-miningmode 1", translate("ECO"))
+mmode:value("--avalon4-miningmode 2", translate("NORMAL"))
+mmode:value("--avalon4-miningmode 3", translate("TURBO"))
 
 cf = conf:option(Value, "chip_frequency", translate("Chip Frequency(Default: 450:390:370)"))
 cf.default = "450:390:370"
-cf:depends("mining_mode", " ")
 
 cv = conf:option(Value, "chip_voltage", translate("Chip Voltage(Default for 4.0: 8125, for 4.1: 8000)"))
 cv.default = "8125"
-cv:depends("mining_mode", " ")
 
 va = conf:option(ListValue, "voltage_adjust", translate("Automatic Voltage(Default: True)"))
 va.default = "--avalon4-automatic-voltage"
