@@ -366,21 +366,8 @@ function action_mmupgrade()
 	local finish_flag   = "/tmp/mm_finish"
 
 	local function mm_upgrade_avail()
-		-- Raspberry Pi and mm-tools
-		local system, model = luci.sys.sysinfo()
-		local supportlist = {"BCM2708"}
-		local support = false
-		for i, dev in pairs(supportlist) do
-			if string.find(model, dev) then
-				support = true
-				break
-			end
-		end
-
-		if support == true then
-			if nixio.fs.access("/usr/bin/mm-tools") then
-				return true
-			end
+		if nixio.fs.access("/usr/bin/mm-tools") then
+			return true
 		end
 
 		return nil
