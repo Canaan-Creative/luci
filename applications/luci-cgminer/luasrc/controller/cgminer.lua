@@ -33,7 +33,7 @@ function action_cgminerrestart()
 end
 
 function action_cgminerapi()
-	local pp   = io.popen("echo -n \"[Firmware Version] => \"; cat /etc/avalon_version; /usr/bin/cgminer-api stats;")
+	local pp   = io.popen("cat /etc/avalon_version; /usr/bin/cgminer-api stats | tail -n+2 | sed '/(/d' | sed 's/)//';")
 	local data = pp:read("*a")
 	pp:close()
 
