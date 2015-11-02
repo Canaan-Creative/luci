@@ -82,14 +82,14 @@ function api_getstatus()
 	local devdata = {}
     if stats then
         for line in stats do
-            local id, mmver, lw, hw, temp, fan, v, f = 0, 0, 0, 0, 0, 0, 0, 0;
+            local id, mmver, lw, hw, temp, temp0, temp1, fan, v, f = 0, 0, 0, 0, 0, 0, 0, 0, 0, 0;
             id = line:match(".*," ..
             "ID=AV4([%d]+),")
             if id then
                 local istart, iend = line:find("MM ID")
                 while (istart) do
                     local istr = line:sub(istart)
-                    local index, mmver, lw, hw, temp, fan, v, f =
+                    local index, mmver, lw, hw, temp, temp0, temp1, fan, v, f =
                     istr:match("MM ID(%d+)=" ..
                     "Ver%[([%+%-%d%a]+)%]" ..
                     ".-" ..
@@ -98,6 +98,10 @@ function api_getstatus()
                     "HW%[(-?%d+)%]" ..
                     ".-" ..
                     "Temp%[(-?%d+)%]" ..
+                    ".-" ..
+                    "Temp0%[(-?%d+)%]" ..
+                    ".-" ..
+                    "Temp1%[(-?%d+)%]" ..
                     ".-" ..
                     "Fan%[(-?%d+)%]" ..
                     ".-" ..
@@ -110,6 +114,8 @@ function api_getstatus()
                         lw = lw,
                         hw = hw,
                         temp = temp,
+                        temp0 = temp0,
+                        temp1 = temp1,
                         fan = fan,
                         v = v,
                         f = f
@@ -132,6 +138,12 @@ function api_getstatus()
 			hw = hw + tonumber(item.hw)
 			if temp < tonumber(item.temp) then
 			    temp = tonumber(item.temp)
+			end
+			if temp < tonumber(item.temp0) then
+			    temp = tonumber(item.temp0)
+			end
+			if temp < tonumber(item.temp1) then
+			    temp = tonumber(item.temp1)
 			end
 			fan = fan + item.fan
 			v = v + item.v
