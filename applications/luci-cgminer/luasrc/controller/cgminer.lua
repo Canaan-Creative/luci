@@ -283,7 +283,7 @@ function stats()
 			local istart, iend = line:find("MM ID")
 			while (istart) do
 				local istr = line:sub(istart)
-				local index, idn, dnan, elapsedn, lwn, dhn, tempn, temp0n, temp1n, fann, voln, ghsmm, freqn, pgn, ledn, ecn =
+				local index, idn, dnan, elapsedn, lwn, tempn, temp0n, temp1n, fann, voln, ghsmm, pgn, ledn, ecn =
 				istr:match("MM ID(%d+)=" ..
 					"Ver%[([%+%-%d%a]+)%]" ..
 					".-" ..
@@ -292,8 +292,6 @@ function stats()
 					"Elapsed%[(-?%d+)%]" ..
 					".-" ..
 					"LW%[(-?%d+)%]" ..
-					".-" ..
-					"DH%[(-?[%.%d]+%%)%]" ..
 					".-" ..
 					"Temp%[(-?%d+)%]" ..
 					".-" ..
@@ -306,8 +304,6 @@ function stats()
 					"Vol%[(-?[%.%d]+)%]" ..
 					".-" ..
 					"GHSmm%[(-?[%.%d]+)%]" ..
-					".-" ..
-					"Freq%[(-?[%.%d]+)%]" ..
 					".-" ..
 					"PG%[(%d+)%]" ..
 					".-" ..
@@ -323,12 +319,11 @@ function stats()
 						['dna'] = string.sub(dnan, -4, -1),
 						['elapsed'] = valuetodate(elapsedn),
 						['lw'] = lwn or '0',
-						['dh'] = dhn or '0',
 						['temp'] = (tempn or '0') .. ' ' .. (temp0n or '0') .. ' ' .. (temp1n or '0'),
 						['fan'] = fann or '0',
 						['voltage'] = voln or '0',
+						['smartf'] = 'Enable',
 						['ghsmm'] = ghsmm or '0',
-						['freq'] = freqn or '0',
 						['pg'] = pgn or '0',
 						['led'] = ledn or '0',
 						['ec'] = ecn or '0'
