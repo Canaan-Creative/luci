@@ -28,28 +28,14 @@ pb:value("--balance", translate("Balance"))
 pb:value("--load-balance", translate("Load Balance"))
 pb:value("  ", translate("Failover"))
 
-mmode = conf:option(ListValue, "mining_mode", translate("Mining Mode(Default: Customs)"))
-mmode.default = "--avalon4-miningmode 0"
-mmode:value("--avalon4-miningmode 0", translate("Customs"))
-mmode:value("--avalon4-miningmode 1", translate("ECO"))
-mmode:value("--avalon4-miningmode 2", translate("NORMAL"))
-mmode:value("--avalon4-miningmode 3", translate("TURBO"))
+cf = conf:option(Value, "chip_frequency", translate("Chip Maximum Frequency(Range: 100-500, Default: 500)"))
+cf.default = "500"
+cf.datatype = "range(100, 500)"
 
-cf = conf:option(Value, "chip_frequency", translate("Chip Frequency(Default: 450:390:370)"))
-cf.default = "450:390:370"
-
-cv = conf:option(Value, "chip_voltage", translate("Chip Voltage(Default for 4.0: 8125, for 4.1: 8000)"))
-cv.default = "8125"
-
-va = conf:option(ListValue, "voltage_adjust", translate("Automatic Voltage(Default: True)"))
-va.default = "--avalon4-automatic-voltage"
-va:value("--avalon4-automatic-voltage", translate("True"))
-va:value(" ", translate("False"))
-
-fan = conf:option(Value, "fan", translate("Fan%(Default: 20%)"))
-fan.datatype = "range(0, 100)"
+fan = conf:option(Value, "fan", translate("Minimum Fan%(Range: 10-100, Default: 20%)"))
+fan.datatype = "range(10, 100)"
 
 api_allow = conf:option(Value, "api_allow", translate("API Allow(Default: W:127.0.0.1)"))
-more_options = conf:option(Value, "more_options", translate("More Options(Default: --real-quiet)"))
+more_options = conf:option(Value, "more_options", translate("More Options"))
 
 return m
