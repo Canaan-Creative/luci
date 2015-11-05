@@ -88,7 +88,7 @@ function summary()
 
 	for line in summary do
 		local elapsed, mhsav, foundblocks, getworks, accepted,
-		rejected, hw, utility, discarded, stale, getfailures,
+		rejected, hw, utility, stale, getfailures,
 		remotefailures, networkblocks, totalmh,
 		diffaccepted, diffrejected, diffstale, bestshare =
 		line:match(".*," ..
@@ -101,7 +101,7 @@ function summary()
 			"Rejected=(-?%d+)," ..
 			"Hardware Errors=(-?%d+)," ..
 			"Utility=([-?%d%.]+)," ..
-			"Discarded=(-?%d+)," ..
+			".*," ..
 			"Stale=(-?%d+)," ..
 			"Get Failures=(-?%d+)," ..
 			".-" ..
@@ -123,7 +123,6 @@ function summary()
 				['rejected'] = num_commas(rejected),
 				['hw'] = num_commas(hw),
 				['utility'] = num_commas(utility),
-				['discarded'] = num_commas(discarded),
 				['stale'] = stale,
 				['getfailures'] = getfailures,
 				['remotefailures'] = remotefailures,
@@ -149,7 +148,7 @@ function pools()
 	end
 
 	for line in pools do
-		local pi, url, st, pri, quo, lp, gw, a, r, dc, sta, gf,
+		local pi, url, st, pri, quo, lp, gw, a, r, sta, gf,
 		rf, user, lst, ds, da, dr, dsta, lsd, hs, sa, su, hg =
 		line:match("POOL=(-?%d+)," ..
 			"URL=(.*)," ..
@@ -161,7 +160,6 @@ function pools()
 			"Accepted=(-?%d+)," ..
 			"Rejected=(-?%d+)," ..
 			".*," ..
-			"Discarded=(-?%d+)," ..
 			"Stale=(-?%d+)," ..
 			"Get Failures=(-?%d+)," ..
 			"Remote Failures=(-?%d+)," ..
@@ -193,7 +191,6 @@ function pools()
 				['getworks'] = gw,
 				['accepted'] = a,
 				['rejected'] = r,
-				['discarded'] = dc,
 				['stale'] = sta,
 				['getfailures'] = gf,
 				['remotefailures'] = rf,

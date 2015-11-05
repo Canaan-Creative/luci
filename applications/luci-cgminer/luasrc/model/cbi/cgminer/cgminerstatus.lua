@@ -33,7 +33,6 @@ end
 
 t:option(DummyValue, "accepted", translate("Accepted"))
 t:option(DummyValue, "rejected", translate("Rejected"))
-t:option(DummyValue, "discarded", translate("Discarded"))
 t:option(DummyValue, "networkblocks", translate("NetworkBlocks"))
 t:option(DummyValue, "bestshare", translate("BestShare"))
 
@@ -46,7 +45,6 @@ t2:option(DummyValue, "status", translate("Status"))
 t2:option(DummyValue, "getworks", translate("GetWorks"))
 t2:option(DummyValue, "accepted", translate("Accepted"))
 t2:option(DummyValue, "rejected", translate("Rejected"))
-t2:option(DummyValue, "discarded", translate("Discarded"))
 t2:option(DummyValue, "stale", translate("Stale"))
 t2:option(DummyValue, "lastsharetime", translate("LST"))
 t2:option(DummyValue, "lastsharedifficulty", translate("LSD"))
