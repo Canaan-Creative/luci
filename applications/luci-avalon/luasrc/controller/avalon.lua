@@ -36,23 +36,15 @@ function api_getstatus()
 	local status = {
 		elapsed = '0',
 		ghsav = '0',
-		ghs5s = '0',
-		ghs5m = '0',
-		ghs15m = '0',
-		hashrate = {},
+		ghsmm = '0',
 		temp = '0',
 		fan = '0',
 		voltage = '0',
-		freq = '0',
 		modularcnt = '0',
-		dh = 0,
-		mmver = '0',
 		network = {},
 		pool = {},
 		openwrtver = '0',
 		systime = '0',
-		lw = '0',
-		hw = '0'
 	}
 
 	-- Hashrate
@@ -60,19 +52,12 @@ function api_getstatus()
 
 	if summary then
 		for line in summary do
-			local elapsed, ghsav, ghs5s, ghs5m, ghs15m = line:match(".*," ..
+			local elapsed, ghsav = line:match(".*," ..
 								"Elapsed=(-?[%d]+)," ..
-								"MHS av=(-?[%d%.]+)," ..
-								"MHS 5s=(-?[%d%.]+)," ..
-								".*," ..
-								"MHS 5m=(-?[%d%.]+)," ..
-								"MHS 15m=(-?[%d%.]+),")
+								"MHS av=(-?[%d%.]+),")
 			if ghsav then
 				status.elapsed = elapsed
 				status.ghsav = ghsav and (ghsav / 1000) or 0
-				status.ghs5s = ghs5s and (ghs5s / 1000) or 0
-				status.ghs5m = ghs5m and (ghs5m / 1000) or 0
-				status.ghs15m = ghs15m and (ghs15m / 1000) or 0
 			end
 		end
 	end
@@ -82,20 +67,14 @@ function api_getstatus()
 	local devdata = {}
     if stats then
         for line in stats do
-            local id, mmver, lw, hw, temp, temp0, temp1, fan, v, f = 0, 0, 0, 0, 0, 0, 0, 0, 0, 0;
-            id = line:match(".*," ..
+            local id = line:match(".*," ..
             "ID=AV4([%d]+),")
             if id then
                 local istart, iend = line:find("MM ID")
                 while (istart) do
                     local istr = line:sub(istart)
-                    local index, mmver, lw, hw, temp, temp0, temp1, fan, v, f =
+                    local index, temp, temp0, temp1, fan, v, ghsmm =
                     istr:match("MM ID(%d+)=" ..
-                    "Ver%[([%+%-%d%a]+)%]" ..
-                    ".-" ..
-                    "LW%[(-?%d+)%]" ..
-                    ".-" ..
-                    "HW%[(-?%d+)%]" ..
                     ".-" ..
                     "Temp%[(-?%d+)%]" ..
                     ".-" ..
@@ -107,18 +86,15 @@ function api_getstatus()
                     ".-" ..
                     "Vol%[(-?[%.%d]+)%]" ..
                     ".-" ..
-                    "Freq%[(-?[%.%d]+)%]")
+                    "GHSmm%[(-?[%.%d]+)%]")
 
                     devdata[#devdata+1] = {
-                        mmver = mmver,
-                        lw = lw,
-                        hw = hw,
                         temp = temp,
                         temp0 = temp0,
                         temp1 = temp1,
                         fan = fan,
                         v = v,
-                        f = f
+			ghsmm = ghsmm
                     }
                     istart, iend = line:find("MM ID", iend + 1)
                 end
@@ -128,14 +104,11 @@ function api_getstatus()
 
 	local modularcnt = table.getn(devdata)
 	if modularcnt ~= 0 then
-		local mmver, lw, hw, temp, fan, v, f = 0, 0, 0, 0, 0, 0, 0;
+		local temp, fan, v, ghsmm = 0, 0, 0, 0;
 
 		status.modularcnt = modularcnt
 
 		for i, item in ipairs(devdata) do
-			mmver = item.mmver
-			lw = lw + tonumber(item.lw)
-			hw = hw + tonumber(item.hw)
 			if temp < tonumber(item.temp) then
 			    temp = tonumber(item.temp)
 			end
@@ -145,43 +118,22 @@ function api_getstatus()
 			if temp < tonumber(item.temp1) then
 			    temp = tonumber(item.temp1)
 			end
-			fan = fan + item.fan
-			v = v + item.v
-			f = f + item.f
+			if fan < tonumber(item.fan) then
+			    fan = tonumber(item.fan)
+			end
+			if i == 1 then
+			    v = tonumber(item.v)
+			end
+			if v > tonumber(item.v) then
+			    v = tonumber(item.v)
+			end
+			ghsmm = ghsmm + item.ghsmm
 		end
 
-		fan = fan / modularcnt
-		v = v / modularcnt
-		f = f / modularcnt
-
-		status.mmver = mmver
-		status.dh = hw * 100 / lw
-		status.lw = lw
-		status.hw = hw
 		status.temp = temp
+		status.ghsmm = ghsmm
 		status.fan = fan
 		status.voltage = v
-		status.freq = f
-	end
-
-	local devs = luci.util.execi("/usr/bin/cgminer-api -o edevs | sed \"s/|/\\n/g\" ")
-
-	if devs then
-		for line in devs do
-			local asc, name, id, mhsav =
-			line:match("ASC=(%d+)," ..
-				"Name=([%a%d]+)," ..
-				"ID=(%d+)," ..
-				".*," ..
-				"MHS av=(-?[%.%d]+),")
-
-			if asc then
-				status.hashrate[#status.hashrate+1] = {
-					name = "ASC" .. asc .. "-" .. name .. "-" .. id,
-					ghsav = mhsav /1000
-				}
-			end
-		end
 	end
 
 	-- pool info

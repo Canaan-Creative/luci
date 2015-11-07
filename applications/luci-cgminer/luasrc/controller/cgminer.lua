@@ -149,7 +149,7 @@ function pools()
 
 	for line in pools do
 		local pi, url, st, pri, quo, lp, gw, a, r, sta, gf,
-		rf, user, lst, ds, da, dr, dsta, lsd, hs, sa, su, hg =
+		rf, user, lst, ds, da, dr, dsta, lsd, hs, sa, sd, hg =
 		line:match("POOL=(-?%d+)," ..
 			"URL=(.*)," ..
 			"Status=(%a+)," ..
@@ -173,7 +173,8 @@ function pools()
 			"Last Share Difficulty=(-?%d+)[%.%d]+," ..
 			"Has Stratum=(%a+)," ..
 			"Stratum Active=(%a+)," ..
-			"Stratum URL=.*," ..
+			".-," ..
+			"Stratum Difficulty=(-?%d+)[%.%d]+," ..
 			"Has GBT=(%a+)")
 		if pi then
 			if lst == "0" then
@@ -203,7 +204,7 @@ function pools()
 				['lastsharedifficulty'] = lsd,
 				['hasstratum'] = hs,
 				['stratumactive'] = sa,
-				['stratumurl'] = su,
+				['stratumdifficulty'] = sd,
 				['hasgbt'] = hg
 			}
 		end
@@ -280,6 +281,7 @@ function stats()
 			local istart, iend = line:find("MM ID")
 			while (istart) do
 				local istr = line:sub(istart)
+				local idname
 				local index, idn, dnan, elapsedn, lwn, tempn, temp0n, temp1n, fann, voln, ghsmm, pgn, ledn, ecn =
 				istr:match("MM ID(%d+)=" ..
 					"Ver%[([%+%-%d%a]+)%]" ..
@@ -308,10 +310,16 @@ function stats()
 					".-" ..
 					"EC%[(%d)%]")
 
+					if string.sub(idn, 1, 2) == '60' then
+					    idname = 'AV6-'
+					else
+					    idname = 'AV4-'
+					end
+
 					data[#data+1] = {
 						['devid'] = id,
 						['moduleid'] = tostring(index),
-						['id'] = 'AV4-' .. id .. '-' .. tostring(index),
+						['id'] = idname .. id .. '-' .. tostring(index),
 						['mm'] = idn,
 						['dna'] = string.sub(dnan, -4, -1),
 						['elapsed'] = valuetodate(elapsedn),
@@ -319,7 +327,7 @@ function stats()
 						['temp'] = (tempn or '0') .. ' ' .. (temp0n or '0') .. ' ' .. (temp1n or '0'),
 						['fan'] = fann or '0',
 						['voltage'] = voln or '0',
-						['smartf'] = 'Enable',
+						['ss'] = 'Enable',
 						['ghsmm'] = ghsmm or '0',
 						['pg'] = pgn or '0',
 						['led'] = ledn or '0',

@@ -8,10 +8,9 @@
 	    var _fan = 0;
 	    var _temp = 0;
 	    var _i = 50 ;
-	    var _ghs5s = 0;
+	    var _ghsav = 0;
 	    var series = 0;
 	    var series1 = 0;
-	    var series2 = 0;
 
 	    function secondsToHms(d) {
 		d = Number(d);
@@ -34,13 +33,13 @@
 			if (_data) {
 			    _fan = _data.fan ? 100 * Math.floor(_data.fan/100) : '0';
 			    _temp = _data.temp ? _data.temp : '0';
-			    _ghs5s = _data.ghs5s ? _data.ghs5s : '0';
+			    _ghsav = _data.ghsav ? _data.ghsav : '0';
 
-			    $('#ghsav').html(_data.ghs5s ? Math.round(_data.ghs5s) + 'GHs' : '0GHs');
+			    $('#ghsav').html(_data.ghsav ? Math.round(_data.ghsav) + 'GHs' : '0GHs');
 			    $('#mac').html(_data.network.mac ? _data.network.mac : '--');
 			    $('#ip4').html(_data.network.ip4 ? _data.network.ip4 : '--');
 			    $('#ip6').html(_data.network.ip6 ? _data.network.ip6 : '--');
-			    $('#ghs15m').html(_data.ghs15m ? Math.round(_data.ghs15m) + 'GHs' : '0GHs');
+			    $('#ghsmm').html(_data.ghsmm ? Math.round(_data.ghsmm) + 'GHs' : '0GHs');
 
 			    if (_data.pool[0]) {
 				$('#pool').html(_data.pool[0].url ? _data.pool[0].url : 'no-pool');
@@ -48,16 +47,9 @@
 				$('#accept').html(_data.pool[0].accept ? _data.pool[0].accept : 'no-accept');
 			    }
 			    $("#modularcnt").html(_data.modularcnt ? _data.modularcnt : '0');
-			    $("#voltage").html(_data.voltage ? _data.voltage.toFixed(4) + 'V' : '0');
-			    $("#freq").html(_data.freq ? _data.freq.toFixed(2) + 'GHs' : '0');
-
-			    //var temp = _data.temp ? _data.temp : '';
-			    //temp2 = temp.substr(0,7);
-			    //$("#temp").html(temp2);
+			    $("#voltage").html(_data.voltage ? _data.voltage.toFixed(1) + 'V' : '0');
 			    $("#temp").html(_data.temp ? _data.temp + '℃' : '0');
 			    $("#fan").html(_data.fan ? 100 * Math.floor(_data.fan/100) + 'RPM' : '0');
-			    $("#mmver").html(_data.mmver ? _data.mmver : '0');
-
 			    $("#openwrtver").html(_data.openwrtver ? _data.openwrtver : '--');
 			    $("#time").html(_data.systime ? _data.systime : '--');
 			    $("#elapsed").html(_data.elapsed ? secondsToHms(_data.elapsed) : '--');
@@ -68,11 +60,9 @@
 
 		var x = (new Date()).getTime(),
 		y = parseInt(_fan);
-		y1 = parseInt(_temp);
-		y2 = parseInt(_ghs5s);
+		y1 = parseInt(_ghsav);
 		series.addPoint([x, y], true, true);
 		series1.addPoint([x, y1], true, true);
-		series2.addPoint([x, y2], true, true);
 	    }
 
 	    $(function () {
@@ -88,7 +78,7 @@
 		    var chart;
 		    chart = new Highcharts.Chart({
 			chart: {
-			    renderTo: 'container-speed-temperature',
+			    renderTo: 'container-speed-fan',
 			    type: 'spline',
 			    animation: Highcharts.svg,
 			    events: {
@@ -97,7 +87,6 @@
 				    // set up the updating of the chart each second
 				    series = this.series[0];
 				    series1 = this.series[1];
-				    series2 = this.series[2];
 
 				    getstatus();
 				    setInterval(function() {
@@ -122,7 +111,6 @@
 			},
 			yAxis: [{
 			    labels: {
-				//format: '{value} mm',
 				formatter: function() {
 				    return this.value +'GHs';
 				},
@@ -140,7 +128,6 @@
 			},
 			{
 			    labels: {
-				//format: '{value} mm',
 				formatter: function() {
 				    return this.value +'RPM';
 				},
@@ -155,37 +142,16 @@
 				}
 			    },
 			},
-			{
-			    labels: {
-				formatter: function() {
-				    return this.value +'°C';
-				},
-				//format: '{value}°C',
-				style: {
-				    color: '#ffbc75'
-				}
-			    },
-			    title: {
-				text: 'Temperature',
-				style: {
-				    color: '#ffbc75'
-				}
-			    },
-			},
 			],
 
 			tooltip: {
 			    shared: true,
 			    formatter : function(){
-				//var s = '<b>' + this.x + '</b>';
 				var s = '';
 				$.each(this.points,function(){
 				    switch(this.series.name){
 					case 'Fan':
 					s +=this.series.name + ':' + this.y + 'RPM';
-					break;
-					case 'Temperature':
-					s +=this.series.name + ':' + this.y + '℃';
 					break;
 					case 'GHs':
 					s +=this.series.name + ':' + this.y + 'GHs';
@@ -234,31 +200,6 @@
 			    dashStyle: 'shortdot',
 			},
 			{
-			    color: '#ffbc75',
-			    yAxis: 2,
-			    name: 'Temperature',
-			    data: (function() { // generate an array of random data
-				var data = [],
-				time = (new Date()).getTime(),
-				i;
-
-				for (i = -_i; i <= 0; i++) {
-				    data.push({
-					x: time + i * 1000,
-					y: null
-				    });
-				}
-				return data;
-			    })() ,
-			    tooltip: {
-				valueSuffix: '°C'
-			    },
-			    marker: {
-				enabled: false
-			    },
-			    dashStyle: 'shortdot',
-			},
-			{
 			    color: '#90ec7d',
 			    name: 'GHs',
 			    data: (function() { // generate an array of random data
@@ -279,7 +220,6 @@
 			    marker: {
 				enabled: false
 			    },
-			    //dashStyle: 'shortdot',
 			}]
 		    });
 
@@ -312,8 +252,8 @@
 			<div class="col-md-2 col-sm-2">
 				<div class="bg-color-333 height-148 cginfo-padding">
 				<h2>Hash Rate</h2>
-				<p>Per 5s: <span id="ghsav">0GHs</span></p>
-				<p>Per 15m: <span id="ghs15m">0GHs</span></p>
+				<p>GHS av: <span id="ghsav">0GHs</span></p>
+				<p>GHS: <span id="ghsmm">0GHs</span></p>
 				</div>
 			</div>
 			<div class="col-md-4 col-sm-4">
@@ -326,8 +266,8 @@
 			<div class="col-md-6 col-sm-6">
 				<div class="bg-color-333 height-148 cginfo-padding">
 				<h2>Modules Information </h2>
-				<p>Alive Modules: <span id='modularcnt'>0</span> | ASIC Voltage: <span id='voltage'>0</span> | ASIC Frequency: <span id='freq'>0</span></p>
-				<p>MM Version: <span id='mmver'>0</span> | Temperature: <span id='temp'>0</span> | Fan: <span id='fan'>0</span></p>
+				<p>Alive Modules: <span id='modularcnt'>0</span> | Input Voltage: <span id='voltage'>0</span> | Smart Speed: <span>Enable</span></p>
+				<p>Temperature: <span id='temp'>0</span> | Fan: <span id='fan'>0</span></p>
 				</div>
 			</div>
 			</div>
@@ -340,11 +280,11 @@
 			<div class="col-md-12 col-sm-12 col-xs-12">
 				<div class="panel panel-default">
 				<div class="panel-heading">
-					<strong>Fan   /  Temperature  / GHs</strong>
+					<strong>Fan   /  GHS av</strong>
 				</div>
 				<div class="panel-body">
 					<div class="table-responsive">
-					<div id="container-speed-temperature" style="height:400px"></div>
+					<div id="container-speed-fan" style="height:400px"></div>
 					</div>
 				</div>
 				</div>
