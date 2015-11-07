@@ -311,7 +311,7 @@ function stats()
 					"EC%[(%d)%]")
 
 					if string.sub(idn, 1, 2) == '60' then
-					    idname = 'AV6-'
+					    idname = 'A60S-'
 					else
 					    idname = 'AV4-'
 					end
