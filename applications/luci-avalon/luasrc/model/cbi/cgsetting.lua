@@ -5,8 +5,8 @@ ntp_section.template = "cgsetting/cbi_tblsection"
 ntp_section.anonymous = true
 ntp_section.addremove = false
 
-ntp = ntp_section:option(ListValue, "ntp_enable", translate("NTP Service(Default: ASIA)"))
-ntp.default = "asia"
+ntp = ntp_section:option(ListValue, "ntp_enable", translate("NTP Service(Default: Disable)"))
+ntp.default = "disable"
 ntp:value("asia", translate("ASIA"))
 ntp:value("openwrt", translate("OpenWrt Default"))
 ntp:value("disable", translate("Disable"))
