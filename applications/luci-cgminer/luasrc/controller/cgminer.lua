@@ -310,29 +310,31 @@ function stats()
 					".-" ..
 					"EC%[(%d)%]")
 
-					if string.sub(idn, 1, 2) == '60' then
-					    idname = 'A60S-'
-					else
-					    idname = 'AV4-'
-					end
+					if idn ~= nil then
+						if string.sub(idn, 1, 2) == '60' then
+							idname = 'A60S-'
+						else
+							idname = 'AV4-'
+						end
 
-					data[#data+1] = {
-						['devid'] = id,
-						['moduleid'] = tostring(index),
-						['id'] = idname .. id .. '-' .. tostring(index),
-						['mm'] = idn,
-						['dna'] = string.sub(dnan, -4, -1),
-						['elapsed'] = valuetodate(elapsedn),
-						['lw'] = lwn or '0',
-						['temp'] = (tempn or '0') .. ' ' .. (temp0n or '0') .. ' ' .. (temp1n or '0'),
-						['fan'] = fann or '0',
-						['voltage'] = voln or '0',
-						['ss'] = 'Enable',
-						['ghsmm'] = ghsmm or '0',
-						['pg'] = pgn or '0',
-						['led'] = ledn or '0',
-						['ec'] = ecn or '0'
-					}
+						data[#data+1] = {
+							['devid'] = id,
+							['moduleid'] = tostring(index),
+							['id'] = idname .. id .. '-' .. tostring(index),
+							['mm'] = idn,
+							['dna'] = string.sub(dnan, -4, -1),
+							['elapsed'] = valuetodate(elapsedn),
+							['lw'] = lwn or '0',
+							['temp'] = (tempn or '0') .. ' ' .. (temp0n or '0') .. ' ' .. (temp1n or '0'),
+							['fan'] = fann or '0',
+							['voltage'] = voln or '0',
+							['ss'] = 'Enable',
+							['ghsmm'] = ghsmm or '0',
+							['pg'] = pgn or '0',
+							['led'] = ledn or '0',
+							['ec'] = ecn or '0'
+						}
+					end
 					istart, iend = line:find("MM ID", iend + 1)
 			end
 		end
