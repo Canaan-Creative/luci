@@ -308,7 +308,7 @@ function stats()
 					".-" ..
 					"Led%[(%d)%]" ..
 					".-" ..
-					"EC%[(%d)%]")
+					"EC%[(%d+)%]")
 
 					if idn ~= nil then
 						if string.sub(idn, 1, 2) == '60' then
