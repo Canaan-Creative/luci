@@ -171,6 +171,7 @@ function pools()
 			"Difficulty Rejected=(-?%d+)[%.%d]+," ..
 			"Difficulty Stale=(-?%d+)[%.%d]+," ..
 			"Last Share Difficulty=(-?%d+)[%.%d]+," ..
+			".-," ..
 			"Has Stratum=(%a+)," ..
 			"Stratum Active=(%a+)," ..
 			".-," ..
