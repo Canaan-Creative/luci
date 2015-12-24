@@ -27,9 +27,48 @@ function index()
 	entry({"avalon", "page", "passwdchange"}, cbi("passwdchange"))
 	entry({"avalon", "page", "network"}, cbi("network"), _("Network"))
 	entry({"avalon", "page", "configure"}, cbi("cgsetting"), _("Configuration"))
+	entry({"avalon", "page", "poolstatus"}, cbi("poolstatus"))
 	entry({"avalon", "api", "getstatus"}, call("api_getstatus"), nil)
+	entry({"avalon", "api", "getpoolstatus"}, call("api_getpoolstatus"), nil)
 	entry({"avalon", "api", "getlog"}, call("api_getlog"), nil)
 	entry({"avalon", "api", "logout"}, call("action_logout"), _("Logout"))
+end
+
+--[[curl = require "luacurl" 
+
+function get_html(url, c)
+    local result = { }
+    if c == nil then
+        c = curl.new()
+    end
+    c:setopt(curl.OPT_URL, url)
+    c:setopt(curl.OPT_WRITEDATA, result)
+    c:setopt(curl.OPT_WRITEFUNCTION, function(tab, buffer)
+        table.insert(tab, buffer)
+
+        return #buffer
+    end)
+    local ok = c:perform()
+    return ok, table.concat(result)
+end ]]--
+
+function api_getpoolstatus()
+	local uci = luci.model.uci.cursor()
+	local poolstatus = {
+		btcchina_url = {},
+		btcchina_worker = {},
+		kanois_url = {},
+		kanois_worker = {},
+	}
+
+	local poolapiurl = uci:get("cgminer", "pool", "btcchina_poolapiurl")
+	local poolkey = uci:get("cgminer", "pool", "btcchina_poolkey")
+	local url = poolapiurl .. poolkey
+
+	poolstatus.btcchina_url=url
+
+	luci.http.prepare_content("application/json")
+	luci.http.write_json(poolstatus)
 end
 
 function api_getstatus()

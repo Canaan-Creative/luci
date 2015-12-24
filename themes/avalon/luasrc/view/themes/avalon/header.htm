@@ -95,6 +95,9 @@ function settheme()
 		<a <% if ((node and node.title) == "Network") then %>class="active-menu" <% end %> href="<%=luci.dispatcher.build_url("avalon", "page", "network")%>"><i class="fa fa-sitemap fa-3x"></i> Network</a>
 		</li>
 		<li>
+		<a <% if ((node and node.title) == "PoolStatus") then %>class="active-menu" <% end %> href="<%=luci.dispatcher.build_url("avalon", "page", "poolstatus")%>"><i class="fa fa-sitemap fa-3x"></i> PoolStatus</a>
+		</li>
+		<li>
 		<a href="#"><i class="fa fa-bar-chart-o fa-3x"></i> Canaan Creative Co., Ltd.<span class="fa arrow"></span></a>
 		<ul class="nav nav-second-level">
 			<li> <a href="https://en.bitcoin.it/wiki/Avalon" target="_blank"> Wiki Documents </a>		</li>
