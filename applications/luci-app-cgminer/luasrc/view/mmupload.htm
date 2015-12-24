@@ -1,0 +1,39 @@
+<%#
+LuCI - Lua Configuration Interface
+Copyright 2015 Mikeqin <Fengling.Qin@gmail.com>
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+	http://www.apache.org/licenses/LICENSE-2.0
+
+$Id$
+
+-%>
+
+<%+header%>
+<h2><a id="content" name="content"><%:MM upgrade%></a></h2>
+	<fieldset class="cbi-section">
+		<legend><%:Flash new MM firmware image%></legend>
+		<% if mm_upgrade_avail then %>
+		<form method="post" action="<%=REQUEST_URI%>" enctype="multipart/form-data">
+		    <div class="cbi-section-descr"><%:Upload a mm.mcs here to replace the original MM firmware. %><span style="color:red"><b><%:Caution: Only for professional users!!!%></b></span></div>
+				<div class="cbi-section-node">
+					<div class="cbi-value cbi-value-last<% if mm_image_invalid then %> cbi-value-error<% end %>">
+						<label class="cbi-value-title" for="image"><%:MM firmware%>:</label>
+						<div class="cbi-value-field">
+							<input type="file" name="image" id="image" />
+							<input type="submit" class="cbi-button cbi-input-apply" value="<%:Upload%>" />
+						</div>
+					</div>
+				</div>
+				<% if mm_image_invalid then %>
+					<div class="cbi-section-error"><%:The uploaded firmware is invalid. Make sure that you choose the right firmware for your machine. %></div>
+				<% end %>
+			</form>
+		<% else %>
+		<div class="cbi-section-descr"><%:Sorry, The firmware does not support mm upgrade, please upgrade your firmware or change another platform.%></div>
+		<% end %>
+	</fieldset>
+<%+footer%>

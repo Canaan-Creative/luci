@@ -1,0 +1,6 @@
+#!/bin/sh
+uci batch <<-EOF
+	set luci.themes.Avalon=/luci-static/avalon
+	set luci.main.mediaurlbase=/luci-static/avalon
+	commit luci
+EOF

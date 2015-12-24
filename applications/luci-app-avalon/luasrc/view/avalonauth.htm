@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Login</title>
+	<!-- BOOTSTRAP STYLES-->
+    <link href="<%=media%>/assets/css/bootstrap.min.css" rel="stylesheet" />
+     <!-- FONTAWESOME STYLES-->
+    <script src="<%=media%>/assets/js/jquery-1.10.2.js"></script>
+      <!-- BOOTSTRAP SCRIPTS -->
+    <script src="<%=media%>/assets/js/bootstrap.min.js"></script>
+    <!-- METISMENU SCRIPTS -->
+</head>
+<style>
+
+	.custom-box{
+		 border:1px solid #FFF;
+		 margin:100px auto 0px auto;
+		 width:600px;
+		 height:400px;
+		 padding : 20px 65px;
+	}
+	.custom-box .logo{
+		height:130px;
+		width : 100%;
+		margin-bottom:10px;
+	}
+	.custom-box table{
+		width:100%;
+		margin-top:50px;
+	}
+
+	.custom-box .inputBox{
+		height:60px;
+		width:100%;
+		background:#0A0A0A url(<%=media%>/assets/img/cg_lock.png) no-repeat;
+		border:1px solid #fff;
+		color:#777;
+		font-size:20px;
+		padding-left:60px;
+	}
+	.custom-box .inputSubmit{
+		background:#C90000;
+		color:#FFF;
+		margin-left:10px;
+		padding-left:10px;
+	}
+	.other_lists{
+		list-style-type:none;
+		width:100%;
+		height:20px;
+		margin-top:70px;
+	}
+
+	.other_lists li{
+		float:right;
+		height:20px;
+		line-height:20px;
+		border-right: 1px solid #fff;
+		padding:0px 15px;
+	}
+	.other_lists li a{
+		color:#fff;
+	}
+</style>
+<body style="background:#0A0A0A;">
+	<div class="custom-box">
+		<div class="logo">
+		    <img src="<%=media%>/assets/img/cg_logo.png" />
+		</div>
+		<div class="form">
+			<form method="post" action="<%=pcdata(luci.http.getenv("REQUEST_URI"))%>">
+				<table>
+					<div><input type="hidden" name="username" value="root"/></div>
+					<tr>
+						<td><input id="focus_password" contenteditable="false"  type="password" class="inputBox inputPassword" type="password" name="password"/></td>
+						<td><input type="submit" class="inputBox inputSubmit" value="<%:Login%>"></td>
+					</tr>
+				</table>
+			</form>
+		<div class="cbi-map-descr">
+			<%- if fuser then %>
+			<div class="error"><%:Invalid password! Please try again.%></div>
+			<br />
+			<% end -%>
+		</div>
+		<ul class="other_lists">
+			<li><a href="http://www.blockc.co">BlockC.co</a></li>
+			<li><a href="https://ehash.com">EHash</a></li>
+			<li><a href="http://downloads.canaan-creative.com">Downloads</a></li>
+			<li><a href="http://www.canaan-creative.com">Canaan Creative</a></li>
+		</ul>
+		</div>
+	</div>
+<script type="text/javascript">//<![CDATA[
+	var input = document.getElementById('focus_password');
+	if (input)
+		input.focus();
+//]]></script>
+</body>
+</html>

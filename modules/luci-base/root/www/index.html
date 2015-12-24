@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Cache-Control" content="no-cache" />
+<script src="/luci-static/resources/xhr.js"></script>
+<script type="text/javascript">//<![CDATA[
+	function entry()
+	{
+		XHR.get('/cgi-bin/luci/rpc/gettheme',
+				null,
+				function(x, resp)
+				{
+					if (resp.ret == '0')
+					{
+						if (resp.theme == "avalon")
+								window.location = '/cgi-bin/luci/avalon/page/index';
+						else
+								window.location = '/cgi-bin/luci'
+					}
+				}
+		);
+	}
+//]]></script>
+</head>
+<body style="background-color: white" onload="entry()">
+<a style="color: black; font-family: arial, helvetica, sans-serif;" href="/cgi-bin/luci">LuCI - Lua Configuration Interface</a>
+</body>
+</html>

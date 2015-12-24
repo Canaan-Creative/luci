@@ -1,0 +1,125 @@
+<%#
+LuCI - Lua Configuration Interface
+Copyright 2014 Mikeqin <Fengling.Qin@gmail.com>
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+	http://www.apache.org/licenses/LICENSE-2.0
+
+$Id: header.htm 9558 2012-12-18 13:58:22Z jow $
+
+-%>
+<%
+	local sys  = require "luci.sys"
+	local http = require "luci.http"
+	local disp = require "luci.dispatcher"
+
+	local hostname = sys.hostname()
+	local node = disp.context.dispatched
+
+	http.prepare_content("text/html")
+%>
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="<%=luci.i18n.context.lang%>" lang="<%=luci.i18n.context.lang%>">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+<title><%=striptags( hostname .. ( (node and node.title) and ' - ' .. translate(node.title) or '')) %> - LuCI</title>
+
+<!-- BOOTSTRAP STYLES-->
+<link href="<%=media%>/assets/css/bootstrap.min.css" rel="stylesheet" />
+<!-- FONTAWESOME STYLES-->
+<link href="<%=media%>/assets/css/font-awesome.css" rel="stylesheet" />
+<!-- CUSTOM STYLES-->
+<link href="<%=media%>/assets/css/custom.css" rel="stylesheet" />
+<!-- GOOGLE FONTS-->
+
+<!-- JQUERY SCRIPT -->
+<script src="<%=media%>/assets/js/jquery-1.10.2.js"></script>
+<!-- BOOTSTRAP SCRIPTS -->
+<script src="<%=media%>/assets/js/bootstrap.min.js"></script>
+<!-- METISMENU SCRIPTS -->
+<script src="<%=media%>/assets/js/jquery.metisMenu.js"></script>
+<!-- CUSTOM SCRIPTS -->
+<script src="<%=media%>/assets/js/custom.js"></script>
+<!-- button css -->
+<link rel="stylesheet" href="<%=media%>/cascade.css">
+<script type="text/javascript">//<![CDATA[
+function settheme()
+{
+	$.ajax({
+			url:'<%=luci.dispatcher.build_url("rpc", "settheme")%>',
+			type:'post',
+			data: {theme: "openwrt"},
+			dataType: 'json',
+			success:function(resp){
+				if (resp.ret == '0')
+				{
+					window.location = '<%=luci.dispatcher.build_url("admin")%>';
+				}
+			}
+		});
+}
+//]]></script>
+<script type="text/javascript" src="<%=resource%>/xhr.js"></script>
+</head>
+<body class="lang_<%=luci.i18n.context.lang%>">
+<div id="maincontainer">
+	<div id="maincontent">
+		<noscript>
+			<div class="errorbox">
+				<strong><%:Java Script required!%></strong><br />
+				<%:You must enable Java Script in your browser or LuCI will not work properly.%>
+			</div>
+		</noscript>
+	<div id="wrapper">
+	<!-- /. NAV TOP  -->
+	<nav class="navbar-default navbar-side" role="navigation">
+	<div class="sidebar-collapse">
+		<!--{#main menu start}-->
+		<ul class="nav" id="main-menu">
+		<li class="text-center">
+		<img src="<%=media%>/assets/img/avalon-logo-180.png" class="user-image img-responsive"/>
+		</li>
+		<li>
+		<a <% if ((node and node.title) == "Dashboard") then %>class="active-menu" <% end %> href="<%=luci.dispatcher.build_url("avalon", "page", "index")%>"><i class="fa fa-dashboard fa-3x"></i> Dashboard</a>
+		</li>
+		<li>
+		<a <% if ((node and node.title) == "Configuration") then %>class="active-menu" <% end %> href="<%=luci.dispatcher.build_url("avalon", "page", "configure")%>"><i class="fa fa-table fa-3x"></i> Configuration</a>
+		</li>
+		<li>
+		<a <% if ((node and node.title) == "Network") then %>class="active-menu" <% end %> href="<%=luci.dispatcher.build_url("avalon", "page", "network")%>"><i class="fa fa-sitemap fa-3x"></i> Network</a>
+		</li>
+		<li>
+		<a href="#"><i class="fa fa-bar-chart-o fa-3x"></i> Canaan Creative Co., Ltd.<span class="fa arrow"></span></a>
+		<ul class="nav nav-second-level">
+			<li>
+			<a href="http://downloads.canaan-creative.com" target="_blank"> Firmware Download</a>
+			</li>
+			<li>
+			<a href="https://en.bitcoin.it/wiki/Avalon" target="_blank"> Wiki Documents</a>
+			</li>
+			<li>
+			<a href="http://lists.canaan-creative.com/" target="_blank"> Mailing Lists</a>
+			</li>
+			<li>
+			<a href="https://ehash.com" target="_blank"> Online Shopping</a>
+			</li>
+			<li>
+			<a target="_blank" href="http://shang.qq.com/wpa/qunwpa?idkey=fa38d6031960a12d10d81d8d71f4260b6be8f493fe388b706263c6d6873d1c6d"> QQ Group</a>
+			</li>
+		</ul>
+		</li>
+		</ul><!--{#main menu start}-->
+		<a href="#" class='return-old' onclick="settheme()"><i class="fa fa-3x"></i> Advanced Version</a>
+		<a class="passwdchange" href="<%=luci.dispatcher.build_url("avalon", "page", "passwdchange")%>" class='passwdchange'> Change Password</a>
+		<a class="loginout" href="<%=luci.dispatcher.build_url("avalon", "api", "logout")%>" class='logout'> Logout</a>
+	</div>
+
+	</nav>
+	<!-- /. NAV SIDE  -->
+	<div id="page-wrapper" >
