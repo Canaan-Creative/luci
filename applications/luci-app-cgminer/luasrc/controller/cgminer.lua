@@ -463,7 +463,7 @@ function action_mmupgrade()
 		--
 		elseif step == 2 then
 			luci.template.render("mmapply")
-			fork_exec("insmod i2c-dev.ko;sleep 1;mmupgrade;touch %q;rmmod i2c-dev" %{ finish_flag })
+			fork_exec("mmupgrade;touch %q;" %{ finish_flag })
 		elseif step == 3 then
 			nixio.fs.unlink(finish_flag)
 			luci.template.render("mmapply", {
