@@ -35,7 +35,7 @@ $Id$
 				    <% if finish then %>
 				    <%:MM upgrade finish.%><br><br>
 				    <input type="button" value=" Return to Upgrade " onclick="location.href='<%=luci.dispatcher.build_url("admin", "status", "mmupgrade")%>'" href="#"/>
-				    <input type="button" value=" Cgminer Status" onclick="location.href='<%=luci.dispatcher.build_url("admin", "status", "cgminerstatus")%>'" href="#"/>
+				    <input type="button" value=" CGMiner Status" onclick="location.href='<%=luci.dispatcher.build_url("admin", "status", "cgminerstatus")%>'" href="#"/>
 				    <% else %>
 				    <img src="<%=resource%>/icons/loading.gif" alt="<%:Loading%>" style="vertical-align:middle" />
 				    <%:Waiting for MM upgrading ...%>

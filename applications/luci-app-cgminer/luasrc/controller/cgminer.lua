@@ -1,6 +1,7 @@
 --[[
 LuCI - Lua Configuration Interface
 
+Copyright 2014-2016 Mikeqin <Fengling.Qin@gmail.com>
 Copyright 2013 Xiangfu
 
 Licensed under the Apache License, Version 2.0 (the "License");
@@ -15,9 +16,9 @@ $Id$
 module("luci.controller.cgminer", package.seeall)
 
 function index()
-	entry({"admin", "status", "cgminer"}, cbi("cgminer/cgminer"), _("Cgminer Configuration"), 90)
-	entry({"admin", "status", "cgminerapi"}, call("action_cgminerapi"), _("Cgminer API Log"), 91)
-	entry({"admin", "status", "cgminerstatus"}, cbi("cgminer/cgminerstatus"), _("Cgminer Status"), 92)
+	entry({"admin", "status", "cgminer"}, cbi("cgminer/cgminer"), _("CGMiner Configuration"), 90)
+	entry({"admin", "status", "cgminerapi"}, call("action_cgminerapi"), _("CGMiner API Log"), 91)
+	entry({"admin", "status", "cgminerstatus"}, cbi("cgminer/cgminerstatus"), _("CGMiner Status"), 92)
 	entry({"admin", "status", "mmupgrade"}, call("action_mmupgrade"), _("MM Upgrade"), 93)
 	entry({"admin", "status", "checkupgrade"}, call("action_checkupgrade"), nil).leaf = true
 	entry({"admin", "status", "cgminerstatus", "restart"}, call("action_cgminerrestart"), nil).leaf = true
@@ -267,7 +268,7 @@ end
 function stats()
 	local data = {}
 
-	local stats = luci.util.execi("/usr/bin/cgminer-api -o estats | sed \"s/|/\\n/g\" | grep AV4 ")
+	local stats = luci.util.execi("/usr/bin/cgminer-api -o estats | sed \"s/|/\\n/g\" | grep AV7")
 
 	if not stats then
 		return
@@ -276,14 +277,14 @@ function stats()
 	for line in stats do
 		local id =
 		line:match(".*" ..
-		"ID=AV4([%d]+),")
+		"ID=AV7([%d]+),")
 
 		if id then
 			local istart, iend = line:find("MM ID")
 			while (istart) do
 				local istr = line:sub(istart)
 				local idname
-				local index, idn, dnan, elapsedn, lwn, tempn, temp0n, temp1n, fann, voln, ghsmm, pgn, ledn, ecn =
+				local index, idn, dnan, elapsedn, lwn, tempn, fann, ghsmm, ecmm =
 				istr:match("MM ID(%d+)=" ..
 					"Ver%[([%+%-%d%a]+)%]" ..
 					".-" ..
@@ -295,27 +296,17 @@ function stats()
 					".-" ..
 					"Temp%[(-?%d+)%]" ..
 					".-" ..
-					"Temp0%[(-?%d+)%]" ..
-					".-" ..
-					"Temp1%[(-?%d+)%]" ..
-					".-" ..
 					"Fan%[(-?%d+)%]" ..
-					".-" ..
-					"Vol%[(-?[%.%d]+)%]" ..
 					".-" ..
 					"GHSmm%[(-?[%.%d]+)%]" ..
 					".-" ..
-					"PG%[(%d+)%]" ..
-					".-" ..
-					"Led%[(%d)%]" ..
-					".-" ..
-					"EC%[(%d+)%]")
+					"ECMM%[(%d+)%]")
 
 					if idn ~= nil then
-						if string.sub(idn, 1, 2) == '60' then
-							idname = 'A60S-'
+						if string.sub(idn, 1, 3) == '711' then
+							idname = 'A711S-'
 						else
-							idname = 'AV4-'
+							idname = 'AV7-'
 						end
 
 						data[#data+1] = {
@@ -326,14 +317,10 @@ function stats()
 							['dna'] = string.sub(dnan, -4, -1),
 							['elapsed'] = valuetodate(elapsedn),
 							['lw'] = lwn or '0',
-							['temp'] = (tempn or '0') .. ' ' .. (temp0n or '0') .. ' ' .. (temp1n or '0'),
+							['temp'] = (tempn or '0'),
 							['fan'] = fann or '0',
-							['voltage'] = voln or '0',
-							['ss'] = 'Enable',
 							['ghsmm'] = ghsmm or '0',
-							['pg'] = pgn or '0',
-							['led'] = ledn or '0',
-							['ec'] = ecn or '0'
+							['ecmm'] = ecmm or '0'
 						}
 					end
 					istart, iend = line:find("MM ID", iend + 1)

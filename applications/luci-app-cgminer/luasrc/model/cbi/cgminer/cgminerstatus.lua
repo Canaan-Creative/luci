@@ -1,7 +1,7 @@
 --[[
 LuCI - Lua Configuration Interface
 
-Copyright 2014 Fengling <Fengling.Qin@gmail.com>
+Copyright 2014-2016 Mikeqin <Fengling.Qin@gmail.com>
 Copyright 2013 Xiangfu
 Copyright 2008 Steven Barth <steven@midlink.org>
 Copyright 2008 Jo-Philipp Wich <xm@leipzig.freifunk.net>
@@ -15,10 +15,9 @@ You may obtain a copy of the License at
 $Id$
 ]]--
 btnref = luci.dispatcher.build_url("admin", "status", "cgminerstatus", "restart")
-f = SimpleForm("cgminerstatus", translate("Cgminer Status") ..
-		    "  <input type=\"button\" value=\" " .. translate("Restart Cgminer") .. " \" onclick=\"location.href='" .. btnref .. "'\" href=\"#\"/>",
-		    translate("Please visit <a href='https://ehash.com/support'> https://ehash.com/support</a> for support,"..
-		    "visit <a href='http://downloads.canaan-creative.com'>http://downloads.canaan-creative.com</a> for firmware download."))
+f = SimpleForm("cgminerstatus", translate("CGMiner Status") ..
+		    "  <input type=\"button\" value=\" " .. translate("Restart CGMiner") .. " \" onclick=\"location.href='" .. btnref .. "'\" href=\"#\"/>",
+		    translate("Please visit <a href='https://canaan.io/en/support'> https://canaan.io/en/support</a> for support."))
 
 f.reset = false
 f.submit = false
@@ -115,12 +114,9 @@ t1:option(DummyValue, "id", translate("Device"))
 t1:option(DummyValue, "mm", translate("MM"))
 t1:option(DummyValue, "dna", translate("DNA"))
 t1:option(DummyValue, "lw", translate("LocalWorks"))
-t1:option(DummyValue, "ss", translate("SmartSpeed"))
 t1:option(DummyValue, "ghsmm", translate("GHS"))
 t1:option(DummyValue, "temp", translate("Temperature(C)"))
 t1:option(DummyValue, "fan", translate("Fan(RPM)"))
-t1:option(DummyValue, "voltage", translate("InputVoltage(V)"))
-t1:option(DummyValue, "pg", translate("PG"))
-t1:option(DummyValue, "ec", translate("EC"))
+t1:option(DummyValue, "ecmm", translate("EC"))
 
 return f

@@ -13,10 +13,9 @@ $Id: syslog.htm 3622 2008-10-23 16:05:55Z jow $
 
 -%>
 <%+header%>
-<h2><a id="content" name="content"><%:Cgminer API Log%></a>  <input type="button" value=" Debug switch" onclick="location.href='<%=luci.dispatcher.build_url("admin", "status", "cgminerdebug")%>'" href="#"/></h2>
+<h2><a id="content" name="content"><%:CGMiner API Log%></a>  <input type="button" value=" Debug switch" onclick="location.href='<%=luci.dispatcher.build_url("admin", "status", "cgminerdebug")%>'" href="#"/></h2>
 <div class="cbi-map-descr">
-Please visit <a href='https://ehash.com/support'> https://ehash.com/support</a> for support,
-visit <a href='http://downloads.canaan-creative.com'> http://downloads.canaan-creative.com</a> for firmware download.
+Please visit <a href='https://canaan.io/en/support'> https://canaan.io/en/support</a> for support.
 </div>
 <div id="content_api">
 <textarea readonly="readonly" wrap="on" rows="<%=api:cmatch("\n")+2%>" id="syslog"><%=api:pcdata()%></textarea>

@@ -1,7 +1,7 @@
 --[[
 LuCI - Lua Configuration Interface
 
-Copyright 2014 Mikeqin <Fengling.Qin@gmail.com>
+Copyright 2014-2016 Mikeqin <Fengling.Qin@gmail.com>
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -63,37 +63,28 @@ function api_getstatus()
 	end
 
 	-- Modulars information
-	local stats = luci.util.execi("/usr/bin/cgminer-api -o estats | sed \"s/|/\\n/g\" | grep AV4 ")
+	local stats = luci.util.execi("/usr/bin/cgminer-api -o estats | sed \"s/|/\\n/g\" | grep AV7")
 	local devdata = {}
 	if stats then
 		for line in stats do
 			local id = line:match(".*," ..
-				"ID=AV4([%d]+),")
+				"ID=AV7([%d]+),")
 			if id then
 				local istart, iend = line:find("MM ID")
 				while (istart) do
 					local istr = line:sub(istart)
-					local index, temp, temp0, temp1, fan, v, ghsmm =
+					local index, temp, fan, ghsmm =
 					istr:match("MM ID(%d+)=" ..
 					".-" ..
 					"Temp%[(-?%d+)%]" ..
 					".-" ..
-					"Temp0%[(-?%d+)%]" ..
-					".-" ..
-					"Temp1%[(-?%d+)%]" ..
-					".-" ..
 					"Fan%[(-?%d+)%]" ..
-					".-" ..
-					"Vol%[(-?[%.%d]+)%]" ..
 					".-" ..
 					"GHSmm%[(-?[%.%d]+)%]")
 
 					devdata[#devdata+1] = {
 						temp = tonumber(temp),
-						temp0 = tonumber(temp0),
-						temp1 = tonumber(temp1),
 						fan = tonumber(fan),
-						v = tonumber(v),
 						ghsmm = tonumber(ghsmm)
 					}
 					istart, iend = line:find("MM ID", iend + 1)
@@ -104,7 +95,7 @@ function api_getstatus()
 
 	local modularcnt = table.getn(devdata)
 	if modularcnt ~= 0 then
-		local temp, fan, v, ghsmm = 0, 0, 0, 0;
+		local temp, fan, ghsmm = 0, 0, 0, 0;
 
 		status.modularcnt = modularcnt
 
@@ -112,20 +103,8 @@ function api_getstatus()
 			if temp < tonumber(item.temp) then
 			    temp = tonumber(item.temp)
 			end
-			if temp < tonumber(item.temp0) then
-			    temp = tonumber(item.temp0)
-			end
-			if temp < tonumber(item.temp1) then
-			    temp = tonumber(item.temp1)
-			end
 			if fan < tonumber(item.fan) then
 			    fan = tonumber(item.fan)
-			end
-			if i == 1 then
-			    v = tonumber(item.v)
-			end
-			if v > tonumber(item.v) then
-			    v = tonumber(item.v)
 			end
 			ghsmm = ghsmm + item.ghsmm
 		end
@@ -133,7 +112,6 @@ function api_getstatus()
 		status.temp = tonumber(temp)
 		status.ghsmm = tonumber(ghsmm)
 		status.fan = tonumber(fan)
-		status.voltage = tonumber(v)
 	end
 
 	-- pool info

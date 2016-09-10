@@ -1,6 +1,5 @@
 m = Map("cgminer", translate("Configuration"),
-        translate("Please visit <a href='https://ehash.com/support'> https://ehash.com/support</a> for support,"..
-        "visit <a href='http://downloads.canaan-creative.com'> http://downloads.canaan-creative.com</a> for firmware download. Only support Avalon6, no warranty for 4.0 and 4.1 hardware"))
+        translate("Please visit <a href='https://canaan.io/en/support/'> https://canaan.io/en/support/</a> for support."))
 
 conf = m:section(TypedSection, "cgminer", "")
 conf.anonymous = true
@@ -27,10 +26,6 @@ pb.default = "--balance"
 pb:value("--balance", translate("Balance"))
 pb:value("--load-balance", translate("Load Balance"))
 pb:value("  ", translate("Failover"))
-
-cf = conf:option(Value, "chip_frequency", translate("Chip Maximum Frequency(Range: 100-500, Default: 500)"))
-cf.default = "500"
-cf.datatype = "range(100, 500)"
 
 fan = conf:option(Value, "fan", translate("Minimum Fan%(Range: 10-100, Default: 20%)"))
 fan.datatype = "range(10, 100)"
