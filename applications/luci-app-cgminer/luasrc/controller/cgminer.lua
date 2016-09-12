@@ -284,7 +284,7 @@ function stats()
 			while (istart) do
 				local istr = line:sub(istart)
 				local idname
-				local index, idn, dnan, elapsedn, lwn, tempn, fann, ghsmm, ecmm =
+				local index, idn, dnan, elapsedn, lwn, tempn, fann, ghsmm, pgn, ledn, ecmm =
 				istr:match("MM ID(%d+)=" ..
 					"Ver%[([%+%-%d%a]+)%]" ..
 					".-" ..
@@ -299,6 +299,10 @@ function stats()
 					"Fan%[(-?%d+)%]" ..
 					".-" ..
 					"GHSmm%[(-?[%.%d]+)%]" ..
+					".-" ..
+					"PG%[(%d+)%]" ..
+					".-" ..
+					"Led%[(%d)%]" ..
 					".-" ..
 					"ECMM%[(%d+)%]")
 
@@ -320,6 +324,8 @@ function stats()
 							['temp'] = (tempn or '0'),
 							['fan'] = fann or '0',
 							['ghsmm'] = ghsmm or '0',
+							['pg'] = pgn or '0',
+							['led'] = ledn or '0',
 							['ecmm'] = ecmm or '0'
 						}
 					end

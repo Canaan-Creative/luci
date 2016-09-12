@@ -117,6 +117,7 @@ t1:option(DummyValue, "lw", translate("LocalWorks"))
 t1:option(DummyValue, "ghsmm", translate("GHS"))
 t1:option(DummyValue, "temp", translate("Temperature(C)"))
 t1:option(DummyValue, "fan", translate("Fan(RPM)"))
+t1:option(DummyValue, "pg", translate("PG"))
 t1:option(DummyValue, "ecmm", translate("EC"))
 
 return f
