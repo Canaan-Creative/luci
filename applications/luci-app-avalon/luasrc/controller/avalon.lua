@@ -183,13 +183,19 @@ function api_getlog()
 end
 
 function action_logout()
-	local dsp = require "luci.dispatcher"
-	local sauth = require "luci.sauth"
-	if dsp.context.authsession then
-		sauth.kill(dsp.context.authsession)
-		dsp.context.urltoken.stok = nil
-	end
+        local dsp = require "luci.dispatcher"
+        local utl = require "luci.util"
+        local sid = dsp.context.authsession
 
-	luci.http.header("Set-Cookie", "sysauth=; path=" .. dsp.build_url())
-	luci.http.redirect(luci.dispatcher.build_url("avalon", "page", "index"))
+        if sid then
+                utl.ubus("session", "destroy", { ubus_rpc_session = sid })
+
+                dsp.context.urltoken.stok = nil
+
+                luci.http.header("Set-Cookie", "sysauth=%s; expires=%s; path=%s/" %{
+                        sid, 'Thu, 01 Jan 1970 01:00:00 GMT', dsp.build_url()
+                })
+        end
+
+        luci.http.redirect(luci.dispatcher.build_url("avalon", "page", "index"))
 end
