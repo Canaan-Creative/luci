@@ -312,11 +312,11 @@ function stats()
 					".-" ..
 					"Led%[(%d)%]" ..
 					".-" ..
-					"ECHU%[(%d%s%d%s%d%s%d)%]" ..
+					"ECHU%[(%d+%s%d+%s%d+%s%d+)%]" ..
 					".-" ..
 					"ECMM%[(%d+)%]" ..
 					".-" ..
-					"CRC%[(%d%s%d%s%d%s%d)%]")
+					"CRC%[(%d+%s%d+%s%d+%s%d+)%]")
 
 					if idn ~= nil then
 						if string.sub(idn, 1, 3) == '711' then
