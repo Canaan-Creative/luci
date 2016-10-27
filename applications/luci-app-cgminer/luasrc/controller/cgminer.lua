@@ -284,7 +284,7 @@ function stats()
 			while (istart) do
 				local istr = line:sub(istart)
 				local idname
-				local index, idn, dnan, elapsedn, lwn, tempn, fann, ghsmm, pgn, ledn, ecmm =
+				local index, idn, dnan, elapsedn, lwn, dhn, tempn, tempm, fann, fanr, ghsmm, wun, pgn, ledn, echu, ecmm, crc =
 				istr:match("MM ID(%d+)=" ..
 					"Ver%[([%+%-%d%a]+)%]" ..
 					".-" ..
@@ -294,17 +294,29 @@ function stats()
 					".-" ..
 					"LW%[(-?%d+)%]" ..
 					".-" ..
+					"DH%[(-?[%.%d%%]+)%]" ..
+					".-" ..
 					"Temp%[(-?%d+)%]" ..
+					".-" ..
+					"TMax%[(-?%d+)%]" ..
 					".-" ..
 					"Fan%[(-?%d+)%]" ..
 					".-" ..
+					"FanR%[(-?%d+%%)%]" ..
+					".-" ..
 					"GHSmm%[(-?[%.%d]+)%]" ..
+					".-" ..
+					"WU%[(-?[%.%d]+)%]" ..
 					".-" ..
 					"PG%[(%d+)%]" ..
 					".-" ..
 					"Led%[(%d)%]" ..
 					".-" ..
-					"ECMM%[(%d+)%]")
+					"ECHU%[(%d%s%d%s%d%s%d)%]" ..
+					".-" ..
+					"ECMM%[(%d+)%]" ..
+					".-" ..
+					"CRC%[(%d%s%d%s%d%s%d)%]")
 
 					if idn ~= nil then
 						if string.sub(idn, 1, 3) == '711' then
@@ -321,12 +333,16 @@ function stats()
 							['dna'] = string.sub(dnan, -4, -1),
 							['elapsed'] = valuetodate(elapsedn),
 							['lw'] = lwn or '0',
-							['temp'] = (tempn or '0'),
-							['fan'] = fann or '0',
+							['dh'] = dhn or '0',
+							['temp'] = (tempn or '0') .. ' ' .. (tempm or '0'),
+							['fan'] = (fann or '0') .. ' ' .. (fanr or '0'),
 							['ghsmm'] = ghsmm or '0',
+							['wu'] = wun or '0',
 							['pg'] = pgn or '0',
 							['led'] = ledn or '0',
-							['ecmm'] = ecmm or '0'
+							['echu'] = echu or '0',
+							['ecmm'] = ecmm or '0',
+							['crc'] = crc or '0'
 						}
 					end
 					istart, iend = line:find("MM ID", iend + 1)
