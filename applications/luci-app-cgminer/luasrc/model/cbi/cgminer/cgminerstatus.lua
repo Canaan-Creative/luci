@@ -53,7 +53,6 @@ t1 = f:section(Table, luci.controller.cgminer.devs(), translate("Avalon Devices"
 t1:option(DummyValue, "name", translate("Device"))
 t1:option(DummyValue, "enable", translate("Enabled"))
 t1:option(DummyValue, "status", translate("Status"))
-t1:option(DummyValue, "temp", translate("Temperature(C)"))
 ghsav = t1:option(DummyValue, "mhsav", translate("GHSav"))
 function ghsav.cfgvalue(self, section)
 	local v = Value.cfgvalue(self, section)
@@ -109,19 +108,22 @@ function indicator.write(self, section)
         end
 end
 
+reboot = t1:option(Button, "_reboot", translate("Reboot"))
+function reboot.write(self, section)
+        cmd = "/usr/bin/cgminer-api " .. "\'ascset|" .. stats[section].devid .. ',reboot,' .. '1' .. "\'"
+        luci.util.execi(cmd)
+end
+
 t1:option(DummyValue, "elapsed", translate("Elapsed"))
 t1:option(DummyValue, "id", translate("Device"))
 t1:option(DummyValue, "mm", translate("MM"))
 t1:option(DummyValue, "dna", translate("DNA"))
 t1:option(DummyValue, "lw", translate("LocalWorks"))
 t1:option(DummyValue, "dh", translate("DH"))
-t1:option(DummyValue, "ghsmm", translate("GHS"))
+t1:option(DummyValue, "ghsmm", translate("GHSasc"))
 t1:option(DummyValue, "wu", translate("WU"))
 t1:option(DummyValue, "temp", translate("Temperature(C)"))
 t1:option(DummyValue, "fan", translate("Fan"))
 t1:option(DummyValue, "pg", translate("PG"))
-t1:option(DummyValue, "echu", translate("ECHU"))
-t1:option(DummyValue, "ecmm", translate("ECMM"))
-t1:option(DummyValue, "crc", translate("CRC"))
 
 return f

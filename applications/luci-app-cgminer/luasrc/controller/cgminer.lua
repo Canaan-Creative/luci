@@ -34,7 +34,7 @@ function action_cgminerrestart()
 end
 
 function action_cgminerapi()
-	local pp   = io.popen("echo -n \"[Firmware Version] => \"; cat /etc/avalon_version; /usr/bin/cgminer-api stats;")
+	local pp   = io.popen("echo -n \"[Firmware Version] => \"; cat /etc/avalon_version; /usr/bin/cgminer-api stats|sed 's/ =>/:/g'|sed 's/\\] /\\]\\n    /g'|sed 's/:/ =>/g'")
 	local data = pp:read("*a")
 	pp:close()
 
@@ -334,8 +334,8 @@ function stats()
 							['elapsed'] = valuetodate(elapsedn),
 							['lw'] = lwn or '0',
 							['dh'] = dhn or '0',
-							['temp'] = (tempn or '0') .. ' ' .. (tempm or '0'),
-							['fan'] = (fann or '0') .. ' ' .. (fanr or '0'),
+							['temp'] = (tempn or '0') .. ' / ' .. (tempm or '0'),
+							['fan'] = (fann or '0') .. 'RPM / ' .. (fanr or '0'),
 							['ghsmm'] = ghsmm or '0',
 							['wu'] = wun or '0',
 							['pg'] = pgn or '0',
