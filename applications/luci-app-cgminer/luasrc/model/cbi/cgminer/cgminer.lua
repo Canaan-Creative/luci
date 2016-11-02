@@ -1,5 +1,5 @@
 m = Map("cgminer", translate("Configuration"),
-        translate("Please visit <a href='https://canaan.io/en/support/'> https://canaan.io/en/support/</a> for support."))
+        translate("Please visit <a href='https://canaan.io/support/'> https://canaan.io/support/</a> for support."))
 
 conf = m:section(TypedSection, "cgminer", "")
 conf.anonymous = true

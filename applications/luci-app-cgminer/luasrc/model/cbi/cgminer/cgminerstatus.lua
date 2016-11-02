@@ -17,7 +17,7 @@ $Id$
 btnref = luci.dispatcher.build_url("admin", "status", "cgminerstatus", "restart")
 f = SimpleForm("cgminerstatus", translate("CGMiner Status") ..
 		    "  <input type=\"button\" value=\" " .. translate("Restart CGMiner") .. " \" onclick=\"location.href='" .. btnref .. "'\" href=\"#\"/>",
-		    translate("Please visit <a href='https://canaan.io/en/support'> https://canaan.io/en/support</a> for support."))
+		    translate("Please visit <a href='https://canaan.io/support'> https://canaan.io/support</a> for support."))
 
 f.reset = false
 f.submit = false
