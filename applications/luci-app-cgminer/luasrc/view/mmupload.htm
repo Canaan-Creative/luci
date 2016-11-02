@@ -18,7 +18,7 @@ $Id$
 		<legend><%:Flash new MM firmware image%></legend>
 		<% if mm_upgrade_avail then %>
 		<form method="post" action="<%=REQUEST_URI%>" enctype="multipart/form-data">
-		    <div class="cbi-section-descr"><%:Upload a mm.mcs here to replace the original MM firmware. %><span style="color:red"><b><%:Caution: Only for professional users!!!%></b></span></div>
+		    <div class="cbi-section-descr"><%:Upload a .mcs file here to replace the original MM firmware. %><span style="color:red"><b><%:Caution: Only for professional users!!!%></b></span></div>
 				<div class="cbi-section-node">
 					<div class="cbi-value cbi-value-last<% if mm_image_invalid then %> cbi-value-error<% end %>">
 						<label class="cbi-value-title" for="image"><%:MM firmware%>:</label>
