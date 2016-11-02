@@ -27,8 +27,8 @@ pb:value("--balance", translate("Balance"))
 pb:value("--load-balance", translate("Load Balance"))
 pb:value("  ", translate("Failover"))
 
-fan = conf:option(Value, "fan", translate("Minimum Fan%(Range: 10-100, Default: 10%)"))
-fan.datatype = "range(10, 100)"
+fan = conf:option(Value, "fan", translate("Minimum Fan%(Range: 0-100, Default: 10%)"))
+fan.datatype = "range(0, 100)"
 
 api_allow = conf:option(Value, "api_allow", translate("API Allow(Default: W:127.0.0.1)"))
 more_options = conf:option(Value, "more_options", translate("More Options"))
