@@ -319,11 +319,7 @@ function stats()
 					"CRC%[(%d+%s%d+%s%d+%s%d+)%]")
 
 					if idn ~= nil then
-						if string.sub(idn, 1, 3) == '711' then
-							idname = 'A711S-'
-						else
-							idname = 'AV7-'
-						end
+						idname = 'A' .. string.sub(idn, 1, 3) .. 'S-'
 
 						data[#data+1] = {
 							['devid'] = id,
