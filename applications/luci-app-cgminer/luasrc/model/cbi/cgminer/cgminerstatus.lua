@@ -110,7 +110,7 @@ end
 
 reboot = t1:option(Button, "_reboot", translate("Reboot"))
 function reboot.write(self, section)
-        cmd = "/usr/bin/cgminer-api " .. "\'ascset|" .. stats[section].devid .. ',reboot,' .. '1' .. "\'"
+        cmd = "/usr/bin/cgminer-api " .. "\'ascset|" .. stats[section].devid .. ',reboot,' .. stats[section].moduleid .. "\'"
         luci.util.execi(cmd)
 end
 
