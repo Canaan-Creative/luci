@@ -27,12 +27,12 @@ pb:value("--balance", translate("Balance"))
 pb:value("--load-balance", translate("Load Balance"))
 pb:value("  ", translate("Failover"))
 
-vo = conf:option(ListValue, "voltage_offset", translate("Voltage Offset"))
+vo = conf:option(ListValue, "voltage_offset", translate("Voltage Offset(Default: 0)"))
 vo.default = "0"
 vo:value("+1", translate("+1"))
 vo:value("-1", translate("-1"))
 vo:value("-2", translate("-2"))
-vo:value("0", translate("Default"))
+vo:value("0", translate("0"))
 
 fan = conf:option(Value, "fan", translate("Minimum Fan%(Range: 0-100, Default: 10%)"))
 fan.datatype = "range(0, 100)"
