@@ -46,6 +46,11 @@ vo:value("0", translate("0"))
 fan = conf:option(Value, "fan", translate("Minimum Fan%(Range: 0-100, Default: 10%)"))
 fan.datatype = "range(0, 100)"
 
+smart_speed = conf:option(ListValue, "smart_speed", translate("Smart Speed(Default: Enable)"))
+smart_speed.default = "enable"
+smart_speed:value("enable", translate("Enable"))
+smart_speed:value("disable", translate("Disable"))
+
 api_allow = conf:option(Value, "api_allow", translate("API Allow(Default: W:127.0.0.1)"))
 more_options = conf:option(Value, "more_options", translate("More Options"))
 
