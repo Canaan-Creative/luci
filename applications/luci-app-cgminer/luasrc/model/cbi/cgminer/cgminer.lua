@@ -1,3 +1,8 @@
+require("luci.sys")
+require("luci.sys.zoneinfo")
+require("luci.tools.webadmin")
+require("luci.util")
+
 m = Map("cgminer", translate("Configuration"),
         translate("Please visit <a href='https://canaan.io/support/'> https://canaan.io/support/</a> for support."))
 
@@ -45,6 +50,15 @@ vo:value("0", translate("0"))
 
 fan = conf:option(Value, "fan", translate("Minimum Fan%(Range: 0-100, Default: 10%)"))
 fan.datatype = "range(0, 100)"
+
+local boardinfo = luci.util.ubus("system", "board") or { }
+if ( boardinfo.model == "Canaan Z Controller")
+then
+	smart_speed = conf:option(ListValue, "smart_speed", translate("Smart Speed(Default: Enable)"))
+	smart_speed.default = "enable"
+	smart_speed:value("enable", translate("Enable"))
+	smart_speed:value("disable", translate("Disable"))
+end
 
 api_allow = conf:option(Value, "api_allow", translate("API Allow(Default: W:127.0.0.1)"))
 more_options = conf:option(Value, "more_options", translate("More Options"))
