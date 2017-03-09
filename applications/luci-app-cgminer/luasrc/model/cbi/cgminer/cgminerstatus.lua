@@ -115,15 +115,15 @@ function reboot.write(self, section)
 end
 
 t1:option(DummyValue, "elapsed", translate("Elapsed"))
-t1:option(DummyValue, "id", translate("Device"))
-t1:option(DummyValue, "mm", translate("MM"))
-t1:option(DummyValue, "dna", translate("DNA"))
+t1:option(DummyValue, "id", translate("<abbr title=\"Device ID\">Device</abbr>"))
+t1:option(DummyValue, "mm", translate("<abbr title=\"MM Version\">MM</abbr>"))
+t1:option(DummyValue, "dna", translate("<abbr title=\"MM DNA\">DNA</abbr>"))
 t1:option(DummyValue, "lw", translate("LocalWorks"))
-t1:option(DummyValue, "dh", translate("DH"))
+t1:option(DummyValue, "dh", translate("<abbr title=\"Device Hardware Error\">DH</abbr>"))
 t1:option(DummyValue, "ghsmm", translate("GHSasc"))
 t1:option(DummyValue, "wu", translate("WU"))
-t1:option(DummyValue, "temp", translate("Temperature(C)"))
-t1:option(DummyValue, "fan", translate("Fan"))
-t1:option(DummyValue, "pg", translate("PG"))
+t1:option(DummyValue, "temp", translate("<abbr title=\"Inflow/Outflow\">Temperature(C)</abbr>"))
+t1:option(DummyValue, "fan", translate("<abbr title=\"RPM/Percentage\">Fan</abbr>"))
+t1:option(DummyValue, "pg", translate("<abbr title=\"Power Good\">PG</abbr>"))
 
 return f
