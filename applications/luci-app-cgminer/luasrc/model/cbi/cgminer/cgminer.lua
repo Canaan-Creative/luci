@@ -32,12 +32,6 @@ pool3url:value("stratum+tcp://stratum.haobtc.com:25")
 pool3user = conf:option(Value, "pool3user", translate("Pool3 worker"))
 pool3pw = conf:option(Value, "pool3pw", translate("Pool3 password"))
 
-pb = conf:option(ListValue, "pool_balance", translate("Pool Balance(Default: Failover)"))
-pb.default = "--balance"
-pb:value("--balance", translate("Balance"))
-pb:value("--load-balance", translate("Load Balance"))
-pb:value("  ", translate("Failover"))
-
 vo = conf:option(ListValue, "voltage_offset", translate("Voltage Offset(Default: 0)"))
 vo.default = "0"
 vo:value("+1", translate("+1"))
