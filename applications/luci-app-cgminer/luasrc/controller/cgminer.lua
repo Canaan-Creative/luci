@@ -21,16 +21,25 @@ function index()
 	entry({"admin", "status", "cgminerstatus"}, cbi("cgminer/cgminerstatus"), _("CGMiner Status"), 92)
 	entry({"admin", "status", "mmupgrade"}, call("action_mmupgrade"), _("MM Upgrade"), 93)
 	entry({"admin", "status", "checkupgrade"}, call("action_checkupgrade"), nil).leaf = true
-	entry({"admin", "status", "cgminerstatus", "restart"}, call("action_cgminerrestart"), nil).leaf = true
+	entry({"admin", "status", "cgminerstatus", "ctrl"}, call("action_cgminerctrl"), nil).leaf = true
 	entry({"admin", "status", "set_miningmode"}, call("action_setminingmode"), nil).leaf = true
 	entry({"admin", "status", "cgminerdebug"}, call("action_cgminerdebug"), nil).leaf = true
 end
 
-function action_cgminerrestart()
-	luci.util.exec("/etc/init.d/cgminer restart")
-	luci.http.redirect(
-	luci.dispatcher.build_url("admin", "status", "cgminerstatus")
-	)
+function action_cgminerctrl(args)
+	if args then
+		luci.util.exec("/etc/init.d/cgminer " .. args)
+		if args == "stop" then
+			luci.util.exec("[ ! -e /root/.cron ] && crontab -l | grep cgminer-monitor > /root/.cron")
+			luci.util.exec("sed -i -e '/.*cgminer-monitor/d' /etc/crontabs/root")
+		else
+			luci.util.exec("[ -e /root/.cron ] && sed -i -e '/.*cgminer-monitor/d' /etc/crontabs/root")
+			luci.util.exec("[ -e /root/.cron ] && cat /root/.cron >> /etc/crontabs/root")
+		end
+		luci.http.redirect(
+		luci.dispatcher.build_url("admin", "status", "cgminerstatus")
+		)
+	end
 end
 
 function action_cgminerapi()
@@ -368,7 +377,9 @@ function action_setminingmode()
 			luci.dispatcher.build_url("admin", "status", "cgminer")
 			)
 		else
-			action_cgminerrestart()
+			luci.http.redirect(
+			luci.dispatcher.build_url("admin", "status", "cgminerstatus", "ctrl", "restart")
+			)
 		end
 	end
 end

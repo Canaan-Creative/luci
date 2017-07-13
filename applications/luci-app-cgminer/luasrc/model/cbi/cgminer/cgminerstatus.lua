@@ -14,9 +14,13 @@ You may obtain a copy of the License at
 
 $Id$
 ]]--
-btnref = luci.dispatcher.build_url("admin", "status", "cgminerstatus", "restart")
+btn_restart = luci.dispatcher.build_url("admin", "status", "cgminerstatus", "ctrl", "restart")
+btn_stop = luci.dispatcher.build_url("admin", "status", "cgminerstatus", "ctrl", "stop")
+btn_start = luci.dispatcher.build_url("admin", "status", "cgminerstatus", "ctrl", "start")
 f = SimpleForm("cgminerstatus", translate("CGMiner Status") ..
-		    "  <input type=\"button\" value=\" " .. translate("Restart CGMiner") .. " \" onclick=\"location.href='" .. btnref .. "'\" href=\"#\"/>",
+		    "  <input type=\"button\" value=\" " .. translate("Restart CGMiner") .. " \" onclick=\"location.href='" .. btn_restart .. "'\" href=\"#\"/>" ..
+		    "  <input type=\"button\" value=\" " .. translate("Stop CGMiner") .. " \" onclick=\"location.href='" .. btn_stop .. "'\" href=\"#\"/>" ..
+		    "  <input type=\"button\" value=\" " .. translate("Start CGMiner") .. " \" onclick=\"location.href='" .. btn_start .. "'\" href=\"#\"/>",
 		    translate("Please visit <a href='https://canaan.io/support'> https://canaan.io/support</a> for support."))
 
 f.reset = false
