@@ -277,7 +277,7 @@ end
 function stats()
 	local data = {}
 
-	local stats = luci.util.execi("/usr/bin/cgminer-api -o estats | sed \"s/|/\\n/g\" | grep AV7")
+	local stats = luci.util.execi("/usr/bin/cgminer-api -o estats | sed \"s/|/\\n/g\" | grep AV8")
 
 	if not stats then
 		return
@@ -286,14 +286,14 @@ function stats()
 	for line in stats do
 		local id =
 		line:match(".*" ..
-		"ID=AV7([%d]+),")
+		"ID=AV8([%d]+),")
 
 		if id then
 			local istart, iend = line:find("MM ID")
 			while (istart) do
 				local istr = line:sub(istart)
 				local idname
-				local index, idn, dnan, elapsedn, lwn, dhn, tempn, tempm, fann, fanr, ghsmm, wun, pgn, ledn, echu, ecmm, crc =
+				local index, idn, dnan, elapsedn, lwn, tempn, tempm, fann, fanr, ghsmm, wun, pgn, ledn, echu, ecmm, crc =
 				istr:match("MM ID(%d+)=" ..
 					"Ver%[([%+%-%d%a]+)%]" ..
 					".-" ..
@@ -302,8 +302,6 @@ function stats()
 					"Elapsed%[(-?%d+)%]" ..
 					".-" ..
 					"LW%[(-?%d+)%]" ..
-					".-" ..
-					"DH%[(-?[%.%d%%]+)%]" ..
 					".-" ..
 					"Temp%[(-?%d+)%]" ..
 					".-" ..
@@ -338,7 +336,6 @@ function stats()
 							['dna'] = string.sub(dnan, -4, -1),
 							['elapsed'] = valuetodate(elapsedn),
 							['lw'] = lwn or '0',
-							['dh'] = dhn or '0',
 							['temp'] = (tempn or '0') .. ' / ' .. (tempm or '0'),
 							['fan'] = (fann or '0') .. 'RPM / ' .. (fanr or '0'),
 							['ghsmm'] = ghsmm or '0',
