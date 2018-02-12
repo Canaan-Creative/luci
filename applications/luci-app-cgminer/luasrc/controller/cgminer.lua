@@ -24,6 +24,8 @@ function index()
 	entry({"admin", "status", "cgminerstatus", "ctrl"}, call("action_cgminerctrl"), nil).leaf = true
 	entry({"admin", "status", "set_miningmode"}, call("action_setminingmode"), nil).leaf = true
 	entry({"admin", "status", "cgminerdebug"}, call("action_cgminerdebug"), nil).leaf = true
+	entry({"developer"}, cbi("cgminer/overclockinglogin"), nil, 94)
+	entry({"developer", "overclockingset"}, cbi("cgminer/overclockingset"), nil, 94)
 end
 
 function action_cgminerctrl(args)
