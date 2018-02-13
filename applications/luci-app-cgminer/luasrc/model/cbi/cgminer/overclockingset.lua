@@ -15,9 +15,9 @@ if luci.http.formvalue("cbi.submit") then
 	while( i < 4 )
 	do
 		if flag == "disable" then
-			cmd = "/usr/bin/cgminer-api " .. "\'ascset|" .. i .. ',over-hashrate,' .. '0' .. "\'"
+			cmd = "/usr/bin/cgminer-api " .. "\'ascset|" .. i .. ',overclocking,' .. '0' .. "\'"
 	        elseif flag == "enable" then
-			cmd = "/usr/bin/cgminer-api " .. "\'ascset|" .. i .. ',over-hashrate,' .. '1' .. "\'"
+			cmd = "/usr/bin/cgminer-api " .. "\'ascset|" .. i .. ',overclocking,' .. '1' .. "\'"
 		end
 		luci.sys.exec(cmd)
 		i = i + 1
