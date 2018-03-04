@@ -94,8 +94,8 @@ $(function () {
 				}
 			}
 		},
-		title: {text: 'Active Charts'},
-		subtitle: {text: 'Update every 5 seconds'},
+		title: {text: '<%:Active Charts%>'},
+		subtitle: {text: '<%:Update every 5 seconds%>'},
 		xAxis: {
 			type: 'datetime',
 			tickPixelInterval: 150
@@ -194,23 +194,23 @@ $(function () {
 	});
 });
 	</script>
-		<h2><a id="content" name="content">Dashboard</a></h2>
+		<h2><a id="content" name="content"><%:Dashboard%></a></h2>
 		<div id="page-inner">
 			<div class="row margin-left-right-0 margin-top-20 cginfo">
 			<div class="col-md-6 col-sm-6">
 				<div class="bg-color-333 height-148 cginfo-padding">
-				<h2>Network Information <span><a href="#"> <a href="<%=luci.dispatcher.build_url("avalon", "page", "network")%>"> > Quick setting</a></a></span></h2>
-				<p><strong>MAC Address: </strong> <span id='mac'>--</span></p>
+				<h2><%:Network Information%> <span><a href="#"> <a href="<%=luci.dispatcher.build_url("avalon", "page", "network")%>"> > <%:Quick setting%></a></a></span></h2>
+				<p><strong><%:MAC Address%>: </strong> <span id='mac'>--</span></p>
 				<p><strong>IPv4: </strong> <span id='ip4'>--</span></p>
 				<p><strong>IPv6: </strong> <span id='ip6'>--</span></p>
 				</div>
 			</div>
 			<div class="col-md-6 col-sm-6">
 				<div class="bg-color-333 height-148 cginfo-padding">
-				<h2>Overview</h2>
-				<p>Controller Version: <span id="openwrtver">--</span></p>
-				<p>Time: <span id="time">--</span></p>
-				<p>CGMiner Elapsed: <span id="elapsed">0</span></p>
+				<h2><%:Overview%></h2>
+				<p><%:Controller Version%>: <span id="openwrtver">--</span></p>
+				<p><%:Time%>: <span id="time">--</span></p>
+				<p><%:CGMiner Elapsed%>: <span id="elapsed">0</span></p>
 				</div>
 			</div>
 			</div>
@@ -218,23 +218,23 @@ $(function () {
 			<div class="row margin-left-right-0 margin-top-20 cginfo">
 			<div class="col-md-2 col-sm-2">
 				<div class="bg-color-333 height-148 cginfo-padding">
-				<h2>Hash Rate</h2>
-				<p>GHS av: <span id="ghsav">0GHs</span></p>
-				<p>GHS asc: <span id="ghsmm">0GHs</span></p>
+				<h2><%:Hash Rate%></h2>
+				<p><%:GHS av%>: <span id="ghsav">0GHs</span></p>
+				<p><%:GHS asc%>: <span id="ghsmm">0GHs</span></p>
 				</div>
 			</div>
 			<div class="col-md-4 col-sm-4">
 				<div class="bg-color-333 height-148 cginfo-padding">
-				<h2>Current Pool <span><a href="<%=luci.dispatcher.build_url("avalon", "page", "configure")%>"> > Quick setting</a></span></h2>
+				<h2><%:Current Pool%> <span><a href="<%=luci.dispatcher.build_url("avalon", "page", "configure")%>"> > <%:Quick setting%></a></span></h2>
 				<p id='pool'>--</p>
 				<p>Worker: <span id='worker'>--</span> | Accepted: <span id='accept'>--</span></p>
 				</div>
 			</div>
 			<div class="col-md-6 col-sm-6">
 				<div class="bg-color-333 height-148 cginfo-padding">
-				<h2>Modules Information </h2>
-				<p>Alive Modules: <span id='modularcnt'>0</span></p>
-				<p>Temperature: <span id='temp'>0</span> | Fan: <span id='fan'>0</span></p>
+				<h2><%:Modules Information%> </h2>
+				<p><%:Alive Modules%>: <span id='modularcnt'>0</span></p>
+				<p><%:Temperature%>: <span id='temp'>0</span> | <%:Fan%>: <span id='fan'>0</span></p>
 				</div>
 			</div>
 			</div>
@@ -247,7 +247,7 @@ $(function () {
 			<div class="col-md-12 col-sm-12 col-xs-12">
 				<div class="panel panel-default">
 				<div class="panel-heading">
-					<strong>Fan   /  GHS av</strong>
+					<strong><%:Fan%>   /  <%:GHS av%></strong>
 				</div>
 				<div class="panel-body">
 					<div class="table-responsive">
