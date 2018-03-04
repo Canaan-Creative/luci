@@ -1,0 +1,149 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: LUCI: avalon\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2017-12-20 17:00+0200\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <sunchous@hotmail.com>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+msgid "Invalid password! Please try again."
+msgstr "Неправильный пароль! Попробуйте снова"
+
+msgid "Login"
+msgstr "Логин"
+
+msgid "Dashboard"
+msgstr "Панель управления"
+
+msgid "Network Information"
+msgstr "Сетевые настройки"
+
+msgid "Quick setting"
+msgstr "Быстрая настройка"
+
+msgid "MAC Address"
+msgstr "MAC Адрес"
+
+msgid "Overview"
+msgstr "Обзор"
+
+msgid "Controller Version"
+msgstr "Версия контроллера"
+
+msgid "Time"
+msgstr "Время"
+
+msgid "CGMiner Elapsed"
+msgstr "CGMiner активен"
+
+msgid "Hash Rate"
+msgstr "Скорость хэширования"
+
+msgid "GHS av"
+msgstr "GHS среднее"
+
+msgid "GHS asc"
+msgstr "GHS мгновенное"
+
+msgid "Current Pool"
+msgstr "Текущий пул"
+
+msgid "Modules Information"
+msgstr "Информация о модулях"
+
+msgid "Alive Modules"
+msgstr "Активные модули"
+
+msgid "Temperature"
+msgstr "Температура"
+
+msgid "Active Charts"
+msgstr "Графики активности"
+
+msgid "Update every 5 seconds"
+msgstr "Обновляются каждые 5 секунд"
+
+msgid "Configuration"
+msgstr "Конфигурация"
+
+msgid "ASIA"
+msgstr "Азия"
+
+msgid "Disable"
+msgstr "Отключен"
+
+msgid "Pool1"
+msgstr "Пул №1"
+
+msgid "Pool 1 url"
+msgstr "Адрес пула №1"
+
+msgid "Pool1 worker"
+msgstr "Логин пула №1"
+
+msgid "Pool1 password"
+msgstr "Пароль пула №1"
+
+msgid "Pool2"
+msgstr "Пул №2"
+
+msgid "Pool 2 url"
+msgstr "Адрес пула №2"
+
+msgid "Pool2 worker"
+msgstr "Логин пула №2"
+
+msgid "Pool2 password"
+msgstr "Pool2 password"
+
+msgid "Pool3"
+msgstr "Пул №3"
+
+msgid "Pool 3 url"
+msgstr "Адрес пула №3"
+
+msgid "Pool3 worker"
+msgstr "Логин пула №3"
+
+msgid "Pool3 password"
+msgstr "Пароль пула №3"
+
+msgid "Password"
+msgstr "Password"
+
+msgid "Confirmation"
+msgstr "Подтверждение"
+
+msgid "Router Password"
+msgstr "Системный пароль"
+
+msgid "Changes the administrator password for accessing the device"
+msgstr "Смена пароля администратора на доступ к устройству"
+
+msgid "Password successfully changed!"
+msgstr "Пароль успешно изменен!"
+
+msgid "Unknown Error, password not changed!"
+msgstr "Неизвестная ошибка, пароль не был изменен!"
+
+msgid "Given password confirmation did not match, password not changed!"
+msgstr "Подтверждение пароля не совпадает, пароль не был изменен!"
+
+msgid "IP Address"
+msgstr "IP адрес"
+
+msgid "Netmask"
+msgstr "Маска подсети"
+
+msgid "Gateway"
+msgstr "Шлюз"
+
+msgid "DNS-Server"
+msgstr "DNS-Сервер"
+
+msgid "Protocol"
+msgstr "Протокол"

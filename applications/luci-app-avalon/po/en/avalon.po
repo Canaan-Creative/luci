@@ -1,0 +1,149 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: LUCI: avalon\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2017-12-20 17:00+0200\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <sunchous@hotmail.com>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+msgid "Invalid password! Please try again."
+msgstr "Invalid password! Please try again."
+
+msgid "Login"
+msgstr "Login"
+
+msgid "Dashboard"
+msgstr "Dashboard"
+
+msgid "Network Information"
+msgstr "Network Information"
+
+msgid "Quick setting"
+msgstr "Quick setting"
+
+msgid "MAC Address"
+msgstr "MAC Address"
+
+msgid "Overview"
+msgstr "Overview"
+
+msgid "Controller Version"
+msgstr "Controller Version"
+
+msgid "Time"
+msgstr "Time"
+
+msgid "CGMiner Elapsed"
+msgstr "CGMiner Elapsed"
+
+msgid "Hash Rate"
+msgstr "Hash Rate"
+
+msgid "GHS av"
+msgstr "GHS av"
+
+msgid "GHS asc"
+msgstr "GHS asc"
+
+msgid "Current Pool"
+msgstr "Current Pool"
+
+msgid "Modules Information"
+msgstr "Modules Information"
+
+msgid "Alive Modules"
+msgstr "Alive Modules"
+
+msgid "Temperature"
+msgstr "Temperature"
+
+msgid "Active Charts"
+msgstr "Active Charts"
+
+msgid "Update every 5 seconds"
+msgstr "Update every 5 seconds"
+
+msgid "Configuration"
+msgstr "Configuration"
+
+msgid "ASIA"
+msgstr "ASIA"
+
+msgid "Disable"
+msgstr "Disable"
+
+msgid "Pool1"
+msgstr "Pool1"
+
+msgid "Pool 1 url"
+msgstr "Pool 1 url"
+
+msgid "Pool1 worker"
+msgstr "Pool1 worker"
+
+msgid "Pool1 password"
+msgstr "Pool1 password"
+
+msgid "Pool2"
+msgstr "Pool2"
+
+msgid "Pool 2 url"
+msgstr "Pool 2 url"
+
+msgid "Pool2 worker"
+msgstr "Pool2 worker"
+
+msgid "Pool2 password"
+msgstr "Pool2 password"
+
+msgid "Pool3"
+msgstr "Pool3"
+
+msgid "Pool 3 url"
+msgstr "Pool 3 url"
+
+msgid "Pool3 worker"
+msgstr "Pool3 worker"
+
+msgid "Pool3 password"
+msgstr "Pool3 password"
+
+msgid "Password"
+msgstr "Password"
+
+msgid "Confirmation"
+msgstr "Confirmation"
+
+msgid "Router Password"
+msgstr "Router Password"
+
+msgid "Changes the administrator password for accessing the device"
+msgstr "Changes the administrator password for accessing the device"
+
+msgid "Password successfully changed!"
+msgstr "Password successfully changed!"
+
+msgid "Unknown Error, password not changed!"
+msgstr "Unknown Error, password not changed!"
+
+msgid "Given password confirmation did not match, password not changed!"
+msgstr "Given password confirmation did not match, password not changed!"
+
+msgid "IP Address"
+msgstr "IP Address"
+
+msgid "Netmask"
+msgstr "Netmask"
+
+msgid "Gateway"
+msgstr "Gateway"
+
+msgid "DNS-Server"
+msgstr "DNS-Server"
+
+msgid "Protocol"
+msgstr "Protocol"
