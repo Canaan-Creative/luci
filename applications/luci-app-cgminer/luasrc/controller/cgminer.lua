@@ -295,7 +295,7 @@ function stats()
 			while (istart) do
 				local istr = line:sub(istart)
 				local idname
-				local index, idn, dnan, elapsedn, lwn, tempn, tempm, fann, fanr, ghsmm, wun, pgn, ledn, echu, ecmm, crc =
+				local index, idn, dnan, elapsedn, lwn, dhn, tempn, tempm, fann, fanr, ghsmm, wun, pgn, ledn, echu, ecmm, crc =
 				istr:match("MM ID(%d+)=" ..
 					"Ver%[([%+%-%d%a]+)%]" ..
 					".-" ..
@@ -304,6 +304,8 @@ function stats()
 					"Elapsed%[(-?%d+)%]" ..
 					".-" ..
 					"LW%[(-?%d+)%]" ..
+					".-" ..
+					"DH%[(-?[%.%d%%]+)%]" ..
 					".-" ..
 					"Temp%[(-?%d+)%]" ..
 					".-" ..
@@ -338,6 +340,7 @@ function stats()
 							['dna'] = string.sub(dnan, -4, -1),
 							['elapsed'] = valuetodate(elapsedn),
 							['lw'] = lwn or '0',
+							['dh'] = dhn or '0',
 							['temp'] = (tempn or '0') .. ' / ' .. (tempm or '0'),
 							['fan'] = (fann or '0') .. 'RPM / ' .. (fanr or '0'),
 							['ghsmm'] = ghsmm or '0',
