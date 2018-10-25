@@ -319,13 +319,15 @@ function stats()
 					".-" ..
 					"WU%[(-?[%.%d]+)%]" ..
 					".-" ..
+					"PG%[(%d+)%]" ..
+					".-" ..
 					"Led%[(%d)%]" ..
 					".-" ..
-					"ECHU%[(%d+%s%d+%s%d+%s%d+%s%d+%s%d+)%]" ..
+					"ECHU%[(%d+%s%d+%s%d+%s%d+)%]" ..
 					".-" ..
 					"ECMM%[(%d+)%]" ..
 					".-" ..
-					"CRC%[(%d+%s%d+%s%d+%s%d+%s%d+%s%d+)%]")
+					"CRC%[(%d+%s%d+%s%d+%s%d+)%]")
 
 					if idn ~= nil then
 						idname = 'A' .. string.sub(idn, 1, 3) .. 'S-'

@@ -128,5 +128,6 @@ t1:option(DummyValue, "ghsmm", translate("GHSasc"))
 t1:option(DummyValue, "wu", translate("WU"))
 t1:option(DummyValue, "temp", translate("<abbr title=\"Inflow/Outflow\">Temperature(C)</abbr>"))
 t1:option(DummyValue, "fan", translate("<abbr title=\"RPM/Percentage\">Fan</abbr>"))
+t1:option(DummyValue, "pg", translate("<abbr title=\"Power Good\">PG</abbr>"))
 
 return f
