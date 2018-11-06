@@ -279,7 +279,7 @@ end
 function stats()
 	local data = {}
 
-	local stats = luci.util.execi("/usr/bin/cgminer-api -o estats | sed \"s/|/\\n/g\" | grep AV9")
+	local stats = luci.util.execi("/usr/bin/cgminer-api -o estats | sed \"s/|/\\n/g\" | grep AVLC3")
 
 	if not stats then
 		return
@@ -288,14 +288,14 @@ function stats()
 	for line in stats do
 		local id =
 		line:match(".*" ..
-		"ID=AV9([%d]+),")
+		"ID=AVLC3([%d]+),")
 
 		if id then
 			local istart, iend = line:find("MM ID")
 			while (istart) do
 				local istr = line:sub(istart)
 				local idname
-				local index, idn, dnan, elapsedn, lwn, dhn, tempn, tempm, fann, fanr, ghsmm, wun, pgn, ledn, echu, ecmm, crc =
+				local index, idn, dnan, elapsedn, lwn, dhn, tempn, tempm, fann, fanr, ghsmm, wun, ledn, echu, ecmm, crc =
 				istr:match("MM ID(%d+)=" ..
 					"Ver%[([%+%-%d%a]+)%]" ..
 					".-" ..
@@ -321,11 +321,11 @@ function stats()
 					".-" ..
 					"Led%[(%d)%]" ..
 					".-" ..
-					"ECHU%[(%d+%s%d+%s%d+%s%d+%s%d+%s%d+)%]" ..
+					"ECHU%[(%d+%s%d+%s%d+%s%d+)%]" ..
 					".-" ..
 					"ECMM%[(%d+)%]" ..
 					".-" ..
-					"CRC%[(%d+%s%d+%s%d+%s%d+%s%d+%s%d+)%]")
+					"CRC%[(%d+%s%d+%s%d+%s%d+)%]")
 
 					if idn ~= nil then
 						idname = 'A' .. string.sub(idn, 1, 3) .. 'S-'
@@ -343,7 +343,6 @@ function stats()
 							['fan'] = (fann or '0') .. 'RPM / ' .. (fanr or '0'),
 							['ghsmm'] = ghsmm or '0',
 							['wu'] = wun or '0',
-							['pg'] = pgn or '0',
 							['led'] = ledn or '0',
 							['echu'] = echu or '0',
 							['ecmm'] = ecmm or '0',
