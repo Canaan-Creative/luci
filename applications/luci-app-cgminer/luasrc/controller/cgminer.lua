@@ -279,7 +279,7 @@ end
 function stats()
 	local data = {}
 
-	local stats = luci.util.execi("/usr/bin/cgminer-api -o estats | sed \"s/|/\\n/g\" | grep AV9")
+	local stats = luci.util.execi("/usr/bin/cgminer-api -o estats | sed \"s/|/\\n/g\" | grep AVLC3")
 
 	if not stats then
 		return
@@ -288,7 +288,7 @@ function stats()
 	for line in stats do
 		local id =
 		line:match(".*" ..
-		"ID=AV9([%d]+),")
+		"ID=AVLC3([%d]+),")
 
 		if id then
 			local istart, iend = line:find("MM ID")
@@ -321,11 +321,11 @@ function stats()
 					".-" ..
 					"Led%[(%d)%]" ..
 					".-" ..
-					"ECHU%[(%d+%s%d+%s%d+%s%d+%s%d+%s%d+)%]" ..
+					"ECHU%[(%d+%s%d+%s%d+%s%d+)%]" ..
 					".-" ..
 					"ECMM%[(%d+)%]" ..
 					".-" ..
-					"CRC%[(%d+%s%d+%s%d+%s%d+%s%d+%s%d+)%]")
+					"CRC%[(%d+%s%d+%s%d+%s%d+)%]")
 
 					if idn ~= nil then
 						idname = 'A' .. string.sub(idn, 1, 3) .. 'S-'
