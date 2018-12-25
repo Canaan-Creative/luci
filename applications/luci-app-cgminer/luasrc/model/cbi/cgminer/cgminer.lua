@@ -39,8 +39,11 @@ vo:value("-1", translate("-1"))
 vo:value("-2", translate("-2"))
 vo:value("0", translate("0"))
 
-fan = conf:option(Value, "fan", translate("Minimum Fan%(Range: 0-100, Default: 10%)"))
-fan.datatype = "range(0, 100)"
+fan_min = conf:option(Value, "fan_min", translate("Minimum Fan%(Range: 0-100, Default: 10%)"))
+fan_min.datatype = "range(0, 100)"
+
+fan_max = conf:option(Value, "fan_max", translate("Maximum Fan%(Range: 0-100, Default: 100%)"))
+fan_max.datatype = "range(0, 100)"
 
 local boardinfo = luci.util.ubus("system", "board") or { }
 if (boardinfo.model == "Canaan Z Controller") then
