@@ -51,6 +51,13 @@ if (boardinfo.model == "Canaan Z Controller") then
 end
 
 api_allow = conf:option(Value, "api_allow", translate("API Allow(Default: W:127.0.0.1)"))
+
+power_mode = conf:option(ListValue, "power_mode", translate("Power Mode(Default: HighPerformance, Support: A8)"))
+power_mode.default = "high"
+power_mode:value("high", translate("HighPerformance"))
+power_mode:value("balance", translate("Balanced"))
+power_mode:value("low", translate("LowPower"))
+
 more_options = conf:option(Value, "more_options", translate("More Options"))
 
 return m
